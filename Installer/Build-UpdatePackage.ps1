@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [string]$Configuration = 'Release',
+    [string]$Configuration = 'Beta',
     [string]$OutputDirectory = (Join-Path $PSScriptRoot 'artifacts'),
     [string]$Version = ''
 )
@@ -8,6 +8,15 @@ $ErrorActionPreference = 'Stop'
 $root = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $key = [Environment]::GetEnvironmentVariable('JARVIS_UPDATE_SIGNING_PRIVATE_KEY_PEM')
 if ([string]::IsNullOrWhiteSpace($key)) { throw 'JARVIS_UPDATE_SIGNING_PRIVATE_KEY_PEM is required to create an authenticated update package.' }
+$supabaseUrl = $env:JARVIS_SUPABASE_URL
+$supabasePublishableKey = $env:JARVIS_SUPABASE_PUBLISHABLE_KEY
+if ($Configuration -eq 'Beta') {
+    if ([string]::IsNullOrWhiteSpace($supabaseUrl)) { $supabaseUrl = 'https://rlcgexffgmdukpkououa.supabase.co' }
+    if ([string]::IsNullOrWhiteSpace($supabasePublishableKey)) { $supabasePublishableKey = (& dotnet msbuild (Join-Path $root 'Jarvis.csproj') -getProperty:JarvisSupabasePublishableKey -p:Configuration=Beta).Trim() }
+    if ([string]::IsNullOrWhiteSpace($supabasePublishableKey)) { throw 'A public Supabase publishable key is required for the Beta update package.' }
+    if ($supabasePublishableKey.StartsWith('sb_secret_', [StringComparison]::Ordinal)) { throw 'A Supabase secret key cannot be embedded in the Jarvis updater package.' }
+}
+if ($Configuration -ne 'Beta') { throw 'The distributable update package must contain the mandatory Closed Beta activation build. Use -Configuration Beta.' }
 if ([string]::IsNullOrWhiteSpace($Version)) { $Version = (& dotnet msbuild (Join-Path $root 'Jarvis.csproj') -getProperty:Version).Trim() }
 if ($Version -notmatch '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-[0-9A-Za-z.-]+)?$') { throw "Invalid semantic version: $Version" }
 $versionCore = ($Version -split '-',2)[0]
@@ -16,8 +25,18 @@ $helper = Join-Path $PSScriptRoot 'staging\Updater'
 $artifact = Join-Path $OutputDirectory 'Jarvis-Update-win-x64.zip'
 New-Item -ItemType Directory -Force -Path $OutputDirectory | Out-Null
 foreach ($dir in @($stage,$helper)) { if (Test-Path $dir) { Remove-Item -LiteralPath $dir -Recurse -Force } }
-& dotnet publish (Join-Path $root 'Jarvis.csproj') -c $Configuration -r win-x64 --self-contained true -o $stage -p:PublishSingleFile=false -p:Version=$Version "-p:AssemblyVersion=$versionCore.0" "-p:FileVersion=$versionCore.0" -p:InformationalVersion=$Version -p:NuGetAudit=false
+$publishArguments = @('-c', $Configuration, '-r', 'win-x64', '--self-contained', 'true', '-o', $stage, '-p:PublishSingleFile=false', "-p:Version=$Version", "-p:AssemblyVersion=$versionCore.0", "-p:FileVersion=$versionCore.0", "-p:InformationalVersion=$Version", '-p:NuGetAudit=false')
+if ($Configuration -eq 'Beta') {
+    $publishArguments += "-p:JarvisSupabaseUrl=$supabaseUrl"
+    $publishArguments += "-p:JarvisSupabasePublishableKey=$supabasePublishableKey"
+}
+& dotnet publish (Join-Path $root 'Jarvis.csproj') @publishArguments
 if ($LASTEXITCODE -ne 0) { throw 'Jarvis update payload publish failed.' }
+if (-not (Test-Path (Join-Path $stage 'Jarvis.dll'))) { throw 'Jarvis.dll is missing from the Beta update payload.' }
+$assemblyText = [Text.Encoding]::UTF8.GetString([IO.File]::ReadAllBytes((Join-Path $stage 'Jarvis.dll')))
+foreach ($marker in @('BetaActivationWindow', 'BetaSupabaseUrl', 'BetaSupabasePublishableKey', $supabaseUrl, $supabasePublishableKey)) {
+    if (-not $assemblyText.Contains($marker, [StringComparison]::Ordinal)) { throw "Beta activation/configuration verification failed for marker '$($marker -replace '^sb_publishable_.*$', 'publishable-key')'. Refusing to sign an ungated update payload." }
+}
 & dotnet publish (Join-Path $root 'Jarvis.Updater\Jarvis.Updater.csproj') -c Release -r win-x64 --self-contained true -o $helper -p:PublishSingleFile=true -p:NuGetAudit=false
 if ($LASTEXITCODE -ne 0) { throw 'Jarvis updater helper publish failed.' }
 Copy-Item (Join-Path $helper 'Jarvis.Updater.exe') (Join-Path $stage 'Jarvis.Updater.exe') -Force

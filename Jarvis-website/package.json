@@ -1,6 +1,6 @@
 {
   "name": "jarvis-ai-website",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "private": true,
   "type": "module",
   "description": "Jarvis AI landing page with Netlify download analytics",

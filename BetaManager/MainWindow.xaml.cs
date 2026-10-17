@@ -18,6 +18,7 @@ public partial class MainWindow : Window
     private readonly string _sessionPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "JarvisBetaManager", "admin-session.dat");
     private readonly List<GeneratedInviteRow> _generatedCodes = [];
     private CancellationTokenSource? _avatarLoadCts;
+    private bool _licenseDeleteInProgress;
     private static readonly HttpClient AvatarHttp = new() { Timeout = TimeSpan.FromSeconds(8) };
 
     public MainWindow() => InitializeComponent();
@@ -279,7 +280,8 @@ public partial class MainWindow : Window
     {
         _avatarLoadCts?.Cancel(); _avatarLoadCts?.Dispose(); _avatarLoadCts = new CancellationTokenSource();
         var cancellationToken = _avatarLoadCts.Token;
-        if (LicensesGrid.SelectedItem is not AdminLicense license) { LicenseDetailsText.Text = "Select a member to view account, invitation, identity status, and internal note details."; LicenseAvatar.Source = null; LicenseAvatarFallback.Text = "J"; LicenseAvatarFallback.Visibility = Visibility.Visible; return; }
+        if (LicensesGrid.SelectedItem is not AdminLicense license) { LicenseDetailsText.Text = "Select a member to view account, invitation, identity status, and internal note details."; LicenseAvatar.Source = null; LicenseAvatarFallback.Text = "J"; LicenseAvatarFallback.Visibility = Visibility.Visible; DeleteLicenseButton.IsEnabled = false; return; }
+        DeleteLicenseButton.IsEnabled = true;
         LicenseAvatar.Source = null; LicenseAvatarFallback.Text = (license.DiscordDisplayName ?? "J").Trim() is { Length: > 0 } initial ? initial[..1].ToUpperInvariant() : "J"; LicenseAvatarFallback.Visibility = Visibility.Visible;
         LicenseDetailsText.Text = $"Jarvis/Supabase account: {license.Email ?? license.UserId} ({license.UserId})\nDiscord global display name: {license.DiscordGlobalName ?? license.DiscordDisplayName ?? "Not provided"}\nDiscord display name: {license.DiscordDisplayName ?? "Not provided"}\nDiscord username: {license.DiscordUsername ?? "Not available"}\nDiscord User ID: {license.DiscordUserId ?? "Not provided"}\nDiscord identity: {(license.DiscordIdentityStatus == "verified" ? "Verified" : "Admin-entered / unverified")}\nInvitation created: {license.InviteCreatedAt?.ToString("yyyy-MM-dd HH:mm 'UTC'") ?? "Unknown"} · redeemed: {license.InviteRedeemedAt?.ToString("yyyy-MM-dd HH:mm 'UTC'") ?? "Unknown"}\nInternal note: {license.Note ?? "None"}";
         await LoadLicenseAvatarAsync(license, cancellationToken);
@@ -313,6 +315,91 @@ public partial class MainWindow : Window
     }
     private async void Revoke_Click(object sender, RoutedEventArgs e) => await ChangeLicenseAsync("revoke");
     private async void Reinstate_Click(object sender, RoutedEventArgs e) => await ChangeLicenseAsync("reinstate");
+
+    private async void DeleteLicense_Click(object sender, RoutedEventArgs e)
+    {
+        if (LicensesGrid.SelectedItem is AdminLicense license)
+            await DeleteLicenseAsync(license, DeleteLicenseButton);
+        else
+            FooterStatus.Text = "Select a license first.";
+    }
+
+    private async void DeleteLicenseRow_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is System.Windows.Controls.Button { Tag: AdminLicense license } button)
+            await DeleteLicenseAsync(license, button);
+    }
+
+    private async Task DeleteLicenseAsync(AdminLicense license, System.Windows.Controls.Button? sourceButton)
+    {
+        if (_client is null || _session is null) { FooterStatus.Text = "Sign in to the beta backend first."; return; }
+        if (_licenseDeleteInProgress) return;
+
+        var discordIdentity = license.DiscordDisplayName is null
+            ? "No Discord identity linked"
+            : $"{license.DiscordDisplayName} ({license.DiscordUserId ?? "ID unavailable"})";
+        var accountIdentity = license.Email ?? license.UserId;
+        var confirmation = $"Permanently delete license {license.LicenseId}?\n\nAccount: {accountIdentity}\nDiscord: {discordIdentity}\nStatus: {license.Status}\n\nThe license record will be permanently removed. Its redeemed invitation will be invalidated and retained as revoked; the account and audit history will remain. This cannot be undone.";
+        if (MessageBox.Show(this, confirmation, "Confirm permanent license deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
+
+        _licenseDeleteInProgress = true;
+        LicensesGrid.IsEnabled = false;
+        DeleteLicenseButton.IsEnabled = false;
+        if (sourceButton is not null) sourceButton.IsEnabled = false;
+        FooterStatus.Text = $"Deleting license {license.LicenseId} on the server…";
+        try
+        {
+            var result = await AdminCallAsync<ApiResult>("admin-delete-license", new { license_id = license.LicenseId });
+            if (!result.Ok) throw new InvalidOperationException(result.Error ?? result.Message ?? "License could not be deleted.");
+
+            if (LicensesGrid.SelectedItem is AdminLicense selected && selected.LicenseId == license.LicenseId)
+                LicensesGrid.SelectedItem = null;
+            try
+            {
+                await RefreshLicenseViewsAfterDeleteAsync();
+                FooterStatus.Text = $"License {license.LicenseId} for {accountIdentity} was permanently deleted. Its invitation was invalidated, and the account and audit history were retained.";
+            }
+            catch (Exception refreshError)
+            {
+                var message = $"The server confirmed deletion of license {license.LicenseId}, but the license list or dashboard could not be refreshed. Refresh the views before continuing. Details: {FriendlyError(refreshError)}";
+                FooterStatus.Text = message;
+                MessageBox.Show(this, message, "License deleted; refresh failed", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+        catch (Exception ex)
+        {
+            var message = "License deletion failed: " + FriendlyError(ex);
+            FooterStatus.Text = message;
+            MessageBox.Show(this, message, "License deletion failed", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        finally
+        {
+            _licenseDeleteInProgress = false;
+            LicensesGrid.IsEnabled = true;
+            if (sourceButton is not null) sourceButton.IsEnabled = true;
+            DeleteLicenseButton.IsEnabled = LicensesGrid.SelectedItem is AdminLicense selected && selected.LicenseId == license.LicenseId;
+        }
+    }
+
+    private async Task RefreshLicenseViewsAfterDeleteAsync()
+    {
+        if (_client is null || _session is null) throw new InvalidOperationException("The administrator session is unavailable.");
+
+        var licenses = await AdminCallAsync<AdminLicenseList>("admin-list-licenses", new { search = LicenseSearchBox.Text.Trim() });
+        var status = (LicenseStatusFilter.SelectedItem as System.Windows.Controls.ComboBoxItem)?.Tag?.ToString() ?? "all";
+        var filtered = status == "all" ? licenses.Licenses : licenses.Licenses.Where(x => x.Status.Equals(status, StringComparison.OrdinalIgnoreCase)).ToArray();
+        LicensesGrid.ItemsSource = filtered;
+
+        var overview = await AdminCallAsync<AdminOverview>("admin-overview", new { });
+        ActiveCount.Text = overview.ActiveLicenses.ToString();
+        PendingCount.Text = overview.PendingInvites.ToString();
+        InactiveCount.Text = overview.InactiveLicenses.ToString();
+        DashboardAuditGrid.ItemsSource = overview.RecentActivity;
+
+        var audit = await AdminCallAsync<AdminAuditList>("admin-audit-log", new { limit = 250 });
+        AuditGrid.ItemsSource = audit.Events;
+    }
+
     private async Task ChangeLicenseAsync(string action)
     {
         if (_client is null || _session is null || LicensesGrid.SelectedItem is not AdminLicense license) { FooterStatus.Text = "Select a license first."; return; }

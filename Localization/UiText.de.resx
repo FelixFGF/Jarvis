@@ -49,7 +49,7 @@
     <value>Dein privater Arbeitsbereich</value>
   </data>
   <data name="Ui.LocalDesktopAIVersion105">
-    <value>Lokale Desktop-KI · Version 1.0.7</value>
+    <value>Lokale Desktop-KI · Version 1.0.8</value>
   </data>
   <data name="Ui.YourProfile">
     <value>Dein Profil</value>
@@ -421,7 +421,7 @@
     <value>Gib den BionicGPT-API-Schlüssel ein und lade die Modelle. Der Schlüssel wird lokal per Windows-DPAPI geschützt.</value>
   </data>
   <data name="Ui.PersonalAIWorkspaceSetup105">
-    <value>Persönlicher KI-Arbeitsbereich · Setup 1.0.7</value>
+    <value>Persönlicher KI-Arbeitsbereich · Setup 1.0.8</value>
   </data>
   <data name="Ui.Back">
     <value>Zurück</value>
@@ -955,7 +955,7 @@
     <value>Enter an OpenAI-compatible API endpoint. An API key is optional and only needed by providers that require authentication.</value>
   </data>
   <data name="Ui.SetUpJarvisOnThisPCVersion105">
-    <value>Jarvis auf diesem PC einrichten · Version 1.0.7</value>
+    <value>Jarvis auf diesem PC einrichten · Version 1.0.8</value>
   </data>
   <data name="Ui.JarvisSetup">
     <value>Jarvis Setup</value>
@@ -988,7 +988,7 @@
     <value>Spotify wird über OAuth PKCE verbunden. Dein Client-ID ist öffentlich, das Anmelde-Token wird verschlüsselt für dein Windows-Konto gespeichert. In Spotify Developer Dashboard muss die Redirect URI exakt eingetragen sein.</value>
   </data>
   <data name="Ui.Version105">
-    <value>Version 1.0.7</value>
+    <value>Version 1.0.8</value>
   </data>
   <data name="Ui.600ms">
     <value>600 ms</value>
@@ -1153,16 +1153,16 @@
     <value>Installiere optional Ollama über den offiziellen Installer oder verbinde BionicGPT über localhost:1235. Der API-Schlüssel wird für dein Windows-Konto geschützt gespeichert.</value>
   </data>
   <data name="Ui.InstalledVersionValueNewVersion105">
-    <value>Installierte Version {_installedVersion}  →  Neue Version 1.0.7</value>
+    <value>Installierte Version {_installedVersion}  →  Neue Version 1.0.8</value>
   </data>
   <data name="Ui.JarvisValueFoundPreparingUpdateTo105">
-    <value>Jarvis {_installedVersion} gefunden. Update auf 1.0.7 wird vorbereitet …</value>
+    <value>Jarvis {_installedVersion} gefunden. Update auf 1.0.8 wird vorbereitet …</value>
   </data>
   <data name="Ui.UpdateJarvis">
     <value>Jarvis aktualisieren</value>
   </data>
   <data name="Ui.UpdateJarvisToVersion105">
-    <value>Jarvis auf Version 1.0.7 aktualisieren</value>
+    <value>Jarvis auf Version 1.0.8 aktualisieren</value>
   </data>
   <data name="Ui.UninstallJarvis">
     <value>Jarvis deinstallieren</value>
@@ -1174,7 +1174,7 @@
     <value>Jarvis Sprache</value>
   </data>
   <data name="Ui.JarvisWasUpdatedToVersion105SettingsChatsModelsAndLogsWerePreserved">
-    <value>Jarvis wurde auf Version 1.0.7 aktualisiert. Einstellungen, Chats, Modelle und Logs wurden beibehalten.</value>
+    <value>Jarvis wurde auf Version 1.0.8 aktualisiert. Einstellungen, Chats, Modelle und Logs wurden beibehalten.</value>
   </data>
   <data name="Ui.DeleteJarvisData">
     <value>Jarvis-Daten löschen</value>
@@ -1324,7 +1324,7 @@
     <value>Suche verfügbare Windows-Aufnahmegeräte …</value>
   </data>
   <data name="Ui.UpdaterVersion105">
-    <value>Updater · Version 1.0.7</value>
+    <value>Updater · Version 1.0.8</value>
   </data>
   <data name="Ui.TestingConnection">
     <value>Verbindung wird geprüft …</value>
@@ -1333,7 +1333,7 @@
     <value>Verbunden · </value>
   </data>
   <data name="Ui.Version105Complete">
-    <value>Version 1.0.7 · abgeschlossen</value>
+    <value>Version 1.0.8 · abgeschlossen</value>
   </data>
   <data name="Ui.CouldNotSaveTrust">
     <value>Vertrauen konnte nicht gespeichert werden: </value>
@@ -1342,7 +1342,7 @@
     <value>Vor der endgültigen Antwort nicht ausgeführt.</value>
   </data>
   <data name="Ui.ExistingInstallationFoundJarvisWillUpdateToVersion105SettingsChatsModelsAndLogsWillBePreserved">
-    <value>Vorhandene Installation erkannt. Jarvis wird auf Version 1.0.7 aktualisiert; Einstellungen, Chats, Modelle und Logs bleiben erhalten.</value>
+    <value>Vorhandene Installation erkannt. Jarvis wird auf Version 1.0.8 aktualisiert; Einstellungen, Chats, Modelle und Logs bleiben erhalten.</value>
   </data>
   <data name="Ui.ResumeSpeech">
     <value>Vorlesen fortsetzen</value>

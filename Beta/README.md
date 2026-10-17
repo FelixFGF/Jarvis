@@ -1,6 +1,6 @@
 # Jarvis Close Beta
 
-The close-beta channel is separate from the public Jarvis 1.0.7 release. The normal `Release` configuration has no activation gate; the `Beta` configuration fails closed and requires a live Supabase license. The existing installer and public publish folder are not changed by the beta publish script.
+The distributable Closed Beta installer and updater must publish Jarvis with the `Beta` configuration. The ordinary `Release` configuration has no activation gate; the `Beta` configuration fails closed and requires a live Supabase license. Never distribute a `Release` payload as a Closed Beta build.
 
 ## Architecture
 
@@ -114,7 +114,18 @@ deno test --allow-env supabase\functions\_shared\http_test.ts
    deno check supabase\functions\redeem-invite\index.ts supabase\functions\validate-license\index.ts supabase\functions\admin-create-invite\index.ts supabase\functions\admin-list-invites\index.ts supabase\functions\admin-revoke-invite\index.ts supabase\functions\admin-list-licenses\index.ts supabase\functions\admin-revoke-license\index.ts supabase\functions\admin-reinstate-license\index.ts supabase\functions\admin-audit-log\index.ts supabase\functions\admin-overview\index.ts
 ```
 
-`supabase/tests/close_beta_security.test.sql` exercises private-schema access, least-privilege grants, atomic single-use redemption, duplicate-account rejection, license validation, revoke, and reinstate. These tests require a disposable local Supabase database; do not run test fixtures against production.
+`supabase/tests/close_beta_security.test.sql` exercises private-schema access, least-privilege grants, atomic single-use redemption, duplicate-account rejection, license validation, revoke, and reinstate. `supabase/tests/license_deletion.test.sql` checks deletion across active, revoked, expired, and Discord-unlinked licenses, authorization, audit retention, and rollback when audit persistence fails. These tests require a disposable local Supabase database; do not run test fixtures against production.
+
+### Deploy administrator license deletion
+
+The license-delete feature requires migration `202610170001_admin_delete_license.sql` and Edge Function `admin-delete-license`. Review both before deploying. After linking the intended Supabase project, apply pending migrations and deploy the function:
+
+```powershell
+supabase db push --linked
+supabase functions deploy admin-delete-license --project-ref rlcgexffgmdukpkououa
+```
+
+The migration removes no existing records. The endpoint permanently deletes only the selected license row, invalidates its directly linked redeemed invitation while retaining that invitation row, and writes audit events. It does not delete the Supabase account, profile, or prior audit history. The function authenticates the caller and checks `beta_private.admin_users` server-side. Do not deploy until the migration and function diff have been reviewed for the target project.
 
 Before inviting testers, separately verify in a test project: signup/confirmation, invalid/expired invite generic errors, concurrent redemption, second-account replay, unauthorized admin calls, refresh failures, revoke latency, service outage behavior, and clean installs on a Windows PC without the source tree. Backend deployment and these live acceptance tests require the project owner to configure the actual Supabase project.
 

@@ -1,10 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>WinExe</OutputType><TargetFramework>net8.0-windows10.0.19041.0</TargetFramework><TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion><Nullable>enable</Nullable><ImplicitUsings>enable</ImplicitUsings><UseWPF>true</UseWPF><UseWindowsForms>true</UseWindowsForms><RuntimeIdentifier>win-x64</RuntimeIdentifier><SelfContained>true</SelfContained><PublishSingleFile>false</PublishSingleFile><AssemblyName>Jarvis</AssemblyName><RootNamespace>Jarvis</RootNamespace><Version>1.0.7</Version><AssemblyVersion>1.0.7.0</AssemblyVersion><FileVersion>1.0.7.0</FileVersion><InformationalVersion>1.0.7</InformationalVersion><ApplicationIcon>Assets\Jarvis.ico</ApplicationIcon>
+    <OutputType>WinExe</OutputType><TargetFramework>net8.0-windows10.0.19041.0</TargetFramework><TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion><Nullable>enable</Nullable><ImplicitUsings>enable</ImplicitUsings><UseWPF>true</UseWPF><UseWindowsForms>true</UseWindowsForms><RuntimeIdentifier>win-x64</RuntimeIdentifier><SelfContained>true</SelfContained><PublishSingleFile>false</PublishSingleFile><AssemblyName>Jarvis</AssemblyName><RootNamespace>Jarvis</RootNamespace><Version>1.0.8</Version><AssemblyVersion>1.0.8.0</AssemblyVersion><FileVersion>1.0.8.0</FileVersion><InformationalVersion>1.0.8</InformationalVersion><ApplicationIcon>Assets\Jarvis.ico</ApplicationIcon>
     <Configurations>Debug;Release;Beta</Configurations>
     <JarvisSupabaseUrl Condition="'$(JarvisSupabaseUrl)' == ''">$(JARVIS_SUPABASE_URL)</JarvisSupabaseUrl>
     <JarvisSupabaseUrl Condition="'$(Configuration)' == 'Beta' and '$(JarvisSupabaseUrl)' == ''">https://rlcgexffgmdukpkououa.supabase.co</JarvisSupabaseUrl>
     <JarvisSupabasePublishableKey Condition="'$(JarvisSupabasePublishableKey)' == ''">$(JARVIS_SUPABASE_PUBLISHABLE_KEY)</JarvisSupabasePublishableKey>
+    <JarvisSupabasePublishableKey Condition="'$(Configuration)' == 'Beta' and '$(JarvisSupabasePublishableKey)' == ''">sb_publishable_NsnJEuHloU4cQVE7_iibHw_uh9KSOpB</JarvisSupabasePublishableKey>
     <DefineConstants Condition="'$(Configuration)' == 'Beta'">$(DefineConstants);JARVIS_BETA</DefineConstants>
   </PropertyGroup>
   <Target Name="ValidateJarvisBetaSupabaseConfiguration" BeforeTargets="BeforeBuild" Condition="'$(Configuration)' == 'Beta'">

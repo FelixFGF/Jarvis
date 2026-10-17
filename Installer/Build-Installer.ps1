@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [string]$Configuration = 'Release',
+    [string]$Configuration = 'Beta',
     [string]$OutputDirectory = '',
     [string]$Version = ''
 )
@@ -16,6 +16,15 @@ $updaterPublish = Join-Path $staging 'Jarvis-Updater'
 $payload = Join-Path $staging 'Jarvis-payload.zip'
 $setupPublish = Join-Path $staging ('Setup-' + [Guid]::NewGuid().ToString('N'))
 $setupOutput = Join-Path $OutputDirectory 'Jarvis-Setup.exe'
+$supabaseUrl = $env:JARVIS_SUPABASE_URL
+$supabasePublishableKey = $env:JARVIS_SUPABASE_PUBLISHABLE_KEY
+if ($Configuration -eq 'Beta') {
+    if ([string]::IsNullOrWhiteSpace($supabaseUrl)) { $supabaseUrl = 'https://rlcgexffgmdukpkououa.supabase.co' }
+    if ([string]::IsNullOrWhiteSpace($supabasePublishableKey)) { $supabasePublishableKey = (& dotnet msbuild $appProject -getProperty:JarvisSupabasePublishableKey -p:Configuration=Beta).Trim() }
+    if ([string]::IsNullOrWhiteSpace($supabasePublishableKey)) { throw 'A public Supabase publishable key is required for the Beta installer.' }
+    if ($supabasePublishableKey.StartsWith('sb_secret_', [StringComparison]::Ordinal)) { throw 'A Supabase secret key cannot be embedded in the Jarvis installer.' }
+}
+if ($Configuration -ne 'Beta') { throw 'The distributable Jarvis-Setup.exe must contain the mandatory Closed Beta activation build. Use -Configuration Beta.' }
 if ([string]::IsNullOrWhiteSpace($Version)) { $Version = (& dotnet msbuild $appProject -getProperty:Version).Trim() }
 $versionCore = ($Version -split '[-+]',2)[0]
 
@@ -24,9 +33,21 @@ if (Test-Path $appPublish) { Remove-Item -LiteralPath $appPublish -Recurse -Forc
 if (Test-Path $payload) { Remove-Item -LiteralPath $payload -Force }
 
 Write-Host 'Publishing Jarvis self-contained for Windows x64…'
-& dotnet publish $appProject --configuration $Configuration --runtime win-x64 --self-contained true --output $appPublish -p:PublishSingleFile=false -p:NuGetAudit=false "-p:Version=$Version" "-p:AssemblyVersion=$versionCore.0" "-p:FileVersion=$versionCore.0" "-p:InformationalVersion=$Version"
+$publishArguments = @('--configuration', $Configuration, '--runtime', 'win-x64', '--self-contained', 'true', '--output', $appPublish, '-p:PublishSingleFile=false', '-p:NuGetAudit=false', "-p:Version=$Version", "-p:AssemblyVersion=$versionCore.0", "-p:FileVersion=$versionCore.0", "-p:InformationalVersion=$Version")
+if ($Configuration -eq 'Beta') {
+    $publishArguments += "-p:JarvisSupabaseUrl=$supabaseUrl"
+    $publishArguments += "-p:JarvisSupabasePublishableKey=$supabasePublishableKey"
+}
+& dotnet publish $appProject @publishArguments
 if ($LASTEXITCODE -ne 0) { throw "Jarvis publish failed (exit $LASTEXITCODE)." }
 if (-not (Test-Path (Join-Path $appPublish 'Jarvis.exe'))) { throw 'Jarvis.exe is missing from the publish output.' }
+$jarvisAssembly = Join-Path $appPublish 'Jarvis.dll'
+if (-not (Test-Path $jarvisAssembly)) { throw 'Jarvis.dll is missing from the Beta publish output.' }
+$assemblyText = [Text.Encoding]::UTF8.GetString([IO.File]::ReadAllBytes($jarvisAssembly))
+foreach ($marker in @('BetaActivationWindow', 'BetaSupabaseUrl', 'BetaSupabasePublishableKey', $supabaseUrl, $supabasePublishableKey)) {
+    if (-not $assemblyText.Contains($marker, [StringComparison]::Ordinal)) { throw "Beta activation/configuration verification failed for marker '$($marker -replace '^sb_publishable_.*$', 'publishable-key')'. Refusing to package an ungated application." }
+}
+Write-Host 'Verified Beta activation gate and client configuration in the application assembly.'
 
 Write-Host 'Publishing the self-contained update helper…'
 if (Test-Path $updaterPublish) { Remove-Item -LiteralPath $updaterPublish -Recurse -Force }

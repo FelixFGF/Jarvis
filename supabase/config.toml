@@ -18,6 +18,8 @@ verify_jwt = false
 verify_jwt = false
 [functions.admin-reinstate-license]
 verify_jwt = false
+[functions.admin-delete-license]
+verify_jwt = false
 [functions.admin-audit-log]
 verify_jwt = false
 [functions.admin-overview]

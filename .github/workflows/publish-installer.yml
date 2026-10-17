@@ -29,7 +29,7 @@ jobs:
 
       - name: Build the self-contained installer
         shell: pwsh
-        run: ./Installer/Build-Installer.ps1 -Configuration Release -OutputDirectory Installer/artifacts -Version '${{ steps.release.outputs.version }}'
+        run: ./Installer/Build-Installer.ps1 -Configuration Beta -OutputDirectory Installer/artifacts -Version '${{ steps.release.outputs.version }}'
 
       - name: Build signed x64 update package
         shell: pwsh
@@ -37,7 +37,7 @@ jobs:
           JARVIS_UPDATE_SIGNING_PRIVATE_KEY_PEM: ${{ secrets.JARVIS_UPDATE_SIGNING_PRIVATE_KEY_PEM }}
         run: |
           $tagVersion = '${{ steps.release.outputs.version }}'
-          ./Installer/Build-UpdatePackage.ps1 -Configuration Release -OutputDirectory Installer/artifacts -Version $tagVersion
+          ./Installer/Build-UpdatePackage.ps1 -Configuration Beta -OutputDirectory Installer/artifacts -Version $tagVersion
 
       - name: Publish installer as the GitHub release download
         uses: softprops/action-gh-release@v2

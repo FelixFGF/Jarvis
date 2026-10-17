@@ -1106,7 +1106,7 @@ public partial class MainWindow : Window
         var signOut = new MenuItem { Header = german ? "Beta abmelden" : "Sign out of beta", Style = (Style)FindResource(typeof(MenuItem)) };
         signOut.Click += async (_, _) =>
         {
-            try { if (System.Windows.Application.Current is App app && app.BetaSessionStore is not null) await app.BetaSessionStore.DeleteAsync(); }
+            try { if (System.Windows.Application.Current is App app) await app.SignOutBetaAsync(); }
             catch (Exception ex) { Log("beta-sign-out", false, ex.Message); }
             System.Windows.Application.Current.Shutdown();
         };

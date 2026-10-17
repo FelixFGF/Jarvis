@@ -62,6 +62,23 @@ public partial class App : System.Windows.Application
     }
 
 #if JARVIS_BETA
+    public async Task SignOutBetaAsync()
+    {
+        var session = _session;
+        _session = null;
+        try
+        {
+            if (session is not null && _client is not null)
+                await _client.SignOutAsync(session);
+        }
+        catch
+        {
+            // Clear the local protected session even when the server is unreachable.
+        }
+        if (BetaSessionStore is not null)
+            await BetaSessionStore.DeleteAsync();
+    }
+
     private async Task RevalidateBetaLicenseAsync()
     {
         if (_session is null || _client is null) return;
