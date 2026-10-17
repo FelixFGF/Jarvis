@@ -75,7 +75,7 @@
 
   if (downloadAnywayLink) {
     downloadAnywayLink.addEventListener('click', () => {
-      recordDownloadClick(downloadAnywayLink.dataset.jarvisVersion || '1.0.6');
+      recordDownloadClick(downloadAnywayLink.dataset.jarvisVersion || '1.0.7');
       if (betaModal && betaModal.open) betaModal.close();
     });
   }

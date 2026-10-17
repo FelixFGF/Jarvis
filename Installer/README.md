@@ -10,7 +10,7 @@ The matching SHA-256 file is available at:
 
 `https://github.com/FelixFGF/Jarvis/releases/latest/download/Jarvis-Setup.exe.sha256`
 
-Pushing a version tag such as `v1.0.6` runs the GitHub Actions workflow and publishes the installer and checksum as release assets.
+Pushing a version tag such as `v1.0.7` runs the GitHub Actions workflow and publishes the installer and checksum as release assets.
 
 `Build-Installer.ps1` publishes Jarvis as a self-contained Windows x64 WPF app, compresses that publish output and embeds it in the custom WPF bootstrapper. The deliverable is one `Jarvis-Setup.exe`; the `.sha256` sidecar is a verification aid, not a runtime dependency.
 

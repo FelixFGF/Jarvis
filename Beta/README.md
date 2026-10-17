@@ -1,6 +1,6 @@
 # Jarvis Close Beta
 
-The close-beta channel is separate from the public Jarvis 1.0.6 release. The normal `Release` configuration has no activation gate; the `Beta` configuration fails closed and requires a live Supabase license. The existing installer and public publish folder are not changed by the beta publish script.
+The close-beta channel is separate from the public Jarvis 1.0.7 release. The normal `Release` configuration has no activation gate; the `Beta` configuration fails closed and requires a live Supabase license. The existing installer and public publish folder are not changed by the beta publish script.
 
 ## Architecture
 

@@ -20,22 +20,29 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
+      - name: Resolve release version
+        id: release
+        shell: pwsh
+        run: |
+          $releaseVersion = $env:GITHUB_REF_NAME -replace '^v', ''
+          "version=$releaseVersion" >> $env:GITHUB_OUTPUT
+
       - name: Build the self-contained installer
         shell: pwsh
-        run: ./Installer/Build-Installer.ps1 -Configuration Release -OutputDirectory Installer/artifacts -Version ($env:GITHUB_REF_NAME -replace '^v', '')
+        run: ./Installer/Build-Installer.ps1 -Configuration Release -OutputDirectory Installer/artifacts -Version '${{ steps.release.outputs.version }}'
 
       - name: Build signed x64 update package
         shell: pwsh
         env:
           JARVIS_UPDATE_SIGNING_PRIVATE_KEY_PEM: ${{ secrets.JARVIS_UPDATE_SIGNING_PRIVATE_KEY_PEM }}
         run: |
-          $tagVersion = $env:GITHUB_REF_NAME -replace '^v', ''
+          $tagVersion = '${{ steps.release.outputs.version }}'
           ./Installer/Build-UpdatePackage.ps1 -Configuration Release -OutputDirectory Installer/artifacts -Version $tagVersion
 
       - name: Publish installer as the GitHub release download
         uses: softprops/action-gh-release@v2
         with:
-          name: Jarvis ${{ github.ref_name }}
+          name: Jarvis ${{ steps.release.outputs.version }}
           generate_release_notes: true
           make_latest: true
           fail_on_unmatched_files: true
