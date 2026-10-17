@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType><TargetFramework>net8.0-windows10.0.19041.0</TargetFramework><TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion><Nullable>enable</Nullable><ImplicitUsings>enable</ImplicitUsings><UseWPF>true</UseWPF><UseWindowsForms>true</UseWindowsForms><RuntimeIdentifier>win-x64</RuntimeIdentifier><SelfContained>true</SelfContained><PublishSingleFile>false</PublishSingleFile><AssemblyName>Jarvis</AssemblyName><RootNamespace>Jarvis</RootNamespace><Version>1.0.6</Version><AssemblyVersion>1.0.6.0</AssemblyVersion><FileVersion>1.0.6.0</FileVersion><InformationalVersion>1.0.6</InformationalVersion><ApplicationIcon>Assets\Jarvis.ico</ApplicationIcon>
+    <Configurations>Debug;Release;Beta</Configurations>
+    <JarvisSupabaseUrl Condition="'$(JarvisSupabaseUrl)' == ''">$(JARVIS_SUPABASE_URL)</JarvisSupabaseUrl>
+    <JarvisSupabaseUrl Condition="'$(Configuration)' == 'Beta' and '$(JarvisSupabaseUrl)' == ''">https://rlcgexffgmdukpkououa.supabase.co</JarvisSupabaseUrl>
+    <JarvisSupabasePublishableKey Condition="'$(JarvisSupabasePublishableKey)' == ''">$(JARVIS_SUPABASE_PUBLISHABLE_KEY)</JarvisSupabasePublishableKey>
+    <DefineConstants Condition="'$(Configuration)' == 'Beta'">$(DefineConstants);JARVIS_BETA</DefineConstants>
+  </PropertyGroup>
+  <Target Name="ValidateJarvisBetaSupabaseConfiguration" BeforeTargets="BeforeBuild" Condition="'$(Configuration)' == 'Beta'">
+    <Error Condition="'$(JarvisSupabaseUrl)' == ''" Text="Beta build requires JarvisSupabaseUrl (or JARVIS_SUPABASE_URL)." />
+    <Error Condition="'$(JarvisSupabasePublishableKey)' == ''" Text="Beta build requires JarvisSupabasePublishableKey (or JARVIS_SUPABASE_PUBLISHABLE_KEY). Supply a public publishable/anon key; never use a service-role key." />
+    <Error Condition="$([System.String]::Copy('$(JarvisSupabasePublishableKey)').StartsWith('sb_secret_'))" Text="A Supabase secret key cannot be embedded in the Jarvis desktop application." />
+  </Target>
+  <ItemGroup>
+    <ProjectReference Include="Beta.Shared\Jarvis.Beta.Shared.csproj" Condition="'$(Configuration)' == 'Beta'" />
+    <ProjectReference Include="Jarvis.Update.Core\Jarvis.Update.Core.csproj" />
+    <AssemblyMetadata Include="BetaSupabaseUrl" Value="$(JarvisSupabaseUrl)" Condition="'$(Configuration)' == 'Beta'" />
+    <AssemblyMetadata Include="BetaSupabasePublishableKey" Value="$(JarvisSupabasePublishableKey)" Condition="'$(Configuration)' == 'Beta'" />
+    <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="Whisper.net" Version="1.8.1" />
+    <PackageReference Include="Whisper.net.Runtime" Version="1.8.1" />
+    <PackageReference Include="org.k2fsa.sherpa.onnx" Version="1.13.8" />
+    <Resource Include="Assets\Jarvis.png" />
+    <Resource Include="Assets\Jarvis.ico" />
+    <Resource Include="Assets\Jarvis256.png" />
+    <Content Include="Assets\wake-meme-click.mp3" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Compile Remove="Tests\**\*.cs" />
+    <Compile Remove="BetaManager\**\*.cs" />
+    <Compile Remove="BetaManager\**\*.xaml.cs" />
+    <Compile Remove="Beta.Shared\**\*.cs" />
+    <Compile Remove="Installer\**\*.cs" />
+    <Compile Remove="Jarvis.Updater\**\*.cs" />
+    <Compile Remove="Jarvis.Update.Core\**\*.cs" />
+    <Page Remove="BetaManager\**\*.xaml" />
+    <Page Remove="Beta.Shared\**\*.xaml" />
+    <Page Remove="BetaActivationWindow.xaml" Condition="'$(Configuration)' != 'Beta'" />
+    <Compile Remove="BetaActivationWindow.xaml.cs" Condition="'$(Configuration)' != 'Beta'" />
+    <Page Remove="Installer\**\*.xaml" />
+    <Page Remove="Jarvis.Updater\**\*.xaml" />
+    <ApplicationDefinition Remove="Jarvis.Updater\**\*.xaml" />
+    <ApplicationDefinition Remove="Installer\**\*.xaml" />
+  </ItemGroup>
+</Project>
+

@@ -1,0 +1,17 @@
+{
+  "name": "jarvis-ai-website",
+  "version": "1.0.6",
+  "private": true,
+  "type": "module",
+  "description": "Jarvis AI landing page with Netlify download analytics",
+  "engines": {
+    "node": ">=20.6"
+  },
+  "scripts": {
+    "test": "node --import=./tests/register-loader.mjs --test tests/*.test.mjs",
+    "check": "node --check public/script.js && node --check netlify/functions/download.mjs && node --check netlify/functions/admin-ui.mjs && node --check netlify/functions/admin-stats.mjs && node --check netlify/functions/admin-export.mjs && node --check netlify/functions/lib/core.mjs && node --check netlify/functions/lib/security.mjs && node --check tests/netlify-blobs-loader.mjs && node --check tests/support/netlify-blobs-mock.mjs && node --check tests/core.test.mjs && node --check tests/handlers.test.mjs && node --check tests/register-loader.mjs"
+  },
+  "dependencies": {
+    "@netlify/blobs": "11.1.4"
+  }
+}

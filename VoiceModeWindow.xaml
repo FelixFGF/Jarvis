@@ -1,0 +1,32 @@
+<Window x:Class="Jarvis.VoiceModeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:primitives="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        Title="Jarvis Voice" Width="520" Height="650" MinWidth="440" MinHeight="560"
+        WindowStartupLocation="CenterOwner" Background="#101115" Foreground="#F1F0F5"
+        FontFamily="Segoe UI" ResizeMode="CanResizeWithGrip" ShowInTaskbar="True">
+    <Grid Margin="30">
+        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+        <DockPanel>
+            <Button DockPanel.Dock="Right" Content="×" Width="38" Height="38" Padding="0" FontSize="20" Click="Close_Click" ToolTip="End voice mode"/>
+            <StackPanel VerticalAlignment="Center"><TextBlock Text="JARVIS" FontSize="16" FontWeight="SemiBold"/><TextBlock x:Name="Subtitle" Text="VOICE MODE" FontSize="10" Foreground="#A09EAB" Margin="0,3,0,0"/></StackPanel>
+        </DockPanel>
+        <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="430">
+            <Border x:Name="LogoFrame" Width="184" Height="184" CornerRadius="48" Background="#1B1928" Padding="12" HorizontalAlignment="Center" Margin="0,0,0,30">
+                <Border.Effect><DropShadowEffect x:Name="LogoGlow" Color="#9277FF" BlurRadius="13" ShadowDepth="0" Opacity="0.34"/></Border.Effect>
+                <Border.RenderTransform><ScaleTransform x:Name="LogoScale" CenterX="80" CenterY="80"/></Border.RenderTransform>
+                <Image Source="pack://application:,,,/Assets/Jarvis.png" Stretch="Uniform"/>
+            </Border>
+            <TextBlock x:Name="StateText" Text="Ready when you are" FontSize="24" FontWeight="SemiBold" TextAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+            <TextBlock x:Name="DetailText" Text="Speak naturally. Jarvis will listen for a short pause." FontSize="13" Foreground="#A09EAB" TextAlignment="Center" HorizontalAlignment="Center" Margin="0,8,0,0" TextWrapping="Wrap"/>
+            <Border Background="#191A20" BorderBrush="#30313B" BorderThickness="1" CornerRadius="14" Padding="15" Margin="0,28,0,0" MinHeight="106" MaxHeight="180">
+                <ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel><TextBlock x:Name="TranscriptLabel" Text="YOU" FontSize="9" Foreground="#A09EAB"/><TextBlock x:Name="TranscriptText" Text="" Margin="0,5,0,0" TextWrapping="Wrap"/><TextBlock x:Name="ResponseLabel" Text="JARVIS" FontSize="9" Foreground="#B4A0FF" Margin="0,14,0,0"/><TextBlock x:Name="ResponseText" Text="" Margin="0,5,0,0" TextWrapping="Wrap"/></StackPanel></ScrollViewer>
+            </Border>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,22,0,0">
+            <Button x:Name="RetryButton" Content="Try again" Padding="18,10" Margin="4" Visibility="Collapsed" Click="Retry_Click"/>
+            <primitives:ToggleButton x:Name="MuteButton" Content="Mute microphone" Padding="18,10" Margin="4" Background="#211F2C" BorderBrush="#3D394E" Checked="MuteButton_Checked" Unchecked="MuteButton_Unchecked"/>
+            <Button x:Name="EndButton" Content="End voice mode" Padding="18,10" Margin="4" Background="#302A55" BorderBrush="#51469B" Click="Close_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

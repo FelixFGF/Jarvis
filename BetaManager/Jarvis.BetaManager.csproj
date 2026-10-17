@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <AssemblyName>Jarvis.BetaManager</AssemblyName>
+    <RootNamespace>Jarvis.BetaManager</RootNamespace>
+    <ApplicationIcon>..\Assets\Jarvis.ico</ApplicationIcon>
+    <JarvisSupabaseUrl Condition="'$(JarvisSupabaseUrl)' == ''">$(JARVIS_SUPABASE_URL)</JarvisSupabaseUrl>
+    <JarvisSupabasePublishableKey Condition="'$(JarvisSupabasePublishableKey)' == ''">$(JARVIS_SUPABASE_PUBLISHABLE_KEY)</JarvisSupabasePublishableKey>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Beta.Shared\Jarvis.Beta.Shared.csproj" />
+    <Resource Include="..\Assets\Jarvis.png" Link="Assets\Jarvis.png" />
+    <AssemblyMetadata Include="BetaSupabaseUrl" Value="$(JarvisSupabaseUrl)" />
+    <AssemblyMetadata Include="BetaSupabasePublishableKey" Value="$(JarvisSupabasePublishableKey)" />
+  </ItemGroup>
+</Project>

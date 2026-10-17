@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#151420" />
+  <meta name="description" content="Meet Jarvis — a Windows AI desktop assistant with configurable AI models, practical tools, local speech, and connected music controls." />
+  <title>Jarvis — Your AI. Your Desktop.</title>
+  <link rel="icon" href="assets/jarvis-logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="assets/jarvis-logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+  <header class="site-header" id="top">
+    <nav class="nav wrap" aria-label="Main navigation">
+      <a class="brand" href="#top" aria-label="Jarvis home">
+        <img class="brand-logo" src="assets/jarvis-logo.png" alt="" width="38" height="38" />
+        <span>jarvis<span class="brand-period">.</span></span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false"><span></span><span></span></button>
+      <div class="nav-links" id="nav-links">
+        <a href="#features">Features</a>
+        <a href="#privacy">Privacy</a>
+        <a href="#requirements">Requirements</a>
+        <a href="#faq">FAQ</a>
+        <a class="nav-community" href="https://dsc.gg/local-jarvis" target="_blank" rel="noopener noreferrer">Discord Community <span aria-hidden="true">↗</span></a>
+        <a class="nav-download jarvis-download" href="https://github.com/FelixFGF/Jarvis/releases/latest/download/Jarvis-Setup.exe"  data-jarvis-version="1.0.6">Download <span aria-hidden="true">↗</span></a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero wrap">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="live-dot"></span> JARVIS FOR WINDOWS <span class="eyebrow-sep">/</span> VERSION 1.0.6</div>
+        <h1>Your AI.<br /><span class="gradient-text">Your desktop.</span></h1>
+        <p class="hero-lead">A personal AI assistant that connects your chosen model to the tools you use every day — right from your Windows desktop.</p>
+        <div class="hero-actions">
+          <a class="button button-primary jarvis-download" href="https://github.com/FelixFGF/Jarvis/releases/latest/download/Jarvis-Setup.exe"  data-jarvis-version="1.0.6">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M5 17v3h14v-3" /></svg>
+            Download for Windows <span class="button-arrow">↗</span>
+          </a>
+          <a class="button button-secondary" href="#features">Explore features <span aria-hidden="true">↓</span></a>
+        </div>
+        <div class="hero-meta"><span class="windows-icon" aria-hidden="true">⊞</span><span>Windows x64</span><span class="meta-divider"></span><span>Version 1.0.6</span><span class="meta-divider"></span><span>Made by Felix FGF</span></div>
+        <p class="download-note" id="download-note">Installer download: <code>GitHub Releases · latest Jarvis-Setup.exe</code></p>
+      </div>
+
+      <div class="hero-visual" aria-label="Illustrative preview of the Jarvis desktop interface">
+        <div class="visual-glow" aria-hidden="true"></div>
+        <div class="app-window">
+          <div class="app-titlebar">
+            <div class="mini-brand"><img class="mini-logo" src="assets/jarvis-logo.png" alt="" width="26" height="26" /><strong>jarvis</strong></div>
+            <div class="window-controls" aria-hidden="true"><span>−</span><span>□</span><span>×</span></div>
+          </div>
+          <div class="app-body">
+            <aside class="mock-sidebar">
+              <div class="sidebar-new"><span>＋</span> New chat</div>
+              <div class="side-item active"><span class="side-ico">◈</span> Chat</div>
+              <div class="side-item"><span class="side-ico">◖))</span> Voice mode</div>
+              <div class="side-label">CONVERSATIONS</div>
+              <div class="side-item"><span class="side-ico">▤</span> Find my project folder</div>
+              <div class="side-bottom"><div class="avatar">F</div><div><b>Felix</b><small>Personal workspace</small></div><span class="dots">···</span></div>
+            </aside>
+            <div class="mock-chat">
+              <div class="chat-top"><div><span class="chat-badge"></span><b>New conversation</b></div><span class="model-pill">Your selected model <span>⌄</span></span></div>
+              <div class="chat-content">
+                <img class="greeting-mark greeting-logo" src="assets/jarvis-logo.png" alt="Jarvis logo" width="46" height="46" />
+                <div class="greeting-title">What can I help with?</div>
+                <div class="greeting-sub">Your models. Your workflow. One desktop.</div>
+                <div class="user-bubble">Find my project folder and open it.</div>
+                <div class="assistant-reply"><span class="reply-mark">✳</span><div><b>Here’s what I found</b><p>I found a matching folder in your approved locations. You can review the result before opening it.</p><div class="tool-result"><span class="folder-ico">▰</span><span><b>Jarvis</b><small>Folder · G:/Projekte/Jarvis</small></span><span class="result-check">✓</span></div><div class="tool-status"><span class="status-check">✓</span> Folder search completed</div></div></div>
+              </div>
+              <div class="mock-composer"><span class="composer-plus">＋</span><span>Message Jarvis…</span><span class="composer-tools">⌁ &nbsp; ◉</span><span class="send-circle">↑</span></div>
+              <div class="mock-disclaimer">Illustrative interface preview · Your setup may look different</div>
+            </div>
+          </div>
+        </div>
+        <div class="float-card float-card-top"><span class="float-icon violet">✳</span><div><b>Tool-assisted</b><small>Visible action results</small></div><span class="pulse"></span></div>
+        <div class="float-card float-card-bottom"><span class="float-icon blue">◉</span><div><b>Voice input</b><small>Speak when you're ready</small></div><span class="sound-bars"><i></i><i></i><i></i><i></i><i></i></span></div>
+      </div>
+      <div class="hero-bottom-line"><span>ONE ASSISTANT. MORE OF YOUR WORKFLOW.</span><span class="line"></span><span class="scroll-hint">SCROLL TO EXPLORE ↓</span></div>
+    </section>
+
+    <section class="trust-strip">
+      <div class="wrap trust-inner"><span class="trust-label">BUILT AROUND YOUR SETUP</span><span><i>01</i> Configurable AI endpoints</span><span><i>02</i> Windows desktop tools</span><span><i>03</i> Local-first workflows</span><span><i>04</i> You stay in control</span></div>
+    </section>
+
+
+    <section class="community-section wrap" id="community" aria-labelledby="community-title">
+      <div class="community-logo-wrap"><img src="assets/jarvis-logo.png" alt="" width="76" height="76" /></div>
+      <div class="community-copy">
+        <div class="eyebrow section-eyebrow">THE JARVIS COMMUNITY</div>
+        <h2 id="community-title">Build better things <span class="accent-dot">together.</span></h2>
+        <p>Join the Discord community, follow Jarvis releases on GitHub, share feedback, and help shape the project.</p>
+      </div>
+      <div class="community-actions">
+        <a class="button button-github" href="https://github.com/FelixFGF/Jarvis" target="_blank" rel="noopener noreferrer" aria-label="Open the Jarvis GitHub repository in a new tab">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 6v-3.9a3.4 3.4 0 0 0-.9-2.7c3-.3 6.1-1.5 6.1-6.7a5.2 5.2 0 0 0-1.4-3.6 4.8 4.8 0 0 0-.1-3.6S17.5 1.2 15 3a13.2 13.2 0 0 0-7 0C5.5 1.2 4.3 1.5 4.3 1.5a4.8 4.8 0 0 0-.1 3.6 5.2 5.2 0 0 0-1.4 3.6c0 5.2 3.1 6.4 6.1 6.7A3.4 3.4 0 0 0 8 18.1V22"/></svg>
+          View on GitHub <span aria-hidden="true">↗</span>
+        </a>
+        <a class="button button-discord" href="https://dsc.gg/local-jarvis" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 7.4a12.4 12.4 0 0 1 3.1-1l.4.8a11.5 11.5 0 0 1 2.6 0l.4-.8a12.4 12.4 0 0 1 3.1 1c1.9 2.8 2.4 5.5 2.1 8.2a12.5 12.5 0 0 1-3.8 1.9l-.8-1.3c.5-.2 1-.4 1.4-.7-2.7 1.2-5.6 1.2-8.3 0 .4.3.9.5 1.4.7L8 17.5a12.5 12.5 0 0 1-3.8-1.9c-.3-2.7.2-5.4 3-8.2Z"/><circle cx="9.5" cy="11.8" r="1"/><circle cx="14.5" cy="11.8" r="1"/></svg>
+          Join the Discord <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="section wrap" id="features">
+      <div class="section-head"><div><div class="eyebrow section-eyebrow">CAPABILITIES</div><h2>More than a chat box<span class="accent-dot">.</span></h2></div><p>Jarvis brings AI conversations and practical desktop actions into one place. What’s available depends on your model, services, permissions, and installed apps.</p></div>
+      <div class="feature-grid">
+        <article class="feature-card feature-large">
+          <div class="feature-topline"><span class="feature-icon purple"><svg viewBox="0 0 24 24"><path d="M12 3 14 9.5 20.5 12 14 14.5 12 21l-2.5-6.5L3 12l6.5-2.5L12 3Z"/><path d="m19 3 .8 2.2L22 6l-2.2.8L19 9l-.8-2.2L16 6l2.2-.8L19 3Z"/></svg></span><span class="feature-number">01 / THINK</span></div>
+          <h3>Chat with your chosen model</h3><p>Connect a local model server such as Ollama, LM Studio, or BionicGPT, or use a compatible external API. Load available models, choose the one you want, and chat with it from the Windows desktop.</p>
+          <div class="model-visual"><div class="model-chip"><span class="model-dot green"></span><span>Local model server</span><b>Ollama · LM Studio</b></div><div class="model-chip"><span class="model-dot blue-dot"></span><span>Compatible API</span><b>Optional cloud</b></div><div class="model-footnote">The model provider is configured by you — it is not Jarvis itself.</div></div>
+        </article>
+        <article class="feature-card">
+          <div class="feature-topline"><span class="feature-icon blue"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4zM8 9h8M8 13h5"/><path d="m15 16 2 2 4-4"/></svg></span><span class="feature-number">02 / ACT</span></div>
+          <h3>Useful desktop tools</h3><p>Search the web (Google first, with clearly identified fallbacks), find files in folders you approve, open supported apps and games, and list, move, maximize, or close windows. Tool calls and their results are shown in chat; actions that need permission ask in the conversation.</p><div class="mini-tags"><span>Web search</span><span>Apps & games</span><span>Files & windows</span></div>
+        </article>
+        <article class="feature-card">
+          <div class="feature-topline"><span class="feature-icon cyan"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4zM8 9h8M8 12h5"/><path d="m9 16 2 2 4-4"/></svg></span><span class="feature-number">03 / PLAN</span></div>
+          <h3>Tasks with visible steps</h3><p>For supported requests, Jarvis can show a step-by-step checklist and tool progress so you can see what it is attempting — not just read a final answer.</p><div class="plan-demo"><div><span class="tiny-check done">✓</span> Understand the request</div><div><span class="tiny-check done">✓</span> Search approved folders</div><div><span class="tiny-check current">3</span> Present matching results</div></div>
+        </article>
+        <article class="feature-card">
+          <div class="feature-topline"><span class="feature-icon indigo"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M5 17v3h14v-3"/><path d="M4 4h3M17 4h3"/></svg></span><span class="feature-number">04 / SPEAK</span></div>
+          <h3>A more natural conversation</h3><p>Dictate with downloadable Whisper model choices that run locally after setup. Dictation places editable text in the prompt; it never sends it automatically. Voice mode supports spoken turn-by-turn conversation, with local Piper neural voices or Windows voices for replies.</p><div class="waveform" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="visual-caption">Local Whisper · Piper and Windows voices</div>
+        </article>
+        <article class="feature-card feature-wide">
+          <div class="wide-copy"><div class="feature-topline"><span class="feature-icon pink"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span><span class="feature-number">05 / LISTEN</span></div><h3>Your music, within reach</h3><p>Connect Spotify in Settings to search for and play tracks, like songs, manage playlists, and adjust Spotify’s own Windows audio-session volume. Some playback actions require Spotify Premium and an active player. Apple Music can search its catalog, open tracks externally, and—with Apple tokens—add tracks to the library or playlists. External Apple Music playback cannot be verified by Jarvis.</p><div class="mini-tags"><span>Spotify · Connected controls</span><span>Apple Music · Token-based library tools</span></div></div>
+          <div class="music-visual"><div class="album-art"><div class="album-orbit orbit-a"></div><div class="album-orbit orbit-b"></div><div class="album-core">J<span>•</span></div></div><div class="music-meta"><span class="now-playing">READY WHEN CONNECTED</span><b>Your music workflow</b><small>Controls depend on authorization</small></div><div class="music-bars"><i></i><i></i><i></i><i></i><i></i></div></div>
+        </article>
+        <article class="feature-card feature-wide feature-files">
+          <div class="wide-copy"><div class="feature-topline"><span class="feature-icon amber"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/><path d="M3 10h18"/></svg></span><span class="feature-number">06 / ORGANIZE</span></div><h3>Local files, with boundaries</h3><p>List, search, and read files within folders you approve. Creating folders and writing files require an in-chat confirmation. Requests for other locations can ask you to grant access first.</p><div class="mini-tags"><span>Approved folders</span><span>Confirmation prompts</span><span>Local history</span></div></div>
+          <div class="folder-visual"><div class="folder-row"><span class="folder-color folder-purple">▰</span><span><b>Projects</b><small>Approved folder</small></span><span class="access-pill">ALLOWED</span></div><div class="folder-row"><span class="folder-color folder-blue">▰</span><span><b>Documents</b><small>Approved folder</small></span><span class="access-pill">ALLOWED</span></div><div class="folder-row restricted"><span class="folder-color">▰</span><span><b>Other locations</b><small>Not approved</small></span><span class="restricted-pill">RESTRICTED</span></div></div>
+        </article>
+      </div>
+      <div class="honesty-note"><span class="note-icon">i</span><p><b>Availability depends on your setup.</b> Tool use requires a compatible model and server; connected services may need authorization. Apple Music has limited catalog and library actions, and Jarvis cannot verify playback opened in Apple Music. Image generation and Discord voice, camera, and screen-sharing controls are not included in this release.</p></div>
+    </section>
+
+    <section class="section workflow-section">
+      <div class="wrap workflow-layout">
+        <div class="workflow-copy"><div class="eyebrow section-eyebrow">MADE TO WORK WITH YOU</div><h2>From a request<br />to a real result<span class="accent-dot">.</span></h2><p>Jarvis connects the model you choose to supported Windows tools. For multi-step requests it can show an ordered task plan, update progress as tools run, and report the actual results. Actions that affect files, apps, or windows may require your in-chat approval.</p><a href="#privacy" class="text-link">How privacy works <span>↗</span></a></div>
+        <div class="workflow-steps"><div class="workflow-step"><div class="step-number">01</div><div><h3>You ask</h3><p>Describe what you want in chat or use supported voice input.</p></div><span class="step-symbol">⌁</span></div><div class="step-connector"></div><div class="workflow-step"><div class="step-number">02</div><div><h3>Jarvis plans & uses tools</h3><p>Where supported, see task steps, tool calls, status messages and results.</p></div><span class="step-symbol">◇</span></div><div class="step-connector"></div><div class="workflow-step"><div class="step-number">03</div><div><h3>You stay in control</h3><p>Review the outcome. Protected or data-changing actions may ask for approval.</p></div><span class="step-symbol">✓</span></div></div>
+      </div>
+    </section>
+
+    <section class="section wrap privacy-section" id="privacy">
+      <div class="privacy-intro"><div class="eyebrow section-eyebrow">PRIVACY & CONTROL</div><h2>Local where possible.<br /><span class="gradient-text">Transparent by design.</span></h2><p>Jarvis is built around configurable connections and user-approved access — not a promise that every action or every model runs offline.</p></div>
+      <div class="privacy-grid"><article class="privacy-card"><span class="privacy-symbol">⌂</span><h3>Your local workspace</h3><p>Chat history, profile information and approved-folder settings are managed locally by the application.</p></article><article class="privacy-card"><span class="privacy-symbol">⇄</span><h3>You choose the endpoint</h3><p>Local models can keep inference on your own setup. Cloud or external endpoints may receive the prompts and data you send to them.</p></article><article class="privacy-card"><span class="privacy-symbol">◉</span><h3>Scoped file access</h3><p>File tools are limited to approved folders. Certain supported operations may require visible confirmation before changes are made.</p></article><article class="privacy-card"><span class="privacy-symbol">✓</span><h3>Honest status</h3><p>Jarvis should report an action as completed only when its actual tool result confirms success. Tool availability depends on your setup.</p></article></div>
+      <div class="privacy-foot"><span class="privacy-foot-mark">✳</span><p><b>Your configuration matters.</b> Review the AI endpoint, connected services, permissions and privacy settings that apply to your setup before sharing sensitive information.</p></div>
+    </section>
+
+    <section class="section requirements-section" id="requirements"><div class="wrap requirements-layout"><div><div class="eyebrow section-eyebrow">GET STARTED</div><h2>Made for Windows<span class="accent-dot">.</span></h2><p class="requirements-lead">Install Jarvis on a Windows x64 PC, connect an AI endpoint, and configure the tools and services you want to use.</p><a class="button button-primary jarvis-download" href="https://github.com/FelixFGF/Jarvis/releases/latest/download/Jarvis-Setup.exe"  data-jarvis-version="1.0.6"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M5 17v3h14v-3" /></svg> Get Jarvis <span class="button-arrow">↗</span></a></div><div class="requirements-card"><div class="req-heading"><span class="req-windows">⊞</span><div><b>System requirements</b><small>Current release · 1.0.6</small></div><span class="req-badge">WINDOWS</span></div><div class="req-row"><span>Platform</span><b>Windows 10 1809+ · x64</b></div><div class="req-row"><span>Application</span><b>Native WPF desktop app</b></div><div class="req-row"><span>AI connection</span><b>Ollama, LM Studio, BionicGPT, or compatible API</b></div><div class="req-row"><span>Internet access</span><b>Setup, web search, and connected services</b></div><div class="req-row"><span>Model resources</span><b>Depend on the model and speech options</b></div><p class="req-footnote">The installer includes the .NET runtime. Hardware and disk requirements depend on the AI model and optional speech models you choose; there is no single minimum suitable for every model.</p></div></div></section>
+
+    <section class="section wrap faq-section" id="faq"><div class="section-head"><div><div class="eyebrow section-eyebrow">GOOD TO KNOW</div><h2>Questions, answered<span class="accent-dot">.</span></h2></div><p>A few details to help you understand what Jarvis can — and cannot — do today.</p></div><div class="faq-list">
+      <details class="faq-item"><summary>Is Jarvis itself an AI model?<span class="faq-plus">＋</span></summary><p>No. Jarvis is the Windows application. It connects to whichever compatible AI model or endpoint you configure, and the selected model's capabilities affect what it can do.</p></details>
+      <details class="faq-item"><summary>Does Jarvis work completely offline?<span class="faq-plus">＋</span></summary><p>Some workflows can use local models and local speech tools. Web search, cloud endpoints, Spotify and other connected services need the relevant network access and, where required, authorization.</p></details>
+      <details class="faq-item"><summary>Can Jarvis control every app on my PC?<span class="faq-plus">＋</span></summary><p>No. Supported tools can search for and launch installed apps and games, work with windows, and access approved folders. The availability and reliability of an action depend on its integration and your environment.</p></details>
+      <details class="faq-item"><summary>Does it support Discord voice, camera or screen sharing?<span class="faq-plus">＋</span></summary><p>Not yet. Full Discord control for voice channels, microphone, camera and screen sharing has not been integrated.</p></details>
+      <details class="faq-item"><summary>Are Spotify and Apple Music supported?<span class="faq-plus">＋</span></summary><p>Spotify supports track search and playback, likes, playlists, and app-session volume when connected; some actions require Premium or an active player. Apple Music supports catalog search, external track opening, and token-authorized library and playlist actions. Playback opened externally cannot be verified.</p></details>
+      <details class="faq-item"><summary>Why might a tool not work with my chosen model?<span class="faq-plus">＋</span></summary><p>Some tools depend on the model supporting tool calling, the server exposing compatible behavior, and the required permissions and services being available.</p></details>
+      <details class="faq-item"><summary>Can Jarvis generate images? <span class="faq-plus">＋</span></summary><p>Image generation is not included in the current Windows app.</p></details>
+      <details class="faq-item"><summary>Where do I get the installer?<span class="faq-plus">＋</span></summary><p>Use the Download for Windows button. The Download buttons open the latest Windows installer directly from GitHub Releases. A background request records the click for the private statistics dashboard.</p></details>
+      <details class="faq-item"><summary>Does the website count download clicks?<span class="faq-plus">＋</span></summary><p>Yes. A background request records the timestamp and the version label shown by the website for usage statistics while the download button opens GitHub directly. The event records do not store your IP address, and a recorded click does not prove that the installer finished downloading or was installed. Netlify may process technical request data as part of hosting and security operations.</p></details>
+    </div></section>
+
+    <section class="final-cta wrap"><div class="cta-orb" aria-hidden="true"></div><div class="eyebrow">YOUR DESKTOP, WITH A LITTLE MORE ASSISTANCE</div><h2>Meet your new workflow<span class="accent-dot">.</span></h2><p>Chat, plan, search and work with your desktop through one configurable AI assistant.</p><div class="final-cta-actions"><a class="button button-primary jarvis-download" href="https://github.com/FelixFGF/Jarvis/releases/latest/download/Jarvis-Setup.exe"  data-jarvis-version="1.0.6"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M5 17v3h14v-3" /></svg> Download Jarvis <span class="button-arrow">↗</span></a><a class="button button-discord" href="https://dsc.gg/local-jarvis" target="_blank" rel="noopener noreferrer">Join Discord <span aria-hidden="true">↗</span></a></div><small>Windows x64 · Version 1.0.6</small></section>
+  </main>
+
+  <footer class="site-footer"><div class="wrap footer-main"><a class="brand footer-brand" href="#top"><img class="brand-logo" src="assets/jarvis-logo.png" alt="" width="30" height="30" /><span>jarvis<span class="brand-period">.</span></span></a><p>A personal AI desktop assistant<br />developed by Felix FGF.</p><div class="footer-links"><a href="#features">Features</a><a href="#privacy">Privacy</a><a href="#requirements">Requirements</a><a href="#faq">FAQ</a><a href="https://dsc.gg/local-jarvis" target="_blank" rel="noopener noreferrer">Discord</a></div><a class="back-top" href="#top" aria-label="Back to top">↑</a></div><div class="wrap footer-bottom"><span>© <span id="year">2026</span> Jarvis · Felix FGF</span><span>Windows desktop assistant · Built by Felix FGF</span><span class="footer-version">VERSION 1.0.6</span></div></footer>
+  <dialog class="beta-modal" id="beta-modal" aria-labelledby="beta-modal-title" aria-describedby="beta-modal-description">
+    <div class="beta-modal-content">
+      <button class="beta-modal-close" type="button" aria-label="Close dialog">×</button>
+      <img class="beta-modal-logo" src="assets/jarvis-logo.png" alt="Jarvis logo" width="58" height="58" />
+      <div class="beta-modal-eyebrow">CLOSED BETA</div>
+      <h2 id="beta-modal-title">Jarvis is currently in Closed Beta.</h2>
+      <p id="beta-modal-description">You can still download Jarvis, but you'll need a beta code to use it. Request a beta code for free through our Discord server.</p>
+      <div class="beta-modal-actions">
+        <a class="button button-discord beta-modal-discord" href="https://dsc.gg/local-jarvis" target="_blank" rel="noopener noreferrer">Join Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary" id="beta-download-anyway" href="https://github.com/FelixFGF/Jarvis/releases/latest/download/Jarvis-Setup.exe" data-jarvis-version="1.0.6">Download Anyway <span class="button-arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </dialog>
+  <script src="script.js"></script>
+</body>
+</html>

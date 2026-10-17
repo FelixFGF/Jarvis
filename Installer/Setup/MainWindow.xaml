@@ -1,0 +1,74 @@
+<Window x:Class="Jarvis.Setup.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Jarvis Setup" Icon="pack://application:,,,/Jarvis.Setup;component/Assets/Jarvis.ico" Width="780" Height="700" MinWidth="700" MinHeight="620"
+        WindowStartupLocation="CenterScreen" Background="{StaticResource Canvas}"
+        Foreground="{StaticResource TextPrimary}" FontFamily="Segoe UI" ResizeMode="CanResizeWithGrip">
+    <Grid Margin="26">
+        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+            <Border Width="48" Height="48" CornerRadius="15" Background="#211D37" Padding="2"><Image Source="/Assets/Jarvis.png" Stretch="Uniform"/></Border>
+            <StackPanel Grid.Column="1" Margin="14,1,0,0" VerticalAlignment="Center"><TextBlock Text="JARVIS" FontSize="18" FontWeight="SemiBold"/><TextBlock Text="Persönlicher KI-Arbeitsbereich · Setup 1.0.6" Foreground="{StaticResource TextMuted}" FontSize="12" Margin="0,3,0,0"/></StackPanel>
+            <ComboBox x:Name="LanguageBox" Grid.Column="2" Width="136" Margin="0,0,10,0" VerticalAlignment="Center" SelectedValuePath="Tag" SelectionChanged="Language_SelectionChanged"><ComboBoxItem Content="English" Tag="en"/><ComboBoxItem Content="Deutsch" Tag="de"/></ComboBox>
+            <Button x:Name="CancelButton" Grid.Column="3" Content="Cancel" Click="Cancel_Click" Padding="13,8"/>
+        </Grid>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+          <StackPanel>
+            <TextBlock x:Name="WizardTitle" Text="Jarvis auf diesem PC einrichten · Version 1.0.6" FontSize="25" FontWeight="SemiBold" Margin="0,3,0,6"/><TextBlock x:Name="WizardStepText" Foreground="{StaticResource TextMuted}" FontSize="12" Margin="0,0,0,12"/><ProgressBar x:Name="StartupProgress" Height="4" IsIndeterminate="True" Margin="0,0,0,12"/>
+            <TextBlock Text="Prüfe die vorhandene KI-Verbindung, wähle den Speicherort und installiere Jarvis." FontSize="13" Foreground="{StaticResource TextMuted}" TextWrapping="Wrap" Margin="0,0,0,18"/>
+            <Border x:Name="BackendCard" Background="{StaticResource Surface}" BorderBrush="{StaticResource Stroke}" BorderThickness="1" CornerRadius="14" Padding="16" Margin="0,0,0,12">
+              <StackPanel>
+                <DockPanel><TextBlock Text="KI-Backend" FontSize="15" FontWeight="SemiBold"/><StackPanel DockPanel.Dock="Right" Orientation="Horizontal"><Button x:Name="OllamaButton" Content="Ollama installieren" Click="InstallOllama_Click" Padding="11,6" Margin="0,0,8,0" Visibility="Collapsed"/><Button x:Name="RefreshButton" Content="Erneut prüfen" Click="Refresh_Click" Padding="11,6"/></StackPanel></DockPanel>
+                <TextBlock x:Name="BackendStatus" Text="Prüfe lokale Dienste …" FontSize="13" Margin="0,10,0,5"/>
+                <TextBlock x:Name="BackendDetail" Text="Es werden nur lokale API-Endpunkte abgefragt." Foreground="{StaticResource TextMuted}" TextWrapping="Wrap" FontSize="12"/>
+                <ComboBox x:Name="BackendBox" Margin="0,12,0,0" SelectionChanged="BackendBox_SelectionChanged"><ComboBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding Label}" Foreground="{StaticResource TextPrimary}" TextTrimming="CharacterEllipsis"/></DataTemplate></ComboBox.ItemTemplate></ComboBox>
+                <Grid x:Name="BionicAuthPanel" Visibility="Collapsed" Margin="0,10,0,0"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions><TextBox x:Name="BionicEndpointBox" Grid.Row="0" ToolTip="OpenAI-compatible API endpoint" Text="http://localhost:1235/v1" TextChanged="BackendEndpoint_Changed"/><PasswordBox x:Name="BionicApiKeyBox" Grid.Row="1" Margin="0,7,0,0" ToolTip="Optional API key; stored encrypted for Jarvis" Padding="11,8" MinHeight="38" PasswordChanged="BackendApiKey_Changed"/><TextBlock x:Name="BackendEndpointHelp" Grid.Row="2" Text="Enter an OpenAI-compatible API endpoint. An API key is optional and only needed by providers that require authentication." Foreground="{StaticResource TextMuted}" FontSize="12" TextWrapping="Wrap" Margin="0,7,0,0"/></Grid>
+              </StackPanel>
+            </Border>
+            <Border x:Name="ModelCard" Background="{StaticResource Surface}" BorderBrush="{StaticResource Stroke}" BorderThickness="1" CornerRadius="14" Padding="16" Margin="0,0,0,12">
+              <StackPanel>
+                <TextBlock Text="Modell &amp; System" FontSize="15" FontWeight="SemiBold"/>
+                <TextBlock x:Name="HardwareText" Text="Ermittle Prozessor, Arbeitsspeicher und freien Speicher …" Foreground="{StaticResource TextMuted}" FontSize="12" TextWrapping="Wrap" Margin="0,8,0,10"/>
+                <TextBlock Text="Chatmodell" Foreground="{StaticResource TextMuted}" FontSize="12"/>
+                <DockPanel Margin="0,5,0,0"><Button x:Name="LoadBionicModelsButton" DockPanel.Dock="Right" Content="Load models" Click="LoadBionicModels_Click" Margin="8,0,0,0" Padding="12,8" Visibility="Collapsed"/><ComboBox x:Name="ModelBox" ToolTip="Choose an available or suggested model" SelectionChanged="ModelBox_SelectionChanged"><ComboBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding Label}" Foreground="{StaticResource TextPrimary}" TextTrimming="CharacterEllipsis"/></DataTemplate></ComboBox.ItemTemplate></ComboBox></DockPanel>
+                <DockPanel Margin="0,7,0,0"><TextBlock DockPanel.Dock="Left" Text="Model ID" Foreground="{StaticResource TextMuted}" VerticalAlignment="Center" Margin="0,0,12,0"/><TextBox x:Name="CustomModelBox" ToolTip="Optional: enter any model ID accepted by the selected backend"/></DockPanel>
+                <TextBlock x:Name="ModelInfo" Text="Backend-Modellverwaltung wird vor dem Download geprüft." Foreground="{StaticResource TextMuted}" FontSize="12" TextWrapping="Wrap" Margin="0,7,0,0"/>
+                <ProgressBar x:Name="DownloadProgress" Height="5" Margin="0,12,0,0" Minimum="0" Maximum="100" Visibility="Collapsed"/>
+              </StackPanel>
+            </Border>
+            <Border x:Name="InstallCard" Background="{StaticResource Surface}" BorderBrush="{StaticResource Stroke}" BorderThickness="1" CornerRadius="14" Padding="16" Margin="0,0,0,12">
+              <StackPanel>
+                <TextBlock Text="Installationsordner" FontSize="15" FontWeight="SemiBold"/>
+                <TextBlock x:Name="UpdateVersionText" Visibility="Collapsed" Foreground="{StaticResource Accent}" FontSize="14" FontWeight="SemiBold" Margin="0,8,0,2"/>
+                <TextBlock x:Name="DataPathDetail" Foreground="{StaticResource TextMuted}" TextWrapping="Wrap" FontSize="12" Margin="0,7,0,10"/>
+                <DockPanel><Button Content="Ordner wählen …" DockPanel.Dock="Right" Click="Browse_Click" Margin="8,0,0,0"/><TextBox x:Name="InstallPathBox" VerticalContentAlignment="Center"/></DockPanel>
+                <TextBlock x:Name="DiskText" Text="Prüfe freien Speicher …" Foreground="{StaticResource TextMuted}" FontSize="11" Margin="0,7,0,0"/>
+                <WrapPanel Margin="0,10,0,0"><CheckBox x:Name="StartMenuCheck" Content="Startmenü-Eintrag" IsChecked="True" Margin="0,0,18,0"/><CheckBox x:Name="DesktopCheck" Content="Desktop-Verknüpfung" IsChecked="True"/></WrapPanel>
+              </StackPanel>
+            </Border>
+            <TextBlock x:Name="StatusText" Text="Bereit für die Installation." Foreground="{StaticResource TextMuted}" FontSize="12" TextWrapping="Wrap" Margin="2,3,2,6"/>
+          </StackPanel>
+        </ScrollViewer>
+        <Grid Grid.Row="2" Margin="0,18,0,0">
+          <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+          <StackPanel VerticalAlignment="Center"><TextBlock Text="Windows x64 · Enthält die .NET-Laufzeit · kein Admin erforderlich" FontSize="11" Foreground="{StaticResource TextMuted}"/><TextBlock x:Name="ProgressLabel" Text="" FontSize="11" Foreground="{StaticResource TextMuted}" Margin="0,4,0,0"/></StackPanel>
+          <StackPanel Grid.Column="1" Orientation="Horizontal"><Button x:Name="BackButton" Content="Zurück" Click="Back_Click" Padding="16,12" Margin="0,0,8,0" Visibility="Collapsed"/><Button x:Name="NextButton" Content="Weiter" Click="Next_Click" Padding="16,12" Margin="0,0,8,0"/><Button x:Name="InstallButton" Content="Jarvis installieren" Click="Install_Click" Background="{StaticResource Accent}" BorderBrush="{StaticResource Accent}" FontWeight="SemiBold" Padding="20,12" Visibility="Collapsed"/></StackPanel>
+        </Grid>
+        <Grid x:Name="StartupOverlay" Grid.RowSpan="3" Margin="-26" Background="{StaticResource Canvas}" Panel.ZIndex="20">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="360">
+                <Grid Width="172" Height="172" HorizontalAlignment="Center" Margin="0,0,0,28">
+                    <Ellipse Stroke="#8B72FF" StrokeThickness="4" StrokeDashArray="1.2 2.2" Opacity="0.9">
+                        <Ellipse.RenderTransform><RotateTransform x:Name="StartupSpinnerRotation" CenterX="86" CenterY="86"/></Ellipse.RenderTransform>
+                    </Ellipse>
+                    <Border Width="112" Height="112" CornerRadius="32" Background="#211D37" Padding="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="/Assets/Jarvis.png" Stretch="Uniform"/>
+                    </Border>
+                </Grid>
+                <TextBlock Text="JARVIS" FontSize="22" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="StartupStatusText" Text="Checking this PC for an existing Jarvis installation…" Foreground="{StaticResource TextMuted}" FontSize="13" TextAlignment="Center" TextWrapping="Wrap" Margin="0,10,0,0"/>
+                <TextBlock Text="Version 1.0.6" Foreground="{StaticResource Accent}" FontSize="12" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,12,0,0"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

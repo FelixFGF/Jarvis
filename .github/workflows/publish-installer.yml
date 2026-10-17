@@ -1,0 +1,47 @@
+name: Publish Windows installer
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Build the self-contained installer
+        shell: pwsh
+        run: ./Installer/Build-Installer.ps1 -Configuration Release -OutputDirectory Installer/artifacts -Version ($env:GITHUB_REF_NAME -replace '^v', '')
+
+      - name: Build signed x64 update package
+        shell: pwsh
+        env:
+          JARVIS_UPDATE_SIGNING_PRIVATE_KEY_PEM: ${{ secrets.JARVIS_UPDATE_SIGNING_PRIVATE_KEY_PEM }}
+        run: |
+          $tagVersion = $env:GITHUB_REF_NAME -replace '^v', ''
+          ./Installer/Build-UpdatePackage.ps1 -Configuration Release -OutputDirectory Installer/artifacts -Version $tagVersion
+
+      - name: Publish installer as the GitHub release download
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Jarvis ${{ github.ref_name }}
+          generate_release_notes: true
+          make_latest: true
+          fail_on_unmatched_files: true
+          files: |
+            Installer/artifacts/Jarvis-Setup.exe
+            Installer/artifacts/Jarvis-Setup.exe.sha256
+            Installer/artifacts/Jarvis-Update-win-x64.zip
+            Installer/artifacts/Jarvis-Update-win-x64.json
+            Installer/artifacts/Jarvis-Update-win-x64.sig

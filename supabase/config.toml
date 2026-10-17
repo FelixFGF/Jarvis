@@ -1,0 +1,30 @@
+project_id = "rlcgexffgmdukpkououa"
+
+[api]
+enabled = true
+schemas = ["public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[functions.redeem-invite]
+verify_jwt = false
+[functions.validate-license]
+verify_jwt = false
+[functions.admin-create-invite]
+verify_jwt = false
+[functions.admin-list-licenses]
+verify_jwt = false
+[functions.admin-revoke-license]
+verify_jwt = false
+[functions.admin-reinstate-license]
+verify_jwt = false
+[functions.admin-audit-log]
+verify_jwt = false
+[functions.admin-overview]
+verify_jwt = false
+[functions.admin-list-invites]
+verify_jwt = false
+[functions.admin-revoke-invite]
+verify_jwt = false
+[functions.admin-delete-invite]
+verify_jwt = false

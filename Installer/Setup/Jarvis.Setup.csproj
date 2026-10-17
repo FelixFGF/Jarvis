@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <AssemblyName>Jarvis.Setup</AssemblyName>
+    <RootNamespace>Jarvis.Setup</RootNamespace>
+    <Version>1.0.6</Version>
+    <AssemblyVersion>1.0.6.0</AssemblyVersion>
+    <FileVersion>1.0.6.0</FileVersion>
+    <InformationalVersion>1.0.6</InformationalVersion>
+    <ApplicationIcon>..\..\Assets\Jarvis.ico</ApplicationIcon>
+    <PayloadZip Condition="'$(PayloadZip)' == ''">$(MSBuildProjectDirectory)\..\staging\Jarvis-payload.zip</PayloadZip>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Services\DefaultSystemPrompt.cs" Link="DefaultSystemPrompt.cs" />
+    <Compile Include="..\..\Services\UiLocalization.cs" Link="UiLocalization.cs" />
+    <EmbeddedResource Include="..\..\Localization\UiText.resx" LogicalName="Jarvis.Localization.UiText.resources" />
+    <EmbeddedResource Include="..\..\Localization\UiText.de.resx" LogicalName="Jarvis.Localization.UiText.de.resources" />
+    <EmbeddedResource Include="$(PayloadZip)" LogicalName="Jarvis.Setup.payload.zip" Condition="Exists('$(PayloadZip)')" />
+    <Resource Include="..\..\Assets\Jarvis.png" Link="Assets\Jarvis.png" />
+    <Resource Include="..\..\Assets\Jarvis.ico" Link="Assets\Jarvis.ico" />
+  </ItemGroup>
+</Project>

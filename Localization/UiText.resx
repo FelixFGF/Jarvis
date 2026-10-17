@@ -1,0 +1,1371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms</value>
+  </resheader>
+  <data name="Ui.NewChat">
+    <value>New chat</value>
+  </data>
+  <data name="Ui.CHATS">
+    <value>CHATS</value>
+  </data>
+  <data name="Ui.SearchChats">
+    <value>Search chats</value>
+  </data>
+  <data name="Ui.ConnectionSystemPromptAndPrivacy">
+    <value>Connection, system prompt and privacy</value>
+  </data>
+  <data name="Ui.Settings">
+    <value>Settings</value>
+  </data>
+  <data name="Ui.Chat">
+    <value>Chat</value>
+  </data>
+  <data name="Ui.Agents">
+    <value>Agents</value>
+  </data>
+  <data name="Ui.Tools">
+    <value>Tools</value>
+  </data>
+  <data name="Ui.Tasks">
+    <value>Tasks</value>
+  </data>
+  <data name="Ui.Reminders">
+    <value>Reminders</value>
+  </data>
+  <data name="Ui.Memory">
+    <value>Memory</value>
+  </data>
+  <data name="Ui.YourPrivateWorkspace">
+    <value>Your private workspace</value>
+  </data>
+  <data name="Ui.LocalDesktopAIVersion105">
+    <value>Local desktop AI · Version 1.0.6</value>
+  </data>
+  <data name="Ui.YourProfile">
+    <value>Your profile</value>
+  </data>
+  <data name="Ui.NameAndCircularProfilePicture">
+    <value>Name and circular profile picture</value>
+  </data>
+  <data name="Ui.DisplayName">
+    <value>Display name</value>
+  </data>
+  <data name="Ui.ChooseProfilePicture">
+    <value>Choose profile picture…</value>
+  </data>
+  <data name="Ui.Remove">
+    <value>Remove</value>
+  </data>
+  <data name="Ui.SaveProfile">
+    <value>Save profile</value>
+  </data>
+  <data name="Ui.LocalOrOpenAICompatibleService">
+    <value>Local or OpenAI-compatible service</value>
+  </data>
+  <data name="Ui.APIBaseURL">
+    <value>API base URL</value>
+  </data>
+  <data name="Ui.PreferredModel">
+    <value>Preferred model</value>
+  </data>
+  <data name="Ui.LoadModels">
+    <value>Load models</value>
+  </data>
+  <data name="Ui.TestConnection">
+    <value>Test connection</value>
+  </data>
+  <data name="Ui.OptionalAPIKeyForAuthenticatedOrCloudCompatibleEndpointsEncryptedForThisWindowsAccount">
+    <value>Optional API key for authenticated or cloud-compatible endpoints; encrypted for this Windows account</value>
+  </data>
+  <data name="Ui.LeaveBlankToKeepTheSavedKeyChatContentIsSentToTheConfiguredEndpoint">
+    <value>Leave blank to keep the saved key. Chat content is sent to the configured endpoint.</value>
+  </data>
+  <data name="Ui.ModelID">
+    <value>Model ID</value>
+  </data>
+  <data name="Ui.SaveSettings">
+    <value>Save settings</value>
+  </data>
+  <data name="Ui.SystemPrompt">
+    <value>System prompt</value>
+  </data>
+  <data name="Ui.ThisSystemMessageIsUsedForChatRequests">
+    <value>This system message is used for chat requests.</value>
+  </data>
+  <data name="Ui.LoadDefaultPrompt">
+    <value>Load default prompt</value>
+  </data>
+  <data name="Ui.PrivacyTools">
+    <value>Privacy &amp; tools</value>
+  </data>
+  <data name="Ui.Privacy">
+    <value>Privacy</value>
+  </data>
+  <data name="Ui.SaveChatHistoryLocally">
+    <value>Save chat history locally</value>
+  </data>
+  <data name="Ui.FileAccessAndPermissions">
+    <value>File access and permissions</value>
+  </data>
+  <data name="Ui.TrustedApprovals">
+    <value>Trusted approvals</value>
+  </data>
+  <data name="Ui.PersistentTrustAppliesOnlyToTheExactSameActionAndDetailsSearchAndRevokeEntriesHere">
+    <value>Persistent trust applies only to the exact same action and details. Search and revoke entries here.</value>
+  </data>
+  <data name="Ui.SearchApprovals">
+    <value>Search approvals</value>
+  </data>
+  <data name="Ui.RevokePermanentApproval">
+    <value>Revoke permanent approval</value>
+  </data>
+  <data name="Ui.AllowedFolders">
+    <value>Allowed folders</value>
+  </data>
+  <data name="Ui.AllowFolder">
+    <value>Allow folder…</value>
+  </data>
+  <data name="Ui.RemoveSelectedFolder">
+    <value>Remove selected folder</value>
+  </data>
+  <data name="Ui.SavePrivacyAndToolSettings">
+    <value>Save privacy and tool settings</value>
+  </data>
+  <data name="Ui.SpeechInput">
+    <value>Speech input</value>
+  </data>
+  <data name="Ui.SpeechOutput">
+    <value>Speech output</value>
+  </data>
+  <data name="Ui.NaturalSpeechOutput">
+    <value>Natural speech output</value>
+  </data>
+  <data name="Ui.PiperGeneratesSpeechLocallyOnYourPCTheGermanNeuralModelIsDownloadedOnceAndThenWorksOffline">
+    <value>Piper generates speech locally on your PC. The German neural model is downloaded once and then works offline.</value>
+  </data>
+  <data name="Ui.PiperGeneratesSpeechLocallyOnYourPCTheSelectedVoiceModelIsDownloadedOnceAndThenWorksOffline">
+    <value>Piper generates speech locally on your PC. The selected voice model is downloaded once and then works offline.</value>
+  </data>
+  <data name="Ui.SpeechEngine">
+    <value>Speech engine</value>
+  </data>
+  <data name="Ui.WindowsVoices">
+    <value>Windows voices</value>
+  </data>
+  <data name="Ui.NeuralPiperGermanHigh">
+    <value>Neural · Piper German High</value>
+  </data>
+  <data name="Ui.GermanNeuralVoiceReadyStoredAt">
+    <value>German neural voice ready · stored at:</value>
+  </data>
+  <data name="Ui.GermanPiperHighModelNotDownloaded114MBModelKeep300MBFreeForDownloadAndExtractionPlaybackThenWorksOffline">
+    <value>German Piper High model not downloaded · 114 MB model; keep 300 MB free for download and extraction. Playback then works offline.</value>
+  </data>
+  <data name="Ui.ChooseDownloadNeuralVoiceToInstallIt">
+    <value>Choose ‘Download neural voice’ to install it.</value>
+  </data>
+  <data name="Ui.DownloadNeuralVoice">
+    <value>Download neural voice</value>
+  </data>
+  <data name="Ui.TestVoice">
+    <value>Test voice</value>
+  </data>
+  <data name="Ui.WindowsVoice">
+    <value>Windows voice</value>
+  </data>
+  <data name="Ui.NeuralVoice">
+    <value>Neural voice</value>
+  </data>
+  <data name="Ui.OutputVolume">
+    <value>Output volume</value>
+  </data>
+  <data name="Ui.ChooseAndPreviewAVoiceJarvisSelectsAMatchingVoiceForEachLanguageSpeechStaysLocal">
+    <value>Choose and preview a voice. Jarvis selects a matching voice for each language. Speech stays local.</value>
+  </data>
+  <data name="Ui.JarvisVoice">
+    <value>Jarvis voice</value>
+  </data>
+  <data name="Ui.YouCanChangeTheVoiceAtAnyTime">
+    <value>You can change the voice at any time.</value>
+  </data>
+  <data name="Ui.SaveSpeechOutputSettings">
+    <value>Save speech output settings</value>
+  </data>
+  <data name="Ui.ModelsAndTemporaryFilesAreStoredInJarvisDataUnderTheInstallationFolderYouSelected">
+    <value>Models and temporary files are stored in JarvisData under the installation folder you selected.</value>
+  </data>
+  <data name="Ui.LocalSpeechInput">
+    <value>Local speech input</value>
+  </data>
+  <data name="Ui.EnableSpeechInput">
+    <value>Enable speech input</value>
+  </data>
+  <data name="Ui.UseWindowsDefaultDevice">
+    <value>Use Windows default device</value>
+  </data>
+  <data name="Ui.Microphone">
+    <value>Microphone</value>
+  </data>
+  <data name="Ui.HandsFreeActivationListenToTheMicrophoneInTheBackground">
+    <value>Hands-free activation · listen to the microphone in the background</value>
+  </data>
+  <data name="Ui.WakePhrase">
+    <value>Wake phrase</value>
+  </data>
+  <data name="Ui.LocalDetectionWorksOfflineTheDefaultPhraseHeyJarvisIsRecommendedCustomShortEnglishPhrasesMayVaryWithPronunciation">
+    <value>Local detection works offline. The default phrase Hey Jarvis is recommended; custom short English phrases may vary with pronunciation.</value>
+  </data>
+  <data name="Ui.WakeSoundVolume">
+    <value>Wake sound volume</value>
+  </data>
+  <data name="Ui.TestWakeSound">
+    <value>Test wake sound</value>
+  </data>
+  <data name="Ui.DownloadWakeWordModel">
+    <value>Download wake-word model</value>
+  </data>
+  <data name="Ui.PauseBeforeEndOfUtterance">
+    <value>Pause before end of utterance</value>
+  </data>
+  <data name="Ui.Refresh">
+    <value>Refresh</value>
+  </data>
+  <data name="Ui.WhisperModel">
+    <value>Whisper model</value>
+  </data>
+  <data name="Ui.TinyFasterCompactMultilingual">
+    <value>Tiny · faster, compact (multilingual)</value>
+  </data>
+  <data name="Ui.BaseBalancedMultilingual">
+    <value>Base · balanced (multilingual)</value>
+  </data>
+  <data name="Ui.SmallBetterRecognitionNeedsMoreMemoryAndProcessingTime">
+    <value>Small · better recognition, needs more memory and processing time</value>
+  </data>
+  <data name="Ui.LargeV3TurboHighestAccuracyLargeDownloadAndHighRAMUsage">
+    <value>Large V3 Turbo · highest accuracy, large download and high RAM usage</value>
+  </data>
+  <data name="Ui.TinyFastestLowerAccuracyMultilingual">
+    <value>Tiny · fastest, lower accuracy (multilingual)</value>
+  </data>
+  <data name="Ui.BaseFastAndBalancedMultilingual">
+    <value>Base · fast and balanced (multilingual)</value>
+  </data>
+  <data name="Ui.SmallMoreAccurateTakesMoreTimeAndMemory">
+    <value>Small · more accurate, takes more time and memory</value>
+  </data>
+  <data name="Ui.MediumHighAccuracySlowerAndMemoryIntensive">
+    <value>Medium · high accuracy, slower and memory intensive</value>
+  </data>
+  <data name="Ui.DownloadModel">
+    <value>Download model</value>
+  </data>
+  <data name="Ui.SaveSpeechSettings">
+    <value>Save speech settings</value>
+  </data>
+  <data name="Ui.About">
+    <value>About</value>
+  </data>
+  <data name="Ui.Profile">
+    <value>Profile</value>
+  </data>
+  <data name="Ui.AIConnection">
+    <value>AI connection</value>
+  </data>
+  <data name="Ui.AppLanguage">
+    <value>App language</value>
+  </data>
+  <data name="Ui.NoFolderSelected">
+    <value>No folder selected</value>
+  </data>
+  <data name="Ui.ChooseWorkspace">
+    <value>Choose workspace</value>
+  </data>
+  <data name="Ui.Attach">
+    <value>Attach</value>
+  </data>
+  <data name="Ui.Clear">
+    <value>Clear</value>
+  </data>
+  <data name="Ui.Cancel">
+    <value>Cancel</value>
+  </data>
+  <data name="Ui.StopRecording">
+    <value>Stop recording</value>
+  </data>
+  <data name="Ui.SpeechSettings">
+    <value>Speech settings</value>
+  </data>
+  <data name="Ui.EnterSendsShiftEnterForANewLine">
+    <value>Enter sends · Shift+Enter for a new line</value>
+  </data>
+  <data name="Ui.Ready">
+    <value>Ready</value>
+  </data>
+  <data name="Ui.SelectModel">
+    <value>Select model</value>
+  </data>
+  <data name="Ui.Tools.Variant2">
+    <value>Tools</value>
+  </data>
+  <data name="Ui.WhatJarvisKnowsAboutMe">
+    <value>What Jarvis knows about me</value>
+  </data>
+  <data name="Ui.LocalTaskHistory">
+    <value>Local task history</value>
+  </data>
+  <data name="Ui.TaskPlannerStatus">
+    <value>Task planner status</value>
+  </data>
+  <data name="Ui.LocalDesktopAI">
+    <value>Local desktop AI</value>
+  </data>
+  <data name="Ui.VoiceMode">
+    <value>Voice mode</value>
+  </data>
+  <data name="Ui.EndVoiceMode">
+    <value>End voice mode</value>
+  </data>
+  <data name="Ui.JarvisIsListening">
+    <value>Jarvis is listening</value>
+  </data>
+  <data name="Ui.NoModelConfiguredOpenSettingsOrChooseAModelAboveTheChat">
+    <value>No model configured. Open Settings or choose a model above the chat.</value>
+  </data>
+  <data name="Ui.PersonalAIWorkspaceSetup">
+    <value>Personal AI workspace · Setup</value>
+  </data>
+  <data name="Ui.SetUpJarvisOnThisPC">
+    <value>Set up Jarvis on this PC</value>
+  </data>
+  <data name="Ui.CheckYourAIConnectionChooseAnInstallLocationAndInstallJarvis">
+    <value>Check your AI connection, choose an install location, and install Jarvis.</value>
+  </data>
+  <data name="Ui.AIBackend">
+    <value>AI backend</value>
+  </data>
+  <data name="Ui.InstallOllama">
+    <value>Install Ollama</value>
+  </data>
+  <data name="Ui.CheckAgain">
+    <value>Check again</value>
+  </data>
+  <data name="Ui.CheckingLocalServices">
+    <value>Checking local services…</value>
+  </data>
+  <data name="Ui.OnlyLocalAPIEndpointsAreChecked">
+    <value>Only local API endpoints are checked.</value>
+  </data>
+  <data name="Ui.ModelSystem">
+    <value>Model &amp; system</value>
+  </data>
+  <data name="Ui.CheckingProcessorMemoryAndFreeDiskSpace">
+    <value>Checking processor, memory, and free disk space…</value>
+  </data>
+  <data name="Ui.ChatModel">
+    <value>Chat model</value>
+  </data>
+  <data name="Ui.TheBackendSModelCatalogIsCheckedBeforeDownloading">
+    <value>The backend's model catalog is checked before downloading.</value>
+  </data>
+  <data name="Ui.InstallationFolder">
+    <value>Installation folder</value>
+  </data>
+  <data name="Ui.ProgramFilesAreStoredHereConfigurationChatHistoryAndLogsStayInJarvisSLocalDataFolderOllamaStoresModelsInItsOwnModelFolder">
+    <value>Program files are stored here. Configuration, chat history, and logs stay in Jarvis's local data folder; Ollama stores models in its own model folder.</value>
+  </data>
+  <data name="Ui.ProgramFilesAreStoredHereJarvisModelsAndTemporaryFilesGoInJarvisDataUnderThisSelectedFolderSettingsChatsAndLogsStayInJarvisSLocalDataFolderOllamaManagesItsOwnModels">
+    <value>Program files are stored here. Jarvis models and temporary files go in JarvisData under this selected folder; settings, chats, and logs stay in Jarvis's local data folder. Ollama manages its own models.</value>
+  </data>
+  <data name="Ui.ChooseFolder">
+    <value>Choose folder…</value>
+  </data>
+  <data name="Ui.CheckingFreeDiskSpace">
+    <value>Checking free disk space…</value>
+  </data>
+  <data name="Ui.StartMenuShortcut">
+    <value>Start menu shortcut</value>
+  </data>
+  <data name="Ui.DesktopShortcut">
+    <value>Desktop shortcut</value>
+  </data>
+  <data name="Ui.ReadyToInstall">
+    <value>Ready to install.</value>
+  </data>
+  <data name="Ui.WindowsX64IncludesTheNETRuntimeNoAdminRequired">
+    <value>Windows x64 · Includes the .NET runtime · no admin required</value>
+  </data>
+  <data name="Ui.InstallJarvis">
+    <value>Install Jarvis</value>
+  </data>
+  <data name="Ui.BionicGPTAPIKeyStoredEncryptedForJarvis">
+    <value>BionicGPT API key (stored encrypted for Jarvis)</value>
+  </data>
+  <data name="Ui.BionicGPTOpenAICompatibleAPIEndpoint">
+    <value>BionicGPT OpenAI-compatible API endpoint</value>
+  </data>
+  <data name="Ui.BionicGPTOpenAICompatibleEndpointDefaultPort1235ModelsAreFetchedDirectlyFromTheServerUsingYourAPIKey">
+    <value>BionicGPT OpenAI-compatible endpoint (default: port 1235). Models are fetched directly from the server using your API key.</value>
+  </data>
+  <data name="Ui.EnterYourBionicGPTAPIKeyAndLoadTheModelsTheKeyIsProtectedLocallyWithWindowsDPAPI">
+    <value>Enter your BionicGPT API key and load the models. The key is protected locally with Windows DPAPI.</value>
+  </data>
+  <data name="Ui.PersonalAIWorkspaceSetup105">
+    <value>Personal AI workspace · Setup 1.0.6</value>
+  </data>
+  <data name="Ui.Back">
+    <value>Back</value>
+  </data>
+  <data name="Ui.Next">
+    <value>Next</value>
+  </data>
+  <data name="Ui.Cancel.Variant2">
+    <value>Cancel</value>
+  </data>
+  <data name="Ui.OllamaUnavailableEnterEndpoint">
+    <value>Ollama · unavailable / enter endpoint</value>
+  </data>
+  <data name="Ui.BionicGPTEnterEndpoint">
+    <value>BionicGPT · enter endpoint</value>
+  </data>
+  <data name="Ui.CustomOpenAICompatibleService">
+    <value>Custom OpenAI-compatible service</value>
+  </data>
+  <data name="Ui.OpenAICompatibleAPIEndpoint">
+    <value>OpenAI-compatible API endpoint</value>
+  </data>
+  <data name="Ui.OptionalAPIKeyStoredEncryptedForJarvis">
+    <value>Optional API key; stored encrypted for Jarvis</value>
+  </data>
+  <data name="Ui.EnterAnOpenAICompatibleAPIEndpointAnAPIKeyIsOptionalAndOnlyNeededIfTheProviderRequiresAuthentication">
+    <value>Enter an OpenAI-compatible API endpoint. An API key is optional and only needed if the provider requires authentication.</value>
+  </data>
+  <data name="Ui.BionicGPTOpenAICompatibleEndpointDefaultPort1235AnAPIKeyIsOptionalIfYourServerDoesNotRequireAuthentication">
+    <value>BionicGPT OpenAI-compatible endpoint (default: port 1235). An API key is optional if your server does not require authentication.</value>
+  </data>
+  <data name="Ui.EnterTheDomainOrAPIBaseURLOfYourOpenAICompatibleProviderAnAPIKeyIsOptionalAndOnlyNeededWhenAuthenticationIsRequired">
+    <value>Enter the domain or API base URL of your OpenAI-compatible provider. An API key is optional and only needed when authentication is required.</value>
+  </data>
+  <data name="Ui.ChooseABackendAndEnterAValidServerAddressBeforeContinuing">
+    <value>Choose a backend and enter a valid server address before continuing.</value>
+  </data>
+  <data name="Ui.LoadingModelList">
+    <value>Loading model list…</value>
+  </data>
+  <data name="Ui.TheServerRespondedButReturnedNoModelsFromV1Models">
+    <value>The server responded but returned no models from /v1/models.</value>
+  </data>
+  <data name="Ui.CouldNotLoadModels">
+    <value>Could not load models:</value>
+  </data>
+  <data name="Ui.InvalidServerAddress">
+    <value>Invalid server address</value>
+  </data>
+  <data name="Ui.NewChat.Variant2">
+    <value>+   New chat</value>
+  </data>
+  <data name="Ui.Attach.Variant2">
+    <value>+ Attach</value>
+  </data>
+  <data name="Ui.ClearAllInformation">
+    <value>Clear all information</value>
+  </data>
+  <data name="Ui.WORKSPACE">
+    <value>WORKSPACE</value>
+  </data>
+  <data name="Ui.AgentActivity">
+    <value>Agent activity</value>
+  </data>
+  <data name="Ui.TaskHistory">
+    <value>Task history</value>
+  </data>
+  <data name="Ui.OpenFileOrFolder">
+    <value>Open file or folder</value>
+  </data>
+  <data name="Ui.SearchFiles">
+    <value>Search files</value>
+  </data>
+  <data name="Ui.DirectActionsAndApprovedAgentTools">
+    <value>Direct actions and approved agent tools.</value>
+  </data>
+  <data name="Ui.AddOrEditEntry">
+    <value>Add or edit entry</value>
+  </data>
+  <data name="Ui.Done">
+    <value>Done</value>
+  </data>
+  <data name="Ui.Add">
+    <value>Add</value>
+  </data>
+  <data name="Ui.Delete">
+    <value>Delete</value>
+  </data>
+  <data name="Ui.ChooseFile">
+    <value>Choose file…</value>
+  </data>
+  <data name="Ui.Manual">
+    <value>Manual…</value>
+  </data>
+  <data name="Ui.Open">
+    <value>Open</value>
+  </data>
+  <data name="Ui.ChooseFolderAndSearch">
+    <value>Choose folder and search</value>
+  </data>
+  <data name="Ui.Save">
+    <value>Save</value>
+  </data>
+  <data name="Ui.Start">
+    <value>Start</value>
+  </data>
+  <data name="Ui.Stop">
+    <value>Stop</value>
+  </data>
+  <data name="Ui.Confirmed">
+    <value>Confirmed</value>
+  </data>
+  <data name="Ui.Preference">
+    <value>Preference</value>
+  </data>
+  <data name="Ui.Checking">
+    <value>Checking…</value>
+  </data>
+  <data name="Ui.TheAgentStopsAfterAtMostFiveModelRoundsOrEightToolCalls">
+    <value>The agent stops after at most five model rounds or eight tool calls.</value>
+  </data>
+  <data name="Ui.InformationYouAddConfirmedEntriesCanBeIncludedInTheModelContext">
+    <value>Information you add. Confirmed entries can be included in the model context.</value>
+  </data>
+  <data name="Ui.NoSavedInformationYet">
+    <value>No saved information yet.</value>
+  </data>
+  <data name="Ui.ChatConfirmedMemoriesAttachmentsAndReadFileContentsAreSentToThisEndpointNoBackgroundTransfers">
+    <value>Chat, confirmed memories, attachments, and read file contents are sent to this endpoint. No background transfers.</value>
+  </data>
+  <data name="Ui.AudioIsProcessedLocallyWithWhisperRecognizedTextIsAddedOnlyToThePromptFieldAndIsNeverSentAutomatically">
+    <value>Audio is processed locally with Whisper. Recognized text is added only to the prompt field and is never sent automatically.</value>
+  </data>
+  <data name="Ui.TheFirstModelDownloadRequiresInternetTranscriptionThenWorksOfflineModelsUseQ51Quantization">
+    <value>The first model download requires internet. Transcription then works offline; models use Q5_1 quantization.</value>
+  </data>
+  <data name="Ui.YouCanChangeTheLanguageAtAnyTimeJarvisRespondsInTheSelectedLanguageByDefault">
+    <value>You can change the language at any time. Jarvis responds in the selected language by default.</value>
+  </data>
+  <data name="Ui.FileAccessIsLimitedToTheseApprovedFoldersWriteOperationsRequireYourConfirmation">
+    <value>File access is limited to these approved folders. Write operations require your confirmation.</value>
+  </data>
+  <data name="Ui.OpenAIToolCallingForReadTasksChangesAreLimitedToApprovedWorkFoldersAndRequireConfirmation">
+    <value>OpenAI tool calling for read tasks. Changes are limited to approved work folders and require confirmation.</value>
+  </data>
+  <data name="Ui.CreatedForFelixFGF">
+    <value>Created for Felix FGF</value>
+  </data>
+  <data name="Ui.MessageJarvis">
+    <value>Message Jarvis…</value>
+  </data>
+  <data name="Ui.MessageJarvisEnterSendsShiftEnterInsertsALine">
+    <value>Message Jarvis… · Enter sends, Shift+Enter inserts a line</value>
+  </data>
+  <data name="Ui.HowCanIHelp">
+    <value>How can I help?</value>
+  </data>
+  <data name="Ui.YourAIWorkspaceForIdeasCodeAndAutomation">
+    <value>Your AI workspace for ideas, code and automation.</value>
+  </data>
+  <data name="Ui.ChooseChatModel">
+    <value>Choose chat model</value>
+  </data>
+  <data name="Ui.AttachFilesUpTo10MB">
+    <value>Attach files up to 10 MB</value>
+  </data>
+  <data name="Ui.SearchReminders">
+    <value>Search reminders</value>
+  </data>
+  <data name="Ui.WhatShouldJarvisRemindYouAbout">
+    <value>What should Jarvis remind you about?</value>
+  </data>
+  <data name="Ui.RefreshModels">
+    <value>Refresh models</value>
+  </data>
+  <data name="Ui.EnterAnOpenAICompatibleModelNameManually">
+    <value>Enter an OpenAI-compatible model name manually</value>
+  </data>
+  <data name="Ui.StartSpeechInput">
+    <value>Start speech input</value>
+  </data>
+  <data name="Ui.JarvisIsListeningMicrophone">
+    <value>Jarvis is listening · microphone</value>
+  </data>
+  <data name="Ui.StartSpeechInputAndSpokenJarvisReplies">
+    <value>Start speech input and spoken Jarvis replies</value>
+  </data>
+  <data name="Ui.MessageJarvis.Variant2">
+    <value>Message Jarvis…</value>
+  </data>
+  <data name="Ui.HowCanIHelp.Variant2">
+    <value>How can I help?</value>
+  </data>
+  <data name="Ui.YourAIWorkspaceForIdeasCodeAndAutomation.Variant2">
+    <value>Your AI workspace for ideas, code and automation.</value>
+  </data>
+  <data name="Ui.J">
+    <value>J</value>
+  </data>
+  <data name="Ui.LocalProfile">
+    <value>Local profile</value>
+  </data>
+  <data name="Ui.UiText">
+    <value>···</value>
+  </data>
+  <data name="Ui.LocalUser">
+    <value>Local user</value>
+  </data>
+  <data name="Ui.NotTestedLocal">
+    <value>Not tested · local</value>
+  </data>
+  <data name="Ui.CouldNotLoadLocalData">
+    <value>Could not load local data</value>
+  </data>
+  <data name="Ui.StopOrFinishTheCurrentResponseBeforeSwitchingChats">
+    <value>Stop or finish the current response before switching chats.</value>
+  </data>
+  <data name="Ui.StopTheCurrentResponseBeforeDeletingThisChat">
+    <value>Stop the current response before deleting this chat.</value>
+  </data>
+  <data name="Ui.StopTheCurrentResponseBeforeClosingThisTab">
+    <value>Stop the current response before closing this tab.</value>
+  </data>
+  <data name="Ui.ProfileSaved">
+    <value>Profile saved.</value>
+  </data>
+  <data name="Ui.CouldNotSaveProfile">
+    <value>Could not save profile:</value>
+  </data>
+  <data name="Ui.CouldNotCropProfilePicture">
+    <value>Could not crop profile picture:</value>
+  </data>
+  <data name="Ui.RequestRunningTheModelStaysFixedForThisRequest">
+    <value>Request running · the model stays fixed for this request</value>
+  </data>
+  <data name="Ui.ServerDoesNotSupportToolCallsChatContinuesWithoutAgentTools">
+    <value>Server does not support tool calls · chat continues without agent tools</value>
+  </data>
+  <data name="Ui.RequestCancelled">
+    <value>Request cancelled</value>
+  </data>
+  <data name="Ui.ResponseCopied">
+    <value>Response copied</value>
+  </data>
+  <data name="Ui.CouldNotCopy">
+    <value>Could not copy:</value>
+  </data>
+  <data name="Ui.NoJarvisLogsYet">
+    <value>No Jarvis logs yet.</value>
+  </data>
+  <data name="Ui.TheRelatedUserMessageIsNoLongerAvailable">
+    <value>The related user message is no longer available.</value>
+  </data>
+  <data name="Ui.CodeBlockCopied">
+    <value>Code block copied</value>
+  </data>
+  <data name="Ui.CouldNotSaveChatHistory">
+    <value>Could not save chat history:</value>
+  </data>
+  <data name="Ui.CouldNotSaveModel">
+    <value>Could not save model:</value>
+  </data>
+  <data name="Ui.CouldNotSaveModelSelection">
+    <value>Could not save model selection:</value>
+  </data>
+  <data name="Ui.DefaultSystemPromptLoadedSaveToApplyIt">
+    <value>Default system prompt loaded. Save to apply it.</value>
+  </data>
+  <data name="Ui.ConnectionSuccessfulModelsResponded">
+    <value>Connection successful. /models responded.</value>
+  </data>
+  <data name="Ui.ServerUnavailableLocal">
+    <value>Server unavailable · local</value>
+  </data>
+  <data name="Ui.LoadingModels">
+    <value>Loading models…</value>
+  </data>
+  <data name="Ui.NoServerConnectedModelCanBeEnteredManually">
+    <value>No server connected · model can be entered manually</value>
+  </data>
+  <data name="Ui.SettingsSaved">
+    <value>Settings saved.</value>
+  </data>
+  <data name="Ui.CouldNotSave">
+    <value>Could not save:</value>
+  </data>
+  <data name="Ui.NoActiveMicrophoneFoundCheckWindowsPrivacySettingsForMicrophoneAccess">
+    <value>No active microphone found. Check Windows privacy settings for microphone access.</value>
+  </data>
+  <data name="Ui.MicrophoneUnavailable">
+    <value>Microphone unavailable.</value>
+  </data>
+  <data name="Ui.TheSavedMicrophoneIsUnavailableJarvisWillNotSilentlySwitchDevices">
+    <value>The saved microphone is unavailable. Jarvis will not silently switch devices.</value>
+  </data>
+  <data name="Ui.WindowsDefaultDeviceUnavailable">
+    <value>Windows default device unavailable</value>
+  </data>
+  <data name="Ui.SpeechSettingsSaved">
+    <value>Speech settings saved.</value>
+  </data>
+  <data name="Ui.DownloadingTheWhisperModelThisMayTakeSeveralMinutesDependingOnYourConnection">
+    <value>Downloading the Whisper model. This may take several minutes depending on your connection.</value>
+  </data>
+  <data name="Ui.DownloadFailed">
+    <value>Download failed:</value>
+  </data>
+  <data name="Ui.SearchFailed">
+    <value>Search failed:</value>
+  </data>
+  <data name="Ui.MicrophoneAccessFailed">
+    <value>Microphone access failed:</value>
+  </data>
+  <data name="Ui.CouldNotSaveLanguage">
+    <value>Could not save language:</value>
+  </data>
+  <data name="Ui.ConnectionErrorAt">
+    <value>Connection error at</value>
+  </data>
+  <data name="Ui.SpeechInputRecording">
+    <value>Speech input · recording</value>
+  </data>
+  <data name="Ui.ProcessingRecordingLocallyWithWhisper">
+    <value>Processing recording locally with Whisper</value>
+  </data>
+  <data name="Ui.TranscribingLocally">
+    <value>Transcribing locally…</value>
+  </data>
+  <data name="Ui.TranscriptionCompleteTextHasNotBeenSent">
+    <value>Transcription complete · text has not been sent</value>
+  </data>
+  <data name="Ui.VoiceModeSendingRequestToTheSelectedModel">
+    <value>Voice mode · sending request to the selected model</value>
+  </data>
+  <data name="Ui.SpeechInputCancelled">
+    <value>Speech input cancelled.</value>
+  </data>
+  <data name="Ui.ReadySavedLocally">
+    <value>Ready · saved locally</value>
+  </data>
+  <data name="Ui.Cancelling">
+    <value>Cancelling…</value>
+  </data>
+  <data name="Ui.ReminderSavedLocally">
+    <value>Reminder saved locally.</value>
+  </data>
+  <data name="Ui.TheTimeMustBeInTheFuture">
+    <value>The time must be in the future.</value>
+  </data>
+  <data name="Ui.CouldNotSaveReminders">
+    <value>Could not save reminders:</value>
+  </data>
+  <data name="Ui.EntryCannotBeEmpty">
+    <value>Entry cannot be empty.</value>
+  </data>
+  <data name="Ui.JARVIS">
+    <value>JARVIS</value>
+  </data>
+  <data name="Ui.PERSONALWORKSPACE">
+    <value>PERSONAL WORKSPACE</value>
+  </data>
+  <data name="Ui.CONNECTION">
+    <value>CONNECTION</value>
+  </data>
+  <data name="Ui.Local">
+    <value>Local</value>
+  </data>
+  <data name="Ui.LaunchApp">
+    <value>Launch app</value>
+  </data>
+  <data name="Ui.OpenWebsite">
+    <value>Open website</value>
+  </data>
+  <data name="Ui.WindowsTools">
+    <value>Windows tools</value>
+  </data>
+  <data name="Ui.RecognizedTextIsAddedOnlyToThePromptFieldAndIsNeverSentAutomatically">
+    <value>Recognized text is added only to the prompt field and is never sent automatically.</value>
+  </data>
+  <data name="Ui.BaseImprovedRecognitionMultilingual">
+    <value>Base · improved recognition (multilingual)</value>
+  </data>
+  <data name="Ui.DevelopedByFelixFGF">
+    <value>Developed by Felix FGF</value>
+  </data>
+  <data name="Ui.LocalOneTimeRemindersNotificationsAppearWhileJarvisIsRunning">
+    <value>Local one-time reminders. Notifications appear while Jarvis is running.</value>
+  </data>
+  <data name="Ui.LocallyStoredInformationUnderYourControl">
+    <value>Locally stored information under your control</value>
+  </data>
+  <data name="Ui.LimitedDirectlyInvokedWindowsActions">
+    <value>Limited, directly invoked Windows actions</value>
+  </data>
+  <data name="Ui.NotAvailableYet">
+    <value>Not available yet</value>
+  </data>
+  <data name="Ui.CouldNotStartMicrophoneRecording">
+    <value>Could not start microphone recording:</value>
+  </data>
+  <data name="Ui.SpeechInputIsDisabledEnableItInSettingsSpeechInput">
+    <value>Speech input is disabled. Enable it in Settings → Speech input.</value>
+  </data>
+  <data name="Ui.TheLocalWhisperModelIsNotInstalledYetDownloadItOnceInSettingsSpeechInputTranscriptionThenWorksOffline">
+    <value>The local Whisper model is not installed yet. Download it once in Settings → Speech input; transcription then works offline.</value>
+  </data>
+  <data name="Ui.TheSelectedMicrophoneIsUnavailableChooseAnActiveDeviceOrTheWindowsDefaultInSettingsSpeechInput">
+    <value>The selected microphone is unavailable. Choose an active device or the Windows default in Settings → Speech input.</value>
+  </data>
+  <data name="Ui.TranscriptionCompleteTextHasNotBeenSent.Variant2">
+    <value>Transcription complete · text has not been sent</value>
+  </data>
+  <data name="Ui.VoiceModeEnded">
+    <value>Voice mode ended</value>
+  </data>
+  <data name="Ui.SpeechInputCancelled.Variant2">
+    <value>Speech input cancelled</value>
+  </data>
+  <data name="Ui.SpeechInputFailed">
+    <value>Speech input failed:</value>
+  </data>
+  <data name="Ui.ModelResponseReceived">
+    <value>Model response received</value>
+  </data>
+  <data name="Ui.ConnectionError">
+    <value>Connection error</value>
+  </data>
+  <data name="Ui.2LocalAIBackendsWereFound">
+    <value>2 local AI backends were found.</value>
+  </data>
+  <data name="Ui.NoSupportedServiceIsReachableYouCanInstallOllamaOrConnectBionicGPTManually">
+    <value>No supported service is reachable. You can install Ollama or connect BionicGPT manually.</value>
+  </data>
+  <data name="Ui.NoSupportedAIBackendIsInstalledAndReachable">
+    <value>No supported AI backend is installed and reachable.</value>
+  </data>
+  <data name="Ui.ModelsAreReadFromEachServerJarvisUsesTheSelectedCompatibleEndpointAndAvailableModel">
+    <value>Models are read from each server. Jarvis uses the selected compatible endpoint and available model.</value>
+  </data>
+  <data name="Ui.NoBackendSelected">
+    <value>No backend selected.</value>
+  </data>
+  <data name="Ui.TheRAMBasedRecommendationIsPreselectedYouCanChooseAnyModelDownloadsStartOnlyAfterConfirmationSizesAreEstimates">
+    <value>The RAM-based recommendation is preselected. You can choose any model; downloads start only after confirmation. Sizes are estimates.</value>
+  </data>
+  <data name="Ui.ChooseAModelFromBionicGPTSAvailableModelList">
+    <value>Choose a model from BionicGPT's available model list.</value>
+  </data>
+  <data name="Ui.TheServerIsReachableButReportsNoLoadedChatModelsLoadAModelThenSelectCheckAgain">
+    <value>The server is reachable but reports no loaded chat models. Load a model, then select “Check again.”</value>
+  </data>
+  <data name="Ui.TheModelListComesDirectlyFromTheReachableServer">
+    <value>The model list comes directly from the reachable server.</value>
+  </data>
+  <data name="Ui.EnterTheBionicGPTAPIKeyFirst">
+    <value>Enter the BionicGPT API key first.</value>
+  </data>
+  <data name="Ui.LoadingTheAuthenticatedBionicGPTModelList">
+    <value>Loading the authenticated BionicGPT model list…</value>
+  </data>
+  <data name="Ui.BionicGPTRespondedButReturnedNoModelsAtV1Models">
+    <value>BionicGPT responded but returned no models at /v1/models.</value>
+  </data>
+  <data name="Ui.SpotifyIsNotConnected">
+    <value>Spotify is not connected.</value>
+  </data>
+  <data name="Ui.DisconnectSpotify">
+    <value>Disconnect Spotify</value>
+  </data>
+  <data name="Ui.ConnectSpotify">
+    <value>Connect Spotify</value>
+  </data>
+  <data name="Ui.Music">
+    <value>Music</value>
+  </data>
+  <data name="Ui.MusicServices">
+    <value>Music services</value>
+  </data>
+  <data name="Ui.SaveMusicConnections">
+    <value>Save music connections</value>
+  </data>
+  <data name="Ui.AppleMusic">
+    <value>Apple Music</value>
+  </data>
+  <data name="Ui.AppleMusicDeveloperToken">
+    <value>Apple Music developer token</value>
+  </data>
+  <data name="Ui.AppleMusicUserToken">
+    <value>Apple Music user token</value>
+  </data>
+  <data name="Ui.SpotifyClientID">
+    <value>Spotify client ID</value>
+  </data>
+  <data name="Ui.MuteMicrophone">
+    <value>Mute microphone</value>
+  </data>
+  <data name="Ui.CheckingThisPCForAnExistingJarvisInstallation">
+    <value>Checking this PC for an existing Jarvis installation…</value>
+  </data>
+  <data name="Ui.ChooseAnAvailableOrSuggestedModel">
+    <value>Choose an available or suggested model</value>
+  </data>
+  <data name="Ui.ReadyWhenYouAre">
+    <value>Ready when you are</value>
+  </data>
+  <data name="Ui.SpeakNaturallyJarvisWillListenForAShortPause">
+    <value>Speak naturally. Jarvis will listen for a short pause.</value>
+  </data>
+  <data name="Ui.TryAgain">
+    <value>Try again</value>
+  </data>
+  <data name="Ui.VoiceMode.Variant2">
+    <value>Voice mode</value>
+  </data>
+  <data name="Ui.JarvisVoice.Variant2">
+    <value>Jarvis Voice</value>
+  </data>
+  <data name="Ui.MessageJarvisPressEnterToSendShiftEnterForANewLine">
+    <value>Message Jarvis… · Press Enter to send, Shift+Enter for a new line</value>
+  </data>
+  <data name="Ui.HeyJarvisOff">
+    <value>◉ Hey Jarvis · off</value>
+  </data>
+  <data name="Ui.VoiceMode.Variant3">
+    <value>◖)) Voice mode</value>
+  </data>
+  <data name="Ui.MicrophoneInUse">
+    <value>Microphone in use</value>
+  </data>
+  <data name="Ui.EnterAnOpenAICompatibleAPIEndpointAnAPIKeyIsOptionalAndOnlyNeededByProvidersThatRequireAuthentication">
+    <value>Enter an OpenAI-compatible API endpoint. An API key is optional and only needed by providers that require authentication.</value>
+  </data>
+  <data name="Ui.SetUpJarvisOnThisPCVersion105">
+    <value>Set up Jarvis on this PC · Version 1.0.6</value>
+  </data>
+  <data name="Ui.JarvisSetup">
+    <value>Jarvis Setup</value>
+  </data>
+  <data name="Ui.OptionalEnterAnyModelIDAcceptedByTheSelectedBackend">
+    <value>Optional: enter any model ID accepted by the selected backend</value>
+  </data>
+  <data name="Ui.AppleMusicRESTAccessRequiresAnAppleDeveloperTokenAndAMusicUserTokenTokensAreStoredLocallyWithWindowsDPAPIEncryptionSongPlaybackOpensThroughTheWindowsDefaultHandlerTheRESTAPICannotReliablyConfirmPlayback">
+    <value>Apple Music REST access requires an Apple developer token and a Music user token. Tokens are stored locally with Windows DPAPI encryption. Song playback opens through the Windows default handler; the REST API cannot reliably confirm playback.</value>
+  </data>
+  <data name="Ui.HeyJarvisOff.23787351">
+    <value>◉  Hey Jarvis · off</value>
+  </data>
+  <data name="Ui.VoiceMode.1051891230">
+    <value>◖))   Voice mode</value>
+  </data>
+  <data name="Ui.HeyJarvis">
+    <value>Hey Jarvis</value>
+  </data>
+  <data name="Ui.MessageJarvisPressEnterToSendShiftEnterForANewLine.825812017">
+    <value>Message Jarvis… · Press Enter to send, Shift+Enter for a new line</value>
+  </data>
+  <data name="Ui.NeuralPiperGerman">
+    <value>Neural · Piper German</value>
+  </data>
+  <data name="Ui.RedirectURIHttp12700143821Callback">
+    <value>Redirect URI: http://127.0.0.1:43821/callback/</value>
+  </data>
+  <data name="Ui.SpotifyConnectsUsingOAuthPKCEYourClientIDIsPublicTheAccessTokenIsEncryptedForYourWindowsAccountEnterTheExactRedirectURIInYourSpotifyDeveloperDashboard">
+    <value>Spotify connects using OAuth PKCE. Your client ID is public; the access token is encrypted for your Windows account. Enter the exact redirect URI in your Spotify Developer Dashboard.</value>
+  </data>
+  <data name="Ui.Version105">
+    <value>Version 1.0.6</value>
+  </data>
+  <data name="Ui.600ms">
+    <value>600 ms</value>
+  </data>
+  <data name="Ui.ValueLocalAIBackendsWereFound">
+    <value>{_backends.Count} local AI backends were found.</value>
+  </data>
+  <data name="Ui.ValueWasFoundAndIsReachable">
+    <value>{_backends[0].Name} was found and is reachable.</value>
+  </data>
+  <data name="Ui.ValueLocalAIBackendsWereFound.Variant2">
+    <value>{detected.Count} local AI backends were found.</value>
+  </data>
+  <data name="Ui.ValueWasFoundAndIsReachable.Variant2">
+    <value>{detected[0].Name} was found and is reachable.</value>
+  </data>
+  <data name="Ui.FoundValueMicrophoneSCurrentSelectionValue">
+    <value>Found {devices.Count} microphone(s). Current selection: {SpeechDeviceStatus.Text}</value>
+  </data>
+  <data name="Ui.LoadedValueModelSYouCanChooseOneBelow">
+    <value>Loaded {ids.Count} model(s). You can choose one below.</value>
+  </data>
+  <data name="Ui.CancelAndMakeNoChanges">
+    <value>Cancel and make no changes.</value>
+  </data>
+  <data name="Ui.CheckWakeWordModel">
+    <value>Check wake-word model</value>
+  </data>
+  <data name="Ui.RemoveTheAppANDDELETEAllJarvisData">
+    <value>Remove the app AND DELETE all Jarvis data:</value>
+  </data>
+  <data name="Ui.RemoveTheAppAndKEEPChatsSettingsLogsAndModels">
+    <value>Remove the app and KEEP chats, settings, logs and models.</value>
+  </data>
+  <data name="Ui.OnThisPCDownloadIfNeeded">
+    <value>On this PC · download if needed</value>
+  </data>
+  <data name="Ui.NoWindowsNaturalNeuralVoicesAreInstalledOnThisPCTheListShowsVoicesAvailableLocallyMoreNaturalVoicesCanBeAddedInWindowsSettingsTimeLanguageSpeech">
+    <value>No Windows Natural/Neural voices are installed on this PC. The list shows voices available locally; more natural voices can be added in Windows Settings → Time &amp; language → Speech.</value>
+  </data>
+  <data name="Ui.ContinuingTheTaskPlan">
+    <value>Continuing the task plan</value>
+  </data>
+  <data name="Ui.ProcessingRecordingLocalWhisper">
+    <value>Processing recording · local Whisper</value>
+  </data>
+  <data name="Ui.SelectedMicrophone">
+    <value>selected microphone</value>
+  </data>
+  <data name="Ui.AlreadyInstalled">
+    <value>Already installed</value>
+  </data>
+  <data name="Ui.BionicGPTWasFoundAndRequiresAnAPIKey">
+    <value>BionicGPT was found and requires an API key.</value>
+  </data>
+  <data name="Ui.05GBVeryLightweight">
+    <value>~0.5 GB · very lightweight</value>
+  </data>
+  <data name="Ui.14GBCompact">
+    <value>~1.4 GB · compact</value>
+  </data>
+  <data name="Ui.25GBFollowsInstructionsWell">
+    <value>~2.5 GB · follows instructions well</value>
+  </data>
+  <data name="Ui.52GBHigherQuality">
+    <value>~5.2 GB · higher quality</value>
+  </data>
+  <data name="Ui.93GBForPowerfulPCs">
+    <value>~9.3 GB · for powerful PCs</value>
+  </data>
+  <data name="Ui.RenameChat">
+    <value>Rename chat</value>
+  </data>
+  <data name="Ui.TheSavedMicrophoneIsUnavailableJarvisWillNotSwitchToAnotherDeviceAutomatically">
+    <value>The saved microphone is unavailable. Jarvis will not switch to another device automatically.</value>
+  </data>
+  <data name="Ui.TheModelDidNotCallAnActionToolForThisRequestJarvisDidNotChangeOpenOrSearchAnythingCheckWhetherTheServerAndModelSupportToolCalling">
+    <value>The model did not call an action tool for this request. Jarvis did not change, open, or search anything. Check whether the server and model support tool calling.</value>
+  </data>
+  <data name="Ui.PersistentApprovalRevoked">
+    <value>Persistent approval revoked.</value>
+  </data>
+  <data name="Ui.En">
+    <value>en</value>
+  </data>
+  <data name="Ui.ThePlanStoppedAfterAFailedStepNoFurtherPlannedActionsWereRun">
+    <value>The plan stopped after a failed step. No further planned actions were run.</value>
+  </data>
+  <data name="Ui.ThePlanIsNotCompleteTheSafeExecutionLimitOf20ModelRoundsWasReachedOpenStepsAreMarkedBelow">
+    <value>The plan is not complete. The safe execution limit of 20 model rounds was reached; open steps are marked below.</value>
+  </data>
+  <data name="Ui.ThePlanIsBlockedByAFailedStepRemainingStepsWereNotMarkedComplete">
+    <value>The plan is blocked by a failed step. Remaining steps were not marked complete.</value>
+  </data>
+  <data name="Ui.PlanTaskWasExecutedLocallyThePlanAboveIsTheChecklistJarvisActuallyCreated">
+    <value>plan_task was executed locally. The plan above is the checklist Jarvis actually created.</value>
+  </data>
+  <data name="Ui.ARAMBasedModelIsSuggestedYouCanChooseAnyModelDownloadsStartOnlyAfterConfirmationSizesAreEstimates">
+    <value>A RAM-based model is suggested. You can choose any model; downloads start only after confirmation. Sizes are estimates.</value>
+  </data>
+  <data name="Ui.ThisPermanentlyDeletesChatsSettingsAndLogsAt">
+    <value>This permanently deletes chats, settings and logs at:</value>
+  </data>
+  <data name="Ui.Download">
+    <value>Download</value>
+  </data>
+  <data name="Ui.DownloadCancelled">
+    <value>Download cancelled.</value>
+  </data>
+  <data name="Ui.DownloadFailed.Variant2">
+    <value>Download failed: </value>
+  </data>
+  <data name="Ui.YOU">
+    <value>YOU</value>
+  </data>
+  <data name="Ui.CustomModelID">
+    <value>Custom model ID</value>
+  </data>
+  <data name="Ui.CouldNotSaveSettings">
+    <value>Could not save settings: </value>
+  </data>
+  <data name="Ui.DetectionIsOff">
+    <value>Detection is off.</value>
+  </data>
+  <data name="Ui.DetectionIsEnabledButStillStartingOrHasAnErrorInTheStatusBar">
+    <value>Detection is enabled but still starting or has an error in the status bar.</value>
+  </data>
+  <data name="Ui.TryAgain.Variant2">
+    <value>Try again</value>
+  </data>
+  <data name="Ui.OnlyLocalEndpointsAreCheckedNothingIsSentToACloudService">
+    <value>Only local endpoints are checked. Nothing is sent to a cloud service.</value>
+  </data>
+  <data name="Ui.EnterYourBionicGPTAPIKeyAndLoadItsAuthenticatedModelList">
+    <value>Enter your BionicGPT API key and load its authenticated model list.</value>
+  </data>
+  <data name="Ui.EnterYourBionicGPTAPIKeyAndLoadItsAuthenticatedModelListYouCanAlsoUseOllama">
+    <value>Enter your BionicGPT API key and load its authenticated model list. You can also use Ollama.</value>
+  </data>
+  <data name="Ui.EnterYourBionicGPTAPIKeyAndLoadItsModelsTheKeyIsProtectedLocallyWithWindowsDPAPI">
+    <value>Enter your BionicGPT API key and load its models. The key is protected locally with Windows DPAPI.</value>
+  </data>
+  <data name="Ui.HeyJarvisPreparingWakeWordModel">
+    <value>Hey Jarvis · preparing wake-word model…</value>
+  </data>
+  <data name="Ui.HeyJarvisDetectedListening">
+    <value>Hey Jarvis detected · listening</value>
+  </data>
+  <data name="Ui.HeyJarvisCannotFindTheSelectedMicrophoneSettingsSpeechInput">
+    <value>Hey Jarvis cannot find the selected microphone · Settings → Speech input</value>
+  </data>
+  <data name="Ui.HeyJarvisCouldNotStartItsWakeWordDetector">
+    <value>Hey Jarvis could not start its wake-word detector · </value>
+  </data>
+  <data name="Ui.IReachedThisRequestSSafetyLimitAndStoppedToPreventFurtherUncontrolledActionsCompletedToolsAndTheirResultsAreShownAbove">
+    <value>I reached this request's safety limit and stopped to prevent further uncontrolled actions. Completed tools and their results are shown above.</value>
+  </data>
+  <data name="Ui.TheSelectedJarvisFolderHasLessThan300MBFreeChooseALocationWithMoreFreeSpaceInSetup">
+    <value>The selected Jarvis folder has less than 300 MB free. Choose a location with more free space in Setup.</value>
+  </data>
+  <data name="Ui.OptionallyInstallOllamaUsingItsOfficialInstallerOrConnectBionicGPTAtLocalhost1235TheAPIKeyIsProtectedForYourWindowsAccount">
+    <value>Optionally install Ollama using its official installer, or connect BionicGPT at localhost:1235. The API key is protected for your Windows account.</value>
+  </data>
+  <data name="Ui.InstalledVersionValueNewVersion105">
+    <value>Installed version {_installedVersion}  →  New version 1.0.6</value>
+  </data>
+  <data name="Ui.JarvisValueFoundPreparingUpdateTo105">
+    <value>Jarvis {_installedVersion} found. Preparing update to 1.0.6…</value>
+  </data>
+  <data name="Ui.UpdateJarvis">
+    <value>Update Jarvis</value>
+  </data>
+  <data name="Ui.UpdateJarvisToVersion105">
+    <value>Update Jarvis to version 1.0.6</value>
+  </data>
+  <data name="Ui.UninstallJarvis">
+    <value>Uninstall Jarvis</value>
+  </data>
+  <data name="Ui.JarvisIsListeningValue">
+    <value>Jarvis is listening · {device}</value>
+  </data>
+  <data name="Ui.JarvisVoice.Variant3">
+    <value>Jarvis Voice</value>
+  </data>
+  <data name="Ui.JarvisWasUpdatedToVersion105SettingsChatsModelsAndLogsWerePreserved">
+    <value>Jarvis was updated to version 1.0.6. Settings, chats, models and logs were preserved.</value>
+  </data>
+  <data name="Ui.DeleteJarvisData">
+    <value>Delete Jarvis data</value>
+  </data>
+  <data name="Ui.NoActiveMicrophoneFoundCheckWindowsMicrophonePrivacyAccess">
+    <value>No active microphone found. Check Windows microphone privacy access.</value>
+  </data>
+  <data name="Ui.NoSupportedServiceIsReachableInstallOllamaOrConnectBionicGPTManually">
+    <value>No supported service is reachable. Install Ollama or connect BionicGPT manually.</value>
+  </data>
+  <data name="Ui.NoActiveMicrophonesFoundCheckWindowsMicrophonePrivacyAccess">
+    <value>No active microphones found. Check Windows microphone privacy access.</value>
+  </data>
+  <data name="Ui.NoExistingJarvisInstallationFoundPreparingSetup">
+    <value>No existing Jarvis installation found. Preparing setup…</value>
+  </data>
+  <data name="Ui.DownloadingTheSelectedNeuralVoiceModelFromTheOfficialSherpaONNXModelHost">
+    <value>Downloading the selected neural voice model from the official Sherpa-ONNX model host…</value>
+  </data>
+  <data name="Ui.RunningValueTokensSoFar">
+    <value>Running · {tokenUsage:N0} tokens so far</value>
+  </data>
+  <data name="Ui.RunningValue">
+    <value>Running: {action}</value>
+  </data>
+  <data name="Ui.LoadingLocalModelValueOllamaIsDownloadingItDirectlyThisMayTakeSeveralMinutesDependingOnModelSize">
+    <value>Loading local model: {model}. Ollama is downloading it directly. This may take several minutes depending on model size.</value>
+  </data>
+  <data name="Ui.UnmuteMicrophone">
+    <value>Unmute microphone</value>
+  </data>
+  <data name="Ui.MuteMicrophone.Variant2">
+    <value>Mute microphone</value>
+  </data>
+  <data name="Ui.CouldNotEnumerateMicrophones">
+    <value>Could not enumerate microphones: </value>
+  </data>
+  <data name="Ui.MicrophoneAccessFailed.Variant2">
+    <value>Microphone access failed: </value>
+  </data>
+  <data name="Ui.LoadingModelValue">
+    <value>Loading model {model}…</value>
+  </data>
+  <data name="Ui.ModelReadyLocalAndOfflineTheFastSherpaModelIsTrainedForEnglishPronunciation">
+    <value>Model ready · local and offline. The fast Sherpa model is trained for English pronunciation.</value>
+  </data>
+  <data name="Ui.ModelMissingDownloadAbout19MBOnceThenItWorksOffline">
+    <value>Model missing · download about 19 MB once; then it works offline.</value>
+  </data>
+  <data name="Ui.CouldNotLoadModels.Variant2">
+    <value>Could not load models: </value>
+  </data>
+  <data name="Ui.ModelsManagedByOllamaOrAnotherBackendWillNotBeTouched">
+    <value>Models managed by Ollama or another backend will not be touched.</value>
+  </data>
+  <data name="Ui.ConversationName">
+    <value>Conversation name</value>
+  </data>
+  <data name="Ui.NeuralVoiceInstalledAndEnabledItIsNowAvailableLocallyAndOffline">
+    <value>Neural voice installed and enabled. It is now available locally and offline.</value>
+  </data>
+  <data name="Ui.CouldNotInstallNeuralVoice">
+    <value>Could not install neural voice: </value>
+  </data>
+  <data name="Ui.ValueExecutableOpenStepSRemain">
+    <value>{unfinishedSteps.Count} executable/open step(s) remain.</value>
+  </data>
+  <data name="Ui.NotDownloadedApproximatelyValueMBWorksOfflineAfterward">
+    <value>Not downloaded · approximately {voice.ApproximateMegabytes} MB. Works offline afterward.</value>
+  </data>
+  <data name="Ui.OllamaIsAlreadyReachableTheModelListHasBeenRefreshed">
+    <value>Ollama is already reachable. The model list has been refreshed.</value>
+  </data>
+  <data name="Ui.OllamaIsInstalledButItsLocalServiceIsNotRespondingStartOllamaFromTheStartMenuAndCheckAgainASecondInstallerWillNotBeLaunched">
+    <value>Ollama is installed, but its local service is not responding. Start Ollama from the Start menu and check again. A second installer will not be launched.</value>
+  </data>
+  <data name="Ui.CouldNotStartOllama">
+    <value>Could not start Ollama: </value>
+  </data>
+  <data name="Ui.StartOllama">
+    <value>Start Ollama</value>
+  </data>
+  <data name="Ui.OllamaStartedWaitingForItsLocalAPI">
+    <value>Ollama started. Waiting for its local API…</value>
+  </data>
+  <data name="Ui.CreateAndShowThePlanInChat">
+    <value>Create and show the plan in chat</value>
+  </data>
+  <data name="Ui.TestThePlanTaskTool">
+    <value>Test the plan_task tool</value>
+  </data>
+  <data name="Ui.CheckingLocalAIBackends">
+    <value>Checking local AI backends…</value>
+  </data>
+  <data name="Ui.CheckingLocalAIBackendsForTheNewInstallation">
+    <value>Checking local AI backends for the new installation…</value>
+  </data>
+  <data name="Ui.CheckingWhetherJarvisIsAlreadyInstalledOnThisPC">
+    <value>Checking whether Jarvis is already installed on this PC…</value>
+  </data>
+  <data name="Ui.SuggestedForRAM">
+    <value>Suggested for RAM</value>
+  </data>
+  <data name="Ui.AndJarvisModelsAndCacheFilesContinue">
+    <value>and Jarvis models and cache files. Continue?</value>
+  </data>
+  <data name="Ui.CouldNotSave.Variant2">
+    <value>Could not save: </value>
+  </data>
+  <data name="Ui.SpotifyVolumeCouldNotBeChanged">
+    <value>Spotify volume could not be changed.</value>
+  </data>
+  <data name="Ui.LanguageSaved">
+    <value>Language saved.</value>
+  </data>
+  <data name="Ui.CouldNotSaveLanguage.Variant2">
+    <value>Could not save language: </value>
+  </data>
+  <data name="Ui.GeneratingSpeech">
+    <value>Generating speech…</value>
+  </data>
+  <data name="Ui.SpeechInputFailed.Variant2">
+    <value>Speech input failed: </value>
+  </data>
+  <data name="Ui.DownloadingVoiceModelValue">
+    <value>Downloading voice model · {value}%…</value>
+  </data>
+  <data name="Ui.VoiceModeSendingYourRequestToTheSelectedModel">
+    <value>Voice mode · sending your request to the selected model</value>
+  </data>
+  <data name="Ui.VoiceModeListening">
+    <value>Voice mode · listening</value>
+  </data>
+  <data name="Ui.VoiceSettingsSaved">
+    <value>Voice settings saved.</value>
+  </data>
+  <data name="Ui.VoicePreviewFinished">
+    <value>Voice preview finished.</value>
+  </data>
+  <data name="Ui.VoicePreviewFailed">
+    <value>Voice preview failed: </value>
+  </data>
+  <data name="Ui.GeneratingALocalVoicePreview">
+    <value>Generating a local voice preview…</value>
+  </data>
+  <data name="Ui.ScanningWindowsRecordingDevices">
+    <value>Scanning Windows recording devices…</value>
+  </data>
+  <data name="Ui.UpdaterVersion105">
+    <value>Updater · Version 1.0.6</value>
+  </data>
+  <data name="Ui.TestingConnection">
+    <value>Testing connection…</value>
+  </data>
+  <data name="Ui.Connected">
+    <value>Connected · </value>
+  </data>
+  <data name="Ui.Version105Complete">
+    <value>Version 1.0.6 · complete</value>
+  </data>
+  <data name="Ui.CouldNotSaveTrust">
+    <value>Could not save trust: </value>
+  </data>
+  <data name="Ui.NotExecutedBeforeTheFinalResponse">
+    <value>Not executed before the final response.</value>
+  </data>
+  <data name="Ui.ExistingInstallationFoundJarvisWillUpdateToVersion105SettingsChatsModelsAndLogsWillBePreserved">
+    <value>Existing installation found. Jarvis will update to version 1.0.6; settings, chats, models and logs will be preserved.</value>
+  </data>
+  <data name="Ui.ResumeSpeech">
+    <value>Resume speech</value>
+  </data>
+  <data name="Ui.PauseSpeech">
+    <value>Pause speech</value>
+  </data>
+  <data name="Ui.ChooseBionicGPTEnterItsOpenAICompatibleEndpointAndAPIKeyThenLoadItsModelListYouCanInstallOllamaUsingTheButton">
+    <value>Choose BionicGPT, enter its OpenAI-compatible endpoint and API key, then load its model list. You can install Ollama using the button.</value>
+  </data>
+  <data name="Ui.ChooseBionicGPTEnterItsOpenAICompatibleEndpointAndAPIKeyThenLoadItsModelList">
+    <value>Choose BionicGPT, enter its OpenAI-compatible endpoint and API key, then load its model list.</value>
+  </data>
+  <data name="Ui.ChooseAnInstalledVoiceNaturalNeuralVoicesArePreferredWhenTheyMatchTheLanguage">
+    <value>Choose an installed voice. Natural/Neural voices are preferred when they match the language.</value>
+  </data>
+  <data name="Ui.SearchingTheWeb">
+    <value>Searching the web</value>
+  </data>
+  <data name="Ui.NotRunBecauseAnEarlierStepFailed">
+    <value>Not run because an earlier step failed.</value>
+  </data>
+  <data name="Ui.HowShouldJarvisBeUninstalled">
+    <value>How should Jarvis be uninstalled?</value>
+  </data>
+</root>
