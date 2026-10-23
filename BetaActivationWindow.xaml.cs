@@ -1,4 +1,5 @@
 using Jarvis.Beta;
+using System.Diagnostics;
 using System.Net.Http;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -46,6 +47,18 @@ public partial class BetaActivationWindow : Window
     private async void Discord_Click(object sender, RoutedEventArgs e)
     {
         await StartDiscordSignInAsync();
+    }
+
+    private void JoinDiscord_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            Process.Start(new ProcessStartInfo("https://dsc.gg/local-jarvis") { UseShellExecute = true });
+        }
+        catch (Exception)
+        {
+            SetStatus("The Jarvis Discord invitation could not be opened in your default browser.", true);
+        }
     }
 
     private async void SwitchAccount_Click(object sender, RoutedEventArgs e)

@@ -14,6 +14,9 @@ public sealed record SpeechDevice(string Id, string Name, bool IsDefault);
 /// <summary>Captures microphone input to a WAV file and transcribes it locally with Whisper.net.</summary>
 public sealed class LocalSpeechService : IDisposable
 {
+    public static string StripLeadingWakePhrase(string text) => System.Text.RegularExpressions.Regex.Replace(text.Trim(),
+        @"^(?:(?:hey|hei|hay)\s+)?(?:jarvis|jervis|jarwis)(?=$|[\s,.:;!?\-–—])[\s,.:;!?\-–—]*", "",
+        System.Text.RegularExpressions.RegexOptions.IgnoreCase | System.Text.RegularExpressions.RegexOptions.CultureInvariant).Trim();
     private readonly MMDeviceEnumerator _enumerator = new();
     private readonly object _captureLock = new();
     private readonly SemaphoreSlim _modelLoadLock = new(1, 1);
@@ -187,19 +190,25 @@ public sealed class LocalSpeechService : IDisposable
         await EnsureProcessorAsync(modelPath, cancellationToken, language).ConfigureAwait(false);
         await using var source = new WaveFileReader(wavPath);
         if (source.TotalTime < TimeSpan.FromMilliseconds(350)) throw new InvalidDataException("Die Aufnahme war zu kurz. Sprich bitte etwas länger.");
-        ISampleProvider samples = source.ToSampleProvider();
-        if (samples.WaveFormat.Channels == 2) samples = new StereoToMonoSampleProvider(samples);
-        else if (samples.WaveFormat.Channels > 2) throw new InvalidDataException("Dieses Mikrofonformat mit mehr als zwei Kanälen wird nicht unterstützt.");
-        if (samples.WaveFormat.SampleRate != 16000) samples = new WdlResamplingSampleProvider(samples, 16000);
-        using var mono16k = new MemoryStream();
-        WaveFileWriter.WriteWavFileToStream(mono16k, samples.ToWaveProvider16());
-        mono16k.Position = 0;
+        using var mono16k = ConvertToMono16k(source);
         var parts = new List<string>();
         await foreach (var segment in _processor!.ProcessAsync(mono16k, cancellationToken).ConfigureAwait(false))
             if (!string.IsNullOrWhiteSpace(segment.Text)) parts.Add(segment.Text.Trim());
         var result = string.Join(" ", parts).Trim();
         if (result.Length == 0) throw new InvalidDataException("Es wurde kein verständlicher Sprachtext erkannt. Prüfe das Mikrofon und sprich näher daran.");
         return result;
+    }
+
+    public static MemoryStream ConvertToMono16k(WaveFileReader source)
+    {
+        ISampleProvider samples = source.ToSampleProvider();
+        if (samples.WaveFormat.Channels == 2) samples = new StereoToMonoSampleProvider(samples);
+        else if (samples.WaveFormat.Channels > 2) throw new InvalidDataException("Dieses Mikrofonformat mit mehr als zwei Kanälen wird nicht unterstützt.");
+        if (samples.WaveFormat.SampleRate != 16000) samples = new WdlResamplingSampleProvider(samples, 16000);
+        var mono16k = new MemoryStream();
+        WaveFileWriter.WriteWavFileToStream(mono16k, samples.ToWaveProvider16());
+        mono16k.Position = 0;
+        return mono16k;
     }
 
     /// <summary>Loads the selected Whisper model before a voice turn so first-turn transcription stays responsive.</summary>
@@ -220,10 +229,10 @@ public sealed class LocalSpeechService : IDisposable
                 {
                     var builder = factory.CreateBuilder()
                         // Voice turns are short and independent. Avoid carrying decoder
-                        // context between them and cap search width for lower latency.
+                        // context between them. Keep alternatives for short German utterances.
                         .WithNoContext()
                         .WithThreads(Math.Clamp(Environment.ProcessorCount, 2, 8));
-                    ((BeamSearchSamplingStrategyBuilder)builder.WithBeamSearchSamplingStrategy()).WithBeamSize(1);
+                    ((BeamSearchSamplingStrategyBuilder)builder.WithBeamSearchSamplingStrategy()).WithBeamSize(5);
                     if (language is null) builder.WithLanguageDetection();
                     else builder.WithLanguage(language);
                     return (Factory: factory, Processor: builder.Build());
@@ -261,20 +270,49 @@ public sealed class LocalSpeechService : IDisposable
                 while ((read = await modelStream.ReadAsync(buffer, token).ConfigureAwait(false)) > 0)
                 { await output.WriteAsync(buffer.AsMemory(0, read), token).ConfigureAwait(false); total += read; progress?.Report(total); }
             }
+            ValidateDownloadedModel(partial, modelSize);
             File.Move(partial, targetPath, true);
         }
         finally { modelStream.Dispose(); if (File.Exists(partial)) File.Delete(partial); }
     }
 
-    private static float MeasureLevel(byte[] bytes, int count, WaveFormat format)
+    public static void ValidateDownloadedModel(string path, string modelSize)
     {
-        if (format.Encoding == WaveFormatEncoding.IeeeFloat && format.BitsPerSample == 32)
+        var minimumBytes = modelSize.ToLowerInvariant() switch
+        {
+            "tiny" => 20L * 1024 * 1024,
+            "base" => 40L * 1024 * 1024,
+            "small" => 120L * 1024 * 1024,
+            "medium" => 350L * 1024 * 1024,
+            "large-v3-turbo" => 350L * 1024 * 1024,
+            _ => 20L * 1024 * 1024
+        };
+
+        var info = new FileInfo(path);
+        if (!info.Exists || info.Length < minimumBytes)
+            throw new InvalidDataException("The downloaded Whisper model is incomplete.");
+
+        using var stream = File.OpenRead(path);
+        Span<byte> magic = stackalloc byte[4];
+
+        if (stream.Read(magic) != magic.Length ||
+            !magic.SequenceEqual(new byte[] { 0x6C, 0x6D, 0x67, 0x67 }))
+        {
+            throw new InvalidDataException("The downloaded file is not a valid GGML Whisper model.");
+        }
+    }
+
+    public static float MeasureLevel(byte[] bytes, int count, WaveFormat format)
+    {
+        var isFloat = format.Encoding == WaveFormatEncoding.IeeeFloat ||
+            format is WaveFormatExtensible extensible && extensible.SubFormat == new Guid("00000003-0000-0010-8000-00aa00389b71");
+        if (isFloat && format.BitsPerSample == 32)
         {
             var max = 0f;
             for (var i = 0; i + 3 < count; i += 4) max = Math.Max(max, Math.Abs(BitConverter.ToSingle(bytes, i)));
             return Math.Clamp(max, 0f, 1f);
         }
-        if (format.Encoding == WaveFormatEncoding.IeeeFloat && format.BitsPerSample == 64)
+        if (isFloat && format.BitsPerSample == 64)
         {
             var max = 0f;
             for (var i = 0; i + 7 < count; i += 8) max = Math.Max(max, (float)Math.Abs(BitConverter.ToDouble(bytes, i)));

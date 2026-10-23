@@ -1,20 +1,53 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Beta.Shared\Jarvis.Beta.Shared.csproj" />
+    <None Include="..\..\App.xaml" Link="App.xaml" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\MainWindow.xaml" Link="MainWindow.xaml" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\MainWindow.xaml.cs" Link="MainWindow.xaml.cs" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\App.xaml.cs" Link="App.xaml.cs" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\app.manifest" Link="app.manifest" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\Jarvis.csproj" Link="Jarvis.csproj" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\Beta.Shared\Jarvis.Beta.Shared.csproj" Link="Jarvis.Beta.Shared.csproj" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\Installer\Setup\Jarvis.Setup.csproj" Link="Jarvis.Setup.csproj" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\Installer\Setup\MainWindow.xaml.cs" Link="Installer.Setup.MainWindow.xaml.cs" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\Services\WindowsComputerUseService.cs" Link="Services\WindowsComputerUseService.cs" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\Services\ComputerMouseTargeting.cs" Link="Services\ComputerMouseTargeting.cs" CopyToOutputDirectory="PreserveNewest" />
     <Compile Include="..\..\Models\ChatSession.cs" Link="Models\ChatSession.cs" />
+    <Compile Include="..\..\Models\AppConfig.cs" Link="Models\AppConfig.cs" />
     <Compile Include="..\..\Services\ChatStore.cs" Link="Services\ChatStore.cs" />
     <Compile Include="..\..\Services\GoogleSearchParser.cs" Link="Services\GoogleSearchParser.cs" />
+    <Compile Include="..\..\Services\WebResearchService.cs" Link="Services\WebResearchService.cs" />
+    <Compile Include="..\..\Services\ImageSearchService.cs" Link="Services\ImageSearchService.cs" />
     <Compile Include="..\..\Services\SpotifyCommandParser.cs" Link="Services\SpotifyCommandParser.cs" />
     <Compile Include="..\..\Services\LocalSpeechService.cs" Link="Services\LocalSpeechService.cs" />
+    <Compile Include="..\..\Services\SpeechRecognitionProviders.cs" Link="Services\SpeechRecognitionProviders.cs" />
     <Compile Include="..\..\Services\LocalTtsService.cs" Link="Services\LocalTtsService.cs" />
+    <Compile Include="..\..\Services\DefaultSystemPrompt.cs" Link="Services\DefaultSystemPrompt.cs" />
+    <Compile Include="..\..\Services\CommandExecutionService.cs" Link="Services\CommandExecutionService.cs" />
+    <Compile Include="..\..\Services\WindowsComputerUseService.cs" Link="Services\WindowsComputerUseService.cs" />
+    <Compile Include="..\..\Services\ScreenshotCoordinateMap.cs" Link="Services\ScreenshotCoordinateMap.cs" />
+    <Compile Include="..\..\Services\ComputerMouseTargeting.cs" Link="Services\ComputerMouseTargeting.cs" />
+    <Compile Include="..\..\Services\ComputerUseSessionState.cs" Link="Services\ComputerUseSessionState.cs" />
+    <Compile Include="..\..\Services\AgentPlanOutcome.cs" Link="Services\AgentPlanOutcome.cs" />
+    <Compile Include="..\..\Services\ComputerUseActionLedger.cs" Link="Services\ComputerUseActionLedger.cs" />
+    <Compile Include="..\..\Services\DesktopGeometry.cs" Link="Services\DesktopGeometry.cs" />
+    <Compile Include="..\..\Services\FirefoxLaunch.cs" Link="Services\FirefoxLaunch.cs" />
+    <Compile Include="..\..\Services\PublicWebPageReader.cs" Link="Services\PublicWebPageReader.cs" />
+    <Compile Include="..\..\Services\ApiModelCatalogService.cs" Link="Services\ApiModelCatalogService.cs" />
+    <Compile Include="..\..\Services\ProviderRateLimitRecovery.cs" Link="Services\ProviderRateLimitRecovery.cs" />
+    <Compile Include="..\..\Services\ComputerUseRecoveryContext.cs" Link="Services\ComputerUseRecoveryContext.cs" />
+    <Compile Include="..\..\Services\OpenAiCompatibleChatTransport.cs" Link="Services\OpenAiCompatibleChatTransport.cs" />
     <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="System.Speech" Version="8.0.0" />
     <PackageReference Include="Whisper.net" Version="1.8.1" />
     <PackageReference Include="org.k2fsa.sherpa.onnx" Version="1.13.8" />
   </ItemGroup>
-</Project>
+<ItemGroup><Compile Include="../../Models/ModelFallbackPlan.cs" Link="ModelFallbackPlan.cs"/></ItemGroup><ItemGroup><Compile Include="../../Services/ElevenLabsTtsService.cs" Link="ElevenLabsTtsService.cs"/></ItemGroup></Project>

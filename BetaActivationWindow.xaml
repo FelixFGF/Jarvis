@@ -17,6 +17,12 @@
      <TextBlock Text="Beta activation code" Foreground="#B8B6C2" Margin="0,10,0,5"/><TextBox x:Name="InviteBox" Height="40" Padding="10" Background="#202127" Foreground="#F1F0F5" BorderBrush="#353640"/>
      <Button x:Name="ActivateButton" Content="Activate Jarvis" Click="Activate_Click" Background="#6857C8" Height="44" Margin="0,14,0,0" IsEnabled="False"/>
      <Button x:Name="SignOutButton" Content="Forget saved session" Click="SignOut_Click" Visibility="Collapsed" HorizontalAlignment="Left" Margin="-3,12,0,0"/>
+     <Border Background="#171820" BorderBrush="#2C2D38" BorderThickness="1" CornerRadius="10" Padding="12" Margin="0,16,0,0">
+      <StackPanel>
+       <TextBlock Text="No beta code? Join our Discord and get one for free!" Foreground="#9896A5" FontSize="12" TextAlignment="Center" TextWrapping="Wrap"/>
+       <Button Content="Join Jarvis Discord" Click="JoinDiscord_Click" HorizontalAlignment="Center" Margin="0,9,0,0" Padding="13,6" MinWidth="150" Background="#29253D" BorderBrush="#6255A8" BorderThickness="1" Foreground="#D8D2FF"/>
+      </StackPanel>
+     </Border>
     </StackPanel>
    </Border>
   </ScrollViewer>

@@ -38,7 +38,7 @@ Tagesgrenzen und Anzeigezeit verwenden `Europe/Berlin`. „Heute“ und „Geste
 
 ## 4. Jarvis-Version aktualisieren
 
-Die Website zeigt aktuell Version `1.0.8` an. Beim Wechsel auf eine neue Version aktualisiere die Versionsangaben der Webseite (`data-jarvis-version` und `version=...` an den Downloadlinks in `public/index.html`) gemeinsam. Optional kann `JARVIS_PUBLIC_VERSION` im Netlify-Dashboard als Environment Variable gesetzt werden; ohne diese Variable wird die im Function-Code hinterlegte Fallback-Version verwendet.
+Die Website zeigt aktuell Version `1.1.0` an. Beim Wechsel auf eine neue Version aktualisiere die Versionsangaben der Webseite (`data-jarvis-version` und `version=...` an den Downloadlinks in `public/index.html`) gemeinsam. Optional kann `JARVIS_PUBLIC_VERSION` im Netlify-Dashboard als Environment Variable gesetzt werden; ohne diese Variable wird die im Function-Code hinterlegte Fallback-Version verwendet.
 
 ## 5. Kosten, Limits und Grenzen
 

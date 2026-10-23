@@ -10,6 +10,14 @@ namespace Jarvis;
 
 public partial class App : System.Windows.Application
 {
+    static App()
+    {
+        // Set this before WPF creates any HWND so capture, window, and cursor APIs
+        // agree on physical coordinates across monitors with different DPI.
+        if (!System.Windows.Forms.Application.SetHighDpiMode(System.Windows.Forms.HighDpiMode.PerMonitorV2))
+            System.Diagnostics.Trace.TraceWarning("Jarvis could not enable Per-Monitor-V2 DPI awareness before startup.");
+    }
+
 #if JARVIS_BETA
     private BetaSession? _session;
     private SupabaseOptions? _options;
@@ -77,6 +85,31 @@ public partial class App : System.Windows.Application
         }
         if (BetaSessionStore is not null)
             await BetaSessionStore.DeleteAsync();
+    }
+
+    public async Task<bool> RefreshBetaProfileAsync()
+    {
+        if (_session is null || _client is null) return false;
+        try
+        {
+            if (_session.ExpiresAt <= DateTimeOffset.UtcNow.AddMinutes(2))
+            {
+                var refreshed = await _client.RefreshAsync(_session.RefreshToken);
+                if (refreshed.Session is null) return false;
+                _session = refreshed.Session;
+                if (BetaSessionStore is not null) await BetaSessionStore.SaveAsync(_session);
+            }
+            var status = await _client.InvokeAsync<LicenseValidation>("validate-license", _session, new { });
+            if (!status.Valid) return false;
+            _jarvisWindow?.ApplyBetaProfile(status.DiscordProfile);
+            return true;
+        }
+        catch
+        {
+            // The periodic authoritative validation remains fail-closed. A manual
+            // profile refresh may use the already displayed cached profile offline.
+            return false;
+        }
     }
 
     private async Task RevalidateBetaLicenseAsync()

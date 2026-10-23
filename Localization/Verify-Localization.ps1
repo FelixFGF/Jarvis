@@ -14,12 +14,15 @@ $known = @{}
 foreach ($value in $enEntries.Values) { $known[$value] = $true }
 foreach ($value in $deEntries.Values) { $known[$value] = $true }
 $untranslated = [System.Collections.Generic.List[string]]::new()
-$skip = '^(\{|https?://|[A-Za-z0-9_.-]+$|\d+[\d:. %/]*$|[⌄·↑＋×⟳🎙]+$|\*\.\*$)'
-Get-ChildItem $root -Recurse -Filter *.xaml -File | Where-Object FullName -NotMatch '\\(bin|obj|publish|staging|artifacts[^\\]*)\\' | ForEach-Object {
+$skip = '^(\{|https?://|[A-Za-z0-9_.-]+$|\d+[\d:. %/]*$|\*\.\*$)'
+# BetaManager is a separate administrator utility with an English-only interface;
+# this verifier covers the public Jarvis app, activation window, and setup UI.
+Get-ChildItem $root -Recurse -Filter *.xaml -File | Where-Object FullName -NotMatch '\\(bin|obj|publish|staging|artifacts[^\\]*|BetaManager)\\' | ForEach-Object {
     $source = [IO.File]::ReadAllText($_.FullName)
     foreach ($match in [regex]::Matches($source, '(?:Text|Content|Header|ToolTip|Title|Tag|Watermark)="([^"]+)"')) {
         $value = [System.Net.WebUtility]::HtmlDecode($match.Groups[1].Value)
-        if ($value -and $value -notmatch $skip -and !$known.ContainsKey($value)) { $untranslated.Add("$($_.FullName.Substring($root.Length + 1)): $value") }
+        $symbolOnly = $value -match '^[\p{S}\p{P}\s]+$' -or ($value.Length -eq 2 -and [char]::IsSurrogatePair($value, 0))
+        if ($value -and $value -notmatch $skip -and !$symbolOnly -and !$known.ContainsKey($value)) { $untranslated.Add("$($_.FullName.Substring($root.Length + 1)): $value") }
     }
 }
 if ($untranslated.Count) { throw "Unlocalized static XAML text:`n$($untranslated -join "`n")" }

@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Globalization;
 using System.Resources;
 using System.Windows;
@@ -18,8 +18,9 @@ public static class UiLocalization
 
     public static string DetectInitialLanguage(CultureInfo? windowsCulture = null)
     {
-        var name = (windowsCulture ?? CultureInfo.CurrentUICulture).Name;
-        return name.StartsWith("de", StringComparison.OrdinalIgnoreCase) ? "de" : "en";
+        // A missing preference is a first-run state and now defaults to English.
+        // Explicit preferences are loaded before this method is called and remain unchanged.
+        return "en";
     }
 
     public static string Translate(string value, string language)
@@ -37,15 +38,22 @@ public static class UiLocalization
             var sourcePrefix = Resources.GetString(prefixKey, culture);
             if (sourcePrefix is not null) return sourcePrefix + value[candidate.Length..];
         }
-        if (Missing.Add(value)) Trace.TraceWarning("Missing UI localization entry: {0}", value);
+        // Never log dynamic UI values: they may contain personal data.
+        lock (Missing) { Missing.Add(value); }
         return value;
     }
 
     public static void Apply(DependencyObject root, string language, DependencyObject? excludeSubtree = null)
     {
-        foreach (var node in Descendants(root))
+        // Translating TextBlock.Text can replace its inline tree. Snapshot before mutation.
+        foreach (var node in new[] { root }.Concat(Descendants(root)).ToArray())
         {
-            if (excludeSubtree is not null && IsDescendantOf(node, excludeSubtree)) continue;
+            if (excludeSubtree is not null && (ReferenceEquals(node, excludeSubtree) || IsDescendantOf(node, excludeSubtree))) continue;
+            if (node is FrameworkElement tip && tip.ToolTip is string tipText)
+                tip.ToolTip = Translate(tipText, language);
+            if (node is DataGrid grid)
+                foreach (var column in grid.Columns)
+                    if (column.Header is string columnHeader) column.Header = Translate(columnHeader, language);
             switch (node)
             {
                 case TextBlock text when !string.IsNullOrWhiteSpace(text.Text) && !BindingOperations.IsDataBound(text, TextBlock.TextProperty):
@@ -60,10 +68,11 @@ public static class UiLocalization
                     control.Content = Translate(controlContent, language); break;
                 case TabItem tab when tab.Header is string header:
                     tab.Header = Translate(header, language); break;
+                case Expander expander when expander.Header is string heading:
+                    expander.Header = Translate(heading, language); break;
                 case FrameworkElement element when element.ToolTip is string tooltip:
                     element.ToolTip = Translate(tooltip, language); break;
-                case FrameworkElement taggedElement when taggedElement.Tag is string tag:
-                    taggedElement.Tag = Translate(tag, language); break;
+
             }
         }
     }
@@ -72,7 +81,8 @@ public static class UiLocalization
 
     private static string MissingFallback(string value, string key)
     {
-        if (Missing.Add(key)) Trace.TraceWarning("UI localization resource '{0}' has no value for the requested culture", key);
+        lock (Missing)
+            if (Missing.Add(key)) Trace.TraceWarning("UI localization resource '{0}' has no value for the requested culture", key);
         return value;
     }
 
@@ -121,9 +131,11 @@ public static class UiLocalization
         }
     }
 
+    private static DependencyObject? ParentOf(DependencyObject node) => node is Visual or System.Windows.Media.Media3D.Visual3D ? VisualTreeHelper.GetParent(node) : LogicalTreeHelper.GetParent(node);
+
     private static bool IsDescendantOf(DependencyObject node, DependencyObject parent)
     {
-        for (var current = VisualTreeHelper.GetParent(node); current is not null; current = VisualTreeHelper.GetParent(current))
+        for (var current = ParentOf(node); current is not null; current = ParentOf(current))
             if (ReferenceEquals(current, parent)) return true;
         return false;
     }

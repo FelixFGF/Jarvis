@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Jarvis-Update-win-x65">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Installer/artifacts-v1.0.8/Jarvis-Update-win-x64.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

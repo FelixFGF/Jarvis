@@ -22,7 +22,7 @@
 
 ## ✨ Overview
 
-**Jarvis** is a native Windows desktop AI assistant developed by **Felix FGF** using .NET 8 and WPF.
+**Jarvis** is a native Windows desktop AI assistant developed by **FelixFGF** using .NET 8 and WPF.
 
 Unlike browser-based interfaces, Jarvis runs as a Windows desktop application without embedding a web frontend. Connect it to a compatible AI server, choose your preferred model, and use its tools to interact with files, applications, and your desktop.
 
@@ -225,5 +225,5 @@ Your feedback helps make Jarvis better. 💜
 <p align="center">
   <strong>Jarvis — Your AI. Your Desktop. Your Control.</strong>
   <br>
-  Developed by Felix FGF 💜
+  Developed by FelixFGF 💜
 </p>

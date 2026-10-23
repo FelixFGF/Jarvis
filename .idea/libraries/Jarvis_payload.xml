@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Jarvis-payload">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Installer/staging/Jarvis-payload.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

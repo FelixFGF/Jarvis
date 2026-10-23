@@ -50,9 +50,13 @@ public sealed class LocalTtsService : IDisposable
     public LocalTtsState State => _state;
     public IReadOnlyList<InstalledVoice> Voices => [new InstalledVoice("Automatisch · passende Sprache", ""), .. SpeechSynthesizer.AllVoices.Select(v => new InstalledVoice(v.DisplayName, v.Language))];
     public string PreferredVoiceName { get => _preferredVoiceName; set => _preferredVoiceName = value ?? ""; }
-    public string Engine { get => _engine; set => _engine = value == "piper" ? "piper" : "windows"; }
+    public string Engine { get => _engine; set => _engine = value is "piper" or "elevenlabs" ? value : "windows"; }
     public string PiperVoiceId { get => _piperVoiceId; set => _piperVoiceId = PiperVoices.Any(v => v.Id == value) ? value : "de_DE-thorsten-high"; }
     public string PiperVoiceLanguage => _piperVoiceId.StartsWith("en_", StringComparison.OrdinalIgnoreCase) ? "en" : "de";
+    private readonly ElevenLabsTtsService _cloud = new();
+    public Func<string> CloudApiKey { get; set; } = () => "";
+    public string CloudVoiceId { get; set; } = "";
+    public double Speed { get; set; } = 1;
     public float Volume { get => _volume; set { _volume = Math.Clamp(value, 0f, 1f); if (_output is not null) _output.Volume = _volume; } }
     public bool IsPiperModelInstalled(string resourceDirectory, string? voiceId = null) => FindPiperModelDirectory(resourceDirectory, voiceId ?? _piperVoiceId) is not null;
 
@@ -123,19 +127,26 @@ public sealed class LocalTtsService : IDisposable
             var voices = SpeechSynthesizer.AllVoices;
             VoiceInformation? voice = null;
             var selectedPiper = PiperVoices.First(v => v.Id == _piperVoiceId);
-            var usePiper = _engine == "piper" && selectedPiper.Id.StartsWith(culture == "de" ? "de_" : "en_", StringComparison.OrdinalIgnoreCase);
-            if (!usePiper)
+            var usePiper = _engine == "piper";
+            var useCloud = _engine == "elevenlabs";
+            if (!usePiper && !useCloud)
             {
                 voice = string.IsNullOrWhiteSpace(_preferredVoiceName) ? null : voices.FirstOrDefault(v => string.Equals(v.DisplayName, _preferredVoiceName, StringComparison.OrdinalIgnoreCase) && v.Language.StartsWith(culture, StringComparison.OrdinalIgnoreCase));
                 voice ??= voices.Where(v => v.Language.StartsWith(culture, StringComparison.OrdinalIgnoreCase)).OrderByDescending(IsNaturalVoice).ThenByDescending(v => v.DisplayName.Contains("Online", StringComparison.OrdinalIgnoreCase)).ThenBy(v => v.DisplayName, StringComparer.CurrentCultureIgnoreCase).FirstOrDefault();
                 if (voice is null) throw new InvalidOperationException("Keine lokale Windows-Sprachstimme ist installiert. Installiere eine Stimme unter Einstellungen → Zeit und Sprache → Sprachausgabe.");
                 _synth.Voice = voice;
+                _synth.Options.SpeakingRate = Math.Clamp(Speed, 0.7, 1.2);
             }
             foreach (var part in SplitForSpeech(text))
             {
                 cancellation.Token.ThrowIfCancellationRequested();
                 byte[] bytes; WaveFormat format;
-                if (usePiper)
+                if (useCloud)
+                {
+                    bytes = await _cloud.GenerateAsync(part, CloudVoiceId, Speed, CloudApiKey(), cancellation.Token);
+                    format = new WaveFormat(24000, 16, 1);
+                }
+                else if (usePiper)
                 {
                     var generated = await Task.Run(() => GeneratePiper(part, _resourceDirectory, selectedPiper), cancellation.Token);
                     bytes = generated.Bytes; format = new WaveFormat(generated.SampleRate, 16, 1);
@@ -152,7 +163,7 @@ public sealed class LocalTtsService : IDisposable
                 }
                 cancellation.Token.ThrowIfCancellationRequested();
                 _audio = new MemoryStream(bytes, writable: false);
-                _reader = usePiper ? new RawSourceWaveStream(_audio, format) : new WaveFileReader(_audio);
+                _reader = usePiper || useCloud ? new RawSourceWaveStream(_audio, format) : new WaveFileReader(_audio);
                 _playbackFinished = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
                 _output = new WaveOutEvent { Volume = _volume }; _output.PlaybackStopped += PlaybackStopped;
                 _output.Init(_reader); _output.Play(); SetState(LocalTtsState.Speaking);
@@ -161,7 +172,7 @@ public sealed class LocalTtsService : IDisposable
             }
         }
         catch (OperationCanceledException) { if (generation == Volatile.Read(ref _generation)) SetState(LocalTtsState.Ready); }
-        catch (Exception ex) { if (generation == Volatile.Read(ref _generation)) { CleanupPlayback(); SetState(LocalTtsState.Ready); } throw new InvalidOperationException("Die lokale Sprachausgabe ist fehlgeschlagen: " + ex.Message, ex); }
+        catch (Exception ex) { if (generation == Volatile.Read(ref _generation)) { CleanupPlayback(); SetState(LocalTtsState.Ready); } throw new InvalidOperationException("Sprachausgabe fehlgeschlagen: " + ex.Message, ex); }
         finally
         {
             if (generation == Volatile.Read(ref _generation))
@@ -289,7 +300,7 @@ public sealed class LocalTtsService : IDisposable
             var config = new OfflineTtsConfig(); config.Model.Vits.Model = model; config.Model.Vits.Tokens = tokens; config.Model.Vits.DataDir = dataDir; config.Model.NumThreads = Math.Clamp(Environment.ProcessorCount / 2, 1, 4); config.Model.Provider = "cpu"; config.MaxNumSentences = 1;
             _piper = new OfflineTts(config); _piperModelDirectory = modelDirectory;
         }
-        var generation = new OfflineTtsGenerationConfig { Sid = 0, Speed = 1.0f, SilenceScale = 0.2f };
+        var generation = new OfflineTtsGenerationConfig { Sid = 0, Speed = (float)Math.Clamp(Speed, 0.7, 1.2), SilenceScale = 0.2f };
         var audio = _piper.GenerateWithConfig(text, generation, null);
         if (audio.Samples.Length == 0) throw new InvalidDataException("Das Neural-Modell hat kein Audio erzeugt.");
         var pcm = new short[audio.Samples.Length];
@@ -397,7 +408,7 @@ public sealed class LocalTtsService : IDisposable
         }
         return german >= english ? "de" : "en";
     }
-    public void Dispose() { if (_disposed) return; Stop(); _disposed = true; _synth.Dispose(); _piper?.Dispose(); _piper = null; }
+    public void Dispose() { if (_disposed) return; Stop(); _disposed = true; _synth.Dispose(); _cloud.Dispose(); _piper?.Dispose(); _piper = null; }
 }
 
 public enum LocalTtsState { Ready, Generating, Speaking, Paused }

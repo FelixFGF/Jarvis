@@ -13,6 +13,7 @@ public sealed class TaskExecutionPlanStep
 {
     public int Number { get; set; }
     public string Description { get; set; } = "";
+    public string SuccessCriterion { get; set; } = "";
     public string Status { get; set; } = "Pending";
     public string Detail { get; set; } = "";
 }

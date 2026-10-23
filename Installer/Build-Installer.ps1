@@ -33,7 +33,7 @@ if (Test-Path $appPublish) { Remove-Item -LiteralPath $appPublish -Recurse -Forc
 if (Test-Path $payload) { Remove-Item -LiteralPath $payload -Force }
 
 Write-Host 'Publishing Jarvis self-contained for Windows x64…'
-$publishArguments = @('--configuration', $Configuration, '--runtime', 'win-x64', '--self-contained', 'true', '--output', $appPublish, '-p:PublishSingleFile=false', '-p:NuGetAudit=false', "-p:Version=$Version", "-p:AssemblyVersion=$versionCore.0", "-p:FileVersion=$versionCore.0", "-p:InformationalVersion=$Version")
+$publishArguments = @('--configuration', $Configuration, '--runtime', 'win-x64', '--self-contained', 'true', '--output', $appPublish, '-m:1', '-nr:false', '-p:PublishSingleFile=false', '-p:NuGetAudit=false', '-p:RestoreBuildInParallel=false', "-p:Version=$Version", "-p:AssemblyVersion=$versionCore.0", "-p:FileVersion=$versionCore.0", "-p:InformationalVersion=$Version")
 if ($Configuration -eq 'Beta') {
     $publishArguments += "-p:JarvisSupabaseUrl=$supabaseUrl"
     $publishArguments += "-p:JarvisSupabasePublishableKey=$supabasePublishableKey"
@@ -45,13 +45,13 @@ $jarvisAssembly = Join-Path $appPublish 'Jarvis.dll'
 if (-not (Test-Path $jarvisAssembly)) { throw 'Jarvis.dll is missing from the Beta publish output.' }
 $assemblyText = [Text.Encoding]::UTF8.GetString([IO.File]::ReadAllBytes($jarvisAssembly))
 foreach ($marker in @('BetaActivationWindow', 'BetaSupabaseUrl', 'BetaSupabasePublishableKey', $supabaseUrl, $supabasePublishableKey)) {
-    if (-not $assemblyText.Contains($marker, [StringComparison]::Ordinal)) { throw "Beta activation/configuration verification failed for marker '$($marker -replace '^sb_publishable_.*$', 'publishable-key')'. Refusing to package an ungated application." }
+    if ($assemblyText.IndexOf($marker, [StringComparison]::Ordinal) -lt 0) { throw "Beta activation/configuration verification failed for marker '$($marker -replace '^sb_publishable_.*$', 'publishable-key')'. Refusing to package an ungated application." }
 }
 Write-Host 'Verified Beta activation gate and client configuration in the application assembly.'
 
 Write-Host 'Publishing the self-contained update helper…'
 if (Test-Path $updaterPublish) { Remove-Item -LiteralPath $updaterPublish -Recurse -Force }
-& dotnet publish (Join-Path $projectRoot 'Jarvis.Updater\Jarvis.Updater.csproj') --configuration Release --runtime win-x64 --self-contained true --output $updaterPublish -p:PublishSingleFile=true -p:NuGetAudit=false
+& dotnet publish (Join-Path $projectRoot 'Jarvis.Updater\Jarvis.Updater.csproj') --configuration Release --runtime win-x64 --self-contained true --output $updaterPublish -m:1 -nr:false -p:PublishSingleFile=true -p:NuGetAudit=false -p:RestoreBuildInParallel=false
 if ($LASTEXITCODE -ne 0) { throw "Update helper publish failed (exit $LASTEXITCODE)." }
 Copy-Item -LiteralPath (Join-Path $updaterPublish 'Jarvis.Updater.exe') -Destination (Join-Path $appPublish 'Jarvis.Updater.exe') -Force
 
@@ -62,8 +62,9 @@ Write-Host ("Application payload: {0:N1} MB unpacked, {1:N1} MB compressed." -f 
 
 Write-Host 'Publishing the custom, self-contained WPF setup…'
 & dotnet publish $setupProject --configuration $Configuration --runtime win-x64 --self-contained true --output $setupPublish `
+    -m:1 -nr:false `
     -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true `
-    -p:NuGetAudit=false "-p:PayloadZip=$payload" "-p:Version=$Version" "-p:AssemblyVersion=$versionCore.0" "-p:FileVersion=$versionCore.0" "-p:InformationalVersion=$Version"
+    -p:NuGetAudit=false -p:RestoreBuildInParallel=false "-p:PayloadZip=$payload" "-p:Version=$Version" "-p:AssemblyVersion=$versionCore.0" "-p:FileVersion=$versionCore.0" "-p:InformationalVersion=$Version"
 if ($LASTEXITCODE -ne 0) { throw "Installer publish failed (exit $LASTEXITCODE)." }
 $builtSetup = Join-Path $setupPublish 'Jarvis.Setup.exe'
 if (-not (Test-Path $builtSetup)) { throw 'The installer executable was not created.' }

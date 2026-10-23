@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="netlify">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Jarvis-website/netlify.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

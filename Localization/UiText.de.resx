@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
@@ -49,7 +49,7 @@
     <value>Dein privater Arbeitsbereich</value>
   </data>
   <data name="Ui.LocalDesktopAIVersion105">
-    <value>Lokale Desktop-KI · Version 1.0.8</value>
+    <value>Lokale Desktop-KI · Version 1.1.0</value>
   </data>
   <data name="Ui.YourProfile">
     <value>Dein Profil</value>
@@ -421,7 +421,7 @@
     <value>Gib den BionicGPT-API-Schlüssel ein und lade die Modelle. Der Schlüssel wird lokal per Windows-DPAPI geschützt.</value>
   </data>
   <data name="Ui.PersonalAIWorkspaceSetup105">
-    <value>Persönlicher KI-Arbeitsbereich · Setup 1.0.8</value>
+    <value>Persönlicher KI-Arbeitsbereich · Setup 1.1.0</value>
   </data>
   <data name="Ui.Back">
     <value>Zurück</value>
@@ -568,7 +568,7 @@
     <value>OpenAI-Tool-Calling für Leseaufgaben. Änderungen sind auf freigegebene Arbeitsordner beschränkt und benötigen Bestätigung.</value>
   </data>
   <data name="Ui.CreatedForFelixFGF">
-    <value>Entwickelt für Felix FGF</value>
+    <value>Entwickelt für FelixFGF</value>
   </data>
   <data name="Ui.MessageJarvis">
     <value>Nachricht an Jarvis…</value>
@@ -805,7 +805,7 @@
     <value>Base · bessere Erkennung (mehrsprachig)</value>
   </data>
   <data name="Ui.DevelopedByFelixFGF">
-    <value>Entwickelt von Felix FGF</value>
+    <value>Entwickelt von FelixFGF</value>
   </data>
   <data name="Ui.LocalOneTimeRemindersNotificationsAppearWhileJarvisIsRunning">
     <value>Lokale Einmal-Erinnerungen. Benachrichtigungen erscheinen, solange Jarvis läuft.</value>
@@ -955,7 +955,7 @@
     <value>Enter an OpenAI-compatible API endpoint. An API key is optional and only needed by providers that require authentication.</value>
   </data>
   <data name="Ui.SetUpJarvisOnThisPCVersion105">
-    <value>Jarvis auf diesem PC einrichten · Version 1.0.8</value>
+    <value>Jarvis auf diesem PC einrichten · Version 1.1.0</value>
   </data>
   <data name="Ui.JarvisSetup">
     <value>Jarvis Setup</value>
@@ -988,7 +988,7 @@
     <value>Spotify wird über OAuth PKCE verbunden. Dein Client-ID ist öffentlich, das Anmelde-Token wird verschlüsselt für dein Windows-Konto gespeichert. In Spotify Developer Dashboard muss die Redirect URI exakt eingetragen sein.</value>
   </data>
   <data name="Ui.Version105">
-    <value>Version 1.0.8</value>
+    <value>Version 1.1.0</value>
   </data>
   <data name="Ui.600ms">
     <value>600 ms</value>
@@ -1153,16 +1153,16 @@
     <value>Installiere optional Ollama über den offiziellen Installer oder verbinde BionicGPT über localhost:1235. Der API-Schlüssel wird für dein Windows-Konto geschützt gespeichert.</value>
   </data>
   <data name="Ui.InstalledVersionValueNewVersion105">
-    <value>Installierte Version {_installedVersion}  →  Neue Version 1.0.8</value>
+    <value>Installierte Version {_installedVersion}  →  Neue Version 1.1.0</value>
   </data>
   <data name="Ui.JarvisValueFoundPreparingUpdateTo105">
-    <value>Jarvis {_installedVersion} gefunden. Update auf 1.0.8 wird vorbereitet …</value>
+    <value>Jarvis {_installedVersion} gefunden. Update auf 1.1.0 wird vorbereitet …</value>
   </data>
   <data name="Ui.UpdateJarvis">
     <value>Jarvis aktualisieren</value>
   </data>
   <data name="Ui.UpdateJarvisToVersion105">
-    <value>Jarvis auf Version 1.0.8 aktualisieren</value>
+    <value>Jarvis auf Version 1.1.0 aktualisieren</value>
   </data>
   <data name="Ui.UninstallJarvis">
     <value>Jarvis deinstallieren</value>
@@ -1174,7 +1174,7 @@
     <value>Jarvis Sprache</value>
   </data>
   <data name="Ui.JarvisWasUpdatedToVersion105SettingsChatsModelsAndLogsWerePreserved">
-    <value>Jarvis wurde auf Version 1.0.8 aktualisiert. Einstellungen, Chats, Modelle und Logs wurden beibehalten.</value>
+    <value>Jarvis wurde auf Version 1.1.0 aktualisiert. Einstellungen, Chats, Modelle und Logs wurden beibehalten.</value>
   </data>
   <data name="Ui.DeleteJarvisData">
     <value>Jarvis-Daten löschen</value>
@@ -1324,7 +1324,7 @@
     <value>Suche verfügbare Windows-Aufnahmegeräte …</value>
   </data>
   <data name="Ui.UpdaterVersion105">
-    <value>Updater · Version 1.0.8</value>
+    <value>Updater · Version 1.1.0</value>
   </data>
   <data name="Ui.TestingConnection">
     <value>Verbindung wird geprüft …</value>
@@ -1333,7 +1333,7 @@
     <value>Verbunden · </value>
   </data>
   <data name="Ui.Version105Complete">
-    <value>Version 1.0.8 · abgeschlossen</value>
+    <value>Version 1.1.0 · abgeschlossen</value>
   </data>
   <data name="Ui.CouldNotSaveTrust">
     <value>Vertrauen konnte nicht gespeichert werden: </value>
@@ -1342,7 +1342,7 @@
     <value>Vor der endgültigen Antwort nicht ausgeführt.</value>
   </data>
   <data name="Ui.ExistingInstallationFoundJarvisWillUpdateToVersion105SettingsChatsModelsAndLogsWillBePreserved">
-    <value>Vorhandene Installation erkannt. Jarvis wird auf Version 1.0.8 aktualisiert; Einstellungen, Chats, Modelle und Logs bleiben erhalten.</value>
+    <value>Vorhandene Installation erkannt. Jarvis wird auf Version 1.1.0 aktualisiert; Einstellungen, Chats, Modelle und Logs bleiben erhalten.</value>
   </data>
   <data name="Ui.ResumeSpeech">
     <value>Vorlesen fortsetzen</value>
@@ -1367,5 +1367,554 @@
   </data>
   <data name="Ui.HowShouldJarvisBeUninstalled">
     <value>Wie soll Jarvis deinstalliert werden?</value>
+  </data>
+  <data name="Agent.ComputerUseDescription">
+    <value>Planung, echte PowerShell- und CMD-Aufträge sowie Computer Use bei Bedarf. Desktopsteuerung startet automatisch nach einmaliger Freigabe des Bildschirmzugriffs; folgenreiche Aktionen benötigen weiterhin eine gezielte Bestätigung. Befehle laufen mit deinen normalen Windows-Rechten.</value>
+  </data>
+  <data name="Agent.ComputerUseStatusDescription">
+    <value>Pro Anfrage gelten sichere Grenzen von höchstens 20 Modellrunden und 48 Werkzeugaufrufen. Laufende Befehle bleiben abbrechbar; Computer Use startet automatisch bei sichtbarer Desktopinteraktion und kann im lila Statusbanner gestoppt werden.</value>
+  </data>
+  <data name="Release110_0">
+    <value>Allgemein</value>
+  </data>
+  <data name="Release110_1">
+    <value>Beschreibe Sprache, Ton und Arbeitsstil. Sicherheitsregeln und Freigaben bleiben verbindlich. Maximal 4000 Zeichen.</value>
+  </data>
+  <data name="Release110_2">
+    <value>Gespeicherte Anweisungen wiederhergestellt.</value>
+  </data>
+  <data name="Release110_3">
+    <value>Gespeicherte Anweisungen wiederherstellen</value>
+  </data>
+  <data name="Release110_4">
+    <value>KI &amp; Modelle</value>
+  </data>
+  <data name="Release110_5">
+    <value>Personalisierung</value>
+  </data>
+  <data name="Release110_6">
+    <value>Persönliche Anweisungen</value>
+  </data>
+  <data name="Release110_7">
+    <value>Über &amp; Updates</value>
+  </data>
+  <data name="Release110_8">
+    <value>Verbindung, persönliche Anweisungen und Datenschutz</value>
+  </data>
+  <data name="Release110_extra_0" xml:space="preserve">
+    <value>Fallback-Pläne</value>
+  </data>
+  <data name="Release110_extra_1" xml:space="preserve">
+    <value>Neu</value>
+  </data>
+  <data name="Release110_extra_2" xml:space="preserve">
+    <value>Neuer Plan</value>
+  </data>
+  <data name="Release110_extra_3" xml:space="preserve">
+    <value>Duplizieren</value>
+  </data>
+  <data name="Release110_extra_4" xml:space="preserve">
+    <value>Plan aktivieren</value>
+  </data>
+  <data name="Release110_extra_5" xml:space="preserve">
+    <value>Plan speichern</value>
+  </data>
+  <data name="Release110_extra_6" xml:space="preserve">
+    <value>Plan gespeichert.</value>
+  </data>
+  <data name="Release110_extra_7" xml:space="preserve">
+    <value>Anbieter</value>
+  </data>
+  <data name="Release110_extra_8" xml:space="preserve">
+    <value>Modell</value>
+  </data>
+  <data name="Release110_extra_9" xml:space="preserve">
+    <value>Fähigkeiten</value>
+  </data>
+  <data name="Release110_extra_10" xml:space="preserve">
+    <value>Fehlerbedingungen</value>
+  </data>
+  <data name="Release110_extra_11" xml:space="preserve">
+    <value>Bilder</value>
+  </data>
+  <data name="Release110_extra_12" xml:space="preserve">
+    <value>Strukturierte Ausgabe</value>
+  </data>
+  <data name="Release110_extra_13" xml:space="preserve">
+    <value>Zeitüberschreitung</value>
+  </data>
+  <data name="Release110_extra_14" xml:space="preserve">
+    <value>Netzwerkfehler</value>
+  </data>
+  <data name="Release110_extra_15" xml:space="preserve">
+    <value>Ratenlimit</value>
+  </data>
+  <data name="Release110_extra_16" xml:space="preserve">
+    <value>Serverfehler</value>
+  </data>
+  <data name="Release110_extra_17" xml:space="preserve">
+    <value>Modell nicht verfügbar</value>
+  </data>
+  <data name="Release110_extra_18" xml:space="preserve">
+    <value>Schritt hinzufügen</value>
+  </data>
+  <data name="Release110_extra_19" xml:space="preserve">
+    <value>Schritt entfernen</value>
+  </data>
+  <data name="Release110_extra_20" xml:space="preserve">
+    <value>Ausgewählten Schritt testen</value>
+  </data>
+  <data name="Release110_extra_21" xml:space="preserve">
+    <value>Geordnete Modellwechsel bei Fehlern. Anbieter: primary oder fallback. Fähigkeiten nur nach Prüfung bestätigen. Nur ein Plan ist aktiv.</value>
+  </data>
+  <data name="Release110_extra_22" xml:space="preserve">
+    <value>Bestätige Fähigkeiten nur nach Prüfung beim Anbieter. Fehlerbedingungen bestimmen, wann dieser Schritt nach einem vorherigen Fehler verwendet wird.</value>
+  </data>
+  <data name="Release110_extra_23" xml:space="preserve">
+    <value>Prüfe Name, Anbieter, Modell und Zeitlimit (5–600 Sekunden).</value>
+  </data>
+  <data name="Release110_extra_24" xml:space="preserve">
+    <value>Modell verfügbar. Fähigkeiten müssen separat bestätigt werden.</value>
+  </data>
+  <data name="Release110_extra_25" xml:space="preserve">
+    <value>Das Modell wurde vom Anbieter nicht aufgelistet.</value>
+  </data>
+  <data name="Release110_extra_26" xml:space="preserve">
+    <value>Verbindungstest fehlgeschlagen. Prüfe die gespeicherte Anbieterkonfiguration.</value>
+  </data>
+  <data name="Release110_extra_27" xml:space="preserve">
+    <value>Mehrere Fallback-Pläne sind aktiv. Wähle genau einen Plan.</value>
+  </data>
+  <data name="Release110_extra_28" xml:space="preserve">
+    <value>Plan: ausgewählt</value>
+  </data>
+  <data name="Release110_extra_29" xml:space="preserve">
+    <value>Plan: Fähigkeiten fehlen</value>
+  </data>
+  <data name="Release110_extra_30" xml:space="preserve">
+    <value>Plan: Bedingung nicht erfüllt</value>
+  </data>
+  <data name="Release110_extra_31" xml:space="preserve">
+    <value>Plan: Zeitüberschreitung</value>
+  </data>
+  <data name="Release110_extra_32" xml:space="preserve">
+    <value>Plan: Netzwerkfehler</value>
+  </data>
+  <data name="Release110_extra_33" xml:space="preserve">
+    <value>Plan: Ratenlimit</value>
+  </data>
+  <data name="Release110_extra_34" xml:space="preserve">
+    <value>Plan: Serverfehler</value>
+  </data>
+  <data name="Release110_extra_35" xml:space="preserve">
+    <value>Plan: Modell nicht verfügbar</value>
+  </data>
+  <data name="Release110_extra_36" xml:space="preserve">
+    <value>Plan: fehlgeschlagen</value>
+  </data>
+  <data name="Release110_extra_37" xml:space="preserve">
+    <value>Anweisungen leeren</value>
+  </data>
+  <data name="Release110_extra_38" xml:space="preserve">
+    <value>Cloud-Stimmen laden</value>
+  </data>
+  <data name="Release110_extra_39" xml:space="preserve">
+    <value>Cloud-Stimmen geladen.</value>
+  </data>
+  <data name="Release110_extra_40" xml:space="preserve">
+    <value>Cloud-Stimmen nicht verfügbar. Prüfe Schlüssel, Verbindung und Kontolimit.</value>
+  </data>
+  <data name="Release110_extra_41" xml:space="preserve">
+    <value>Cloud-Schlüssel entfernt.</value>
+  </data>
+  <data name="Release110_extra_42" xml:space="preserve">
+    <value>Gespeicherten Cloud-Schlüssel entfernen</value>
+  </data>
+  <data name="Release110_extra_43" xml:space="preserve">
+    <value>ElevenLabs API-Schlüssel · leer lassen zum Beibehalten</value>
+  </data>
+  <data name="Release110_extra_44" xml:space="preserve">
+    <value>ElevenLabs Stimmen-ID</value>
+  </data>
+  <data name="Release110_extra_45" xml:space="preserve">
+    <value>Stimmen-ID oder Stimme aus deinem Konto</value>
+  </data>
+  <data name="Release110_extra_46" xml:space="preserve">
+    <value>Nur bei Auswahl von ElevenLabs werden vorgelesene Texte an ElevenLabs gesendet. Kosten und Nutzungslimits deines Kontos gelten. Deutsch und Englisch werden unterstützt.</value>
+  </data>
+  <data name="Release110_extra_47" xml:space="preserve">
+    <value>Sprechtempo</value>
+  </data>
+  <data name="Release110_extra_48" xml:space="preserve">
+    <value>Wiedergabe stoppen</value>
+  </data>
+  <data name="Release110_extra_49" xml:space="preserve">
+    <value>Stimmprobe wird erzeugt …</value>
+  </data>
+  <data name="Release110_extra_51" xml:space="preserve">
+    <value>Speichern fehlgeschlagen.</value>
+  </data>
+  <data name="Release110_extra_52" xml:space="preserve">
+    <value>ElevenLabs: API-Schlüssel fehlt.</value>
+  </data>
+  <data name="Release110_extra_53" xml:space="preserve">
+    <value>ElevenLabs: Ungültige Stimmen-ID.</value>
+  </data>
+  <data name="Release110_extra_54" xml:space="preserve">
+    <value>ElevenLabs: Schlüssel oder Berechtigung ungültig.</value>
+  </data>
+  <data name="Release110_extra_55" xml:space="preserve">
+    <value>ElevenLabs: Raten- oder Nutzungslimit erreicht.</value>
+  </data>
+  <data name="Release110_extra_56" xml:space="preserve">
+    <value>ElevenLabs: Dienst derzeit nicht verfügbar.</value>
+  </data>
+  <data name="Release110_extra_57" xml:space="preserve">
+    <value>ElevenLabs: Audioantwort ist zu groß.</value>
+  </data>
+  <data name="Release110_extra_58" xml:space="preserve">
+    <value>ElevenLabs: Ungültige PCM-Audiodaten.</value>
+  </data>
+  <data name="Release110_extra_59" xml:space="preserve">
+    <value>Sprachausgabe fehlgeschlagen:</value>
+  </data>
+  <data name="Release110_extra_60" xml:space="preserve">
+    <value>ARBEITSBEREICH</value>
+  </data>
+  <data name="Release110_extra_69" xml:space="preserve">
+    <value>Computer Use-Fallback</value>
+  </data>
+  <data name="Release110_extra_79" xml:space="preserve">
+    <value>Eigene Modell-ID eingeben</value>
+  </data>
+  <data name="Release110_extra_83" xml:space="preserve">
+    <value>Fallback API-Basis-URL</value>
+  </data>
+  <data name="Release110_extra_84" xml:space="preserve">
+    <value>Fallback-Modell-ID</value>
+  </data>
+  <data name="Release110_extra_88" xml:space="preserve">
+    <value>Ich habe bestätigt: Dieses Fallback-Modell unterstützt Bildeingaben und Tool-Aufrufe</value>
+  </data>
+  <data name="Release110_extra_93" xml:space="preserve">
+    <value>Leer lassen, um einen gespeicherten Fallback-Schlüssel beizubehalten.</value>
+  </data>
+  <data name="Release110_extra_94" xml:space="preserve">
+    <value>Lokale Desktop-KI · Version</value>
+  </data>
+  <data name="Release110_extra_104" xml:space="preserve">
+    <value>Optionaler Fallback-Schlüssel; wird DPAPI-verschlüsselt gespeichert</value>
+  </data>
+  <data name="Release110_extra_105" xml:space="preserve">
+    <value>Optionaler OpenAI-kompatibler Fallback. Für Computer Use muss das ausgewählte Modell Bilder und Tool-Aufrufe unterstützen; bestätige dies erst nach Prüfung der Provider-/Modellfähigkeiten.</value>
+  </data>
+  <data name="Release110_extra_118" xml:space="preserve">
+    <value>Wähle ein verfügbares Modell oder verwende Manuell für eine eigene Modell-ID</value>
+  </data>
+  <data name="Release110_extra_123" xml:space="preserve">
+    <value>Release-Kanal</value>
+  </data>
+  <data name="Release110_extra_124" xml:space="preserve">
+    <value>Stabil</value>
+  </data>
+  <data name="Release110_extra_125" xml:space="preserve">
+    <value>Beta / Vorabversion</value>
+  </data>
+  <data name="Release110_extra_126" xml:space="preserve">
+    <value>Nach Updates suchen</value>
+  </data>
+  <data name="Release110_extra_127" xml:space="preserve">
+    <value>Automatische Prüfung beim Start.</value>
+  </data>
+  <data name="Release110_extra_128" xml:space="preserve">
+    <value>Jarvis aktivieren</value>
+  </data>
+  <data name="Release110_extra_129" xml:space="preserve">
+    <value>Beta-Konto aktivieren</value>
+  </data>
+  <data name="Release110_extra_130" xml:space="preserve">
+    <value>Beta-Aktivierungscode</value>
+  </data>
+  <data name="Release110_extra_131" xml:space="preserve">
+    <value>GESCHLOSSENE BETA</value>
+  </data>
+  <data name="Release110_extra_132" xml:space="preserve">
+    <value>Mit Discord fortfahren</value>
+  </data>
+  <data name="Release110_extra_133" xml:space="preserve">
+    <value>Fahre mit deinem authentifizierten Discord-Konto fort und gib den dir zugewiesenen Einmalcode ein.</value>
+  </data>
+  <data name="Release110_extra_134" xml:space="preserve">
+    <value>Gespeicherte Sitzung vergessen</value>
+  </data>
+  <data name="Release110_extra_135" xml:space="preserve">
+    <value>Jarvis fragt niemals nach deinem Discord-Passwort. Die Anmeldung läuft über die offizielle Discord-Autorisierungsseite im Browser.</value>
+  </data>
+  <data name="Release110_extra_136" xml:space="preserve">
+    <value>Jarvis Discord beitreten</value>
+  </data>
+  <data name="Release110_extra_137" xml:space="preserve">
+    <value>Kein Beta-Code? Tritt unserem Discord bei und erhalte einen kostenlos!</value>
+  </data>
+  <data name="Release110_extra_138" xml:space="preserve">
+    <value>Konto wechseln</value>
+  </data>
+  <data name="Release110_extra_139" xml:space="preserve">
+    <value>SPRACHMODUS</value>
+  </data>
+  <data name="Release110_extra_140" xml:space="preserve">
+    <value>◖))   Sprachmodus</value>
+  </data>
+  <data name="Settings.AgentLimits" xml:space="preserve">
+    <value>Pro Anfrage gelten sichere Grenzen von höchstens 20 Modellrunden und 48 Werkzeugaufrufen. Laufende Befehle bleiben abbrechbare Prozesse; Computer Use wird vom Agenten bei Bedarf gestartet und kann jederzeit im lila Statusbanner gestoppt werden.</value>
+  </data>
+  <data name="Settings.TimeoutSeconds" xml:space="preserve">
+    <value>Zeitlimit (s)</value>
+  </data>
+  <data name="Voice.AutoPlay" xml:space="preserve">
+    <value>Chatantworten automatisch vorlesen</value>
+  </data>
+  <data name="Voice.PlaybackFailure" xml:space="preserve">
+    <value>Sprachausgabe fehlgeschlagen. Prüfe die Stimme und Anbietereinstellungen.</value>
+  </data>
+  <data name="Fallback.Intro" xml:space="preserve">
+    <value>Wähle die Modelle in der gewünschten Reihenfolge. Jarvis verwendet zuerst den ersten Schritt und übernimmt bei passenden Fehlern mit dem nächsten Modell.</value>
+  </data>
+  <data name="Fallback.TakeOver" xml:space="preserve">
+    <value>Bei Fehler übernehmen</value>
+  </data>
+  <data name="Fallback.Advanced" xml:space="preserve">
+    <value>Erweiterte Einstellungen</value>
+  </data>
+  <data name="Fallback.Primary" xml:space="preserve">
+    <value>Hauptanbieter</value>
+  </data>
+  <data name="Fallback.Backup" xml:space="preserve">
+    <value>Ersatzanbieter</value>
+  </data>
+  <data name="Fallback.Verify" xml:space="preserve">
+    <value>Plan überprüfen</value>
+  </data>
+  <data name="Fallback.CapabilityHelp" xml:space="preserve">
+    <value>Fähigkeiten nur nach Prüfung beim Anbieter bestätigen.</value>
+  </data>
+  <data name="Fallback.When" xml:space="preserve">
+    <value>Übernehmen bei</value>
+  </data>
+  <data name="Fallback.Timeout" xml:space="preserve">
+    <value>Zeitlimit in Sekunden (5–600)</value>
+  </data>
+  <data name="Fallback.NoReplay" xml:space="preserve">
+    <value>Jeder Schritt wird höchstens einmal versucht. Unklare Tool-Ergebnisse verhindern einen Anbieterwechsel.</value>
+  </data>
+  <data name="Fallback.First" xml:space="preserve">
+    <value>zuerst verwenden</value>
+  </data>
+  <data name="Fallback.Next" xml:space="preserve">
+    <value>bei passendem Fehler übernehmen</value>
+  </data>
+  <data name="Fallback.Last" xml:space="preserve">
+    <value>Nach dem letzten Schritt ist kein weiterer Fallback verfügbar.</value>
+  </data>
+  <data name="Fallback.Valid" xml:space="preserve">
+    <value>Plan ist gültig. Prüfe die Verfügbarkeit über den Verbindungstest.</value>
+  </data>
+  <data name="Fallback.ToolsMissing" xml:space="preserve">
+    <value>Plan ist gültig. Werkzeugfähigkeiten fehlen bei mindestens einem Modell; entsprechende Aufgaben überspringen diesen Schritt.</value>
+  </data>
+  <data name="Fallback.Step" xml:space="preserve">
+    <value>Fallback-Schritt</value>
+  </data>
+  <data name="Common.Enabled" xml:space="preserve">
+    <value>Aktiv</value>
+  </data>
+  <data name="Fallback.NextOnMatchingError" xml:space="preserve">
+    <value>Bei einem passenden Fehler zum nächsten Modell wechseln</value>
+  </data>
+  <data name="Fallback.MoveUp" xml:space="preserve">
+    <value>Schritt nach oben</value>
+  </data>
+  <data name="Fallback.MoveDown" xml:space="preserve">
+    <value>Schritt nach unten</value>
+  </data>
+  <data name="Fallback.ConnectionTest" xml:space="preserve">
+    <value>Verbindung testen</value>
+  </data>
+  <data name="Common.Disabled" xml:space="preserve">
+    <value>Deaktiviert</value>
+  </data>
+  <data name="Profile.DiscordSource" xml:space="preserve">
+    <value>Discord ist die Profilquelle für die Closed Beta.</value>
+  </data>
+  <data name="Profile.LoadingVerifiedSession" xml:space="preserve">
+    <value>Profil wird aus der verifizierten Sitzung geladen.</value>
+  </data>
+  <data name="Agent.SimpleVsComplex" xml:space="preserve">
+    <value>Einfache Fragen werden direkt beantwortet. Komplexe Aufgaben werden geplant, ausgeführt und überprüft.</value>
+  </data>
+  <data name="Chat.Sources" xml:space="preserve">
+    <value>Quellen</value>
+  </data>
+  <data name="Chat.SourcesAndAttachments" xml:space="preserve">
+    <value>Quellen und Anhänge</value>
+  </data>
+  <data name="Chat.RemoveAttachment" xml:space="preserve">
+    <value>Anhang entfernen</value>
+  </data>
+  <data name="Chat.AgentRun" xml:space="preserve">
+    <value>Agentenlauf</value>
+  </data>
+  <data name="Chat.HeyJarvisOff" xml:space="preserve">
+    <value>Hey Jarvis — Aus</value>
+  </data>
+  <data name="Chat.HeyJarvisOn" xml:space="preserve">
+    <value>Hey Jarvis — An</value>
+  </data>
+  <data name="Public110_000" xml:space="preserve">
+    <value>Jarvis Beta-Aktivierung</value>
+  </data>
+  <data name="Public110_001" xml:space="preserve">
+    <value>Beta-Dienst wird geprüft …</value>
+  </data>
+  <data name="Public110_047" xml:space="preserve">
+    <value>Computer Use</value>
+  </data>
+  <data name="Public110_074" xml:space="preserve">
+    <value>ElevenLabs · Cloud</value>
+  </data>
+  <data name="Public110_098" xml:space="preserve">
+    <value>Dieser PC wird auf eine vorhandene Jarvis-Installation geprüft …</value>
+  </data>
+  <data name="Public110_039" xml:space="preserve">
+    <value>Optional OpenAI-compatible fallback. For Computer Use the selected model must support images and tool calls; confirm this only after checking provider and model capabilities.</value>
+  </data>
+  <data name="Public110_072" xml:space="preserve">
+    <value>Piper generates speech locally on your PC. The selected voice model is downloaded once and remains available offline.</value>
+  </data>
+  <data name="Public110_054" xml:space="preserve">
+    <value>Confirm capabilities only after checking with the provider. Error conditions determine when this step is used after a previous failure.</value>
+  </data>
+  <data name="Public110_089" xml:space="preserve">
+    <value>Detecting processor, memory and free storage …</value>
+  </data>
+  <data name="Public110_034" xml:space="preserve">
+    <value>Choose profile picture …</value>
+  </data>
+  <data name="Public110_069" xml:space="preserve">
+    <value>Large V3 Turbo · highest accuracy, large download and high RAM usage</value>
+  </data>
+  <data name="Public110_070" xml:space="preserve">
+    <value>The first model download requires internet access. Recognition then runs offline; models use Q5_1 quantization.</value>
+  </data>
+  <data name="Public110_080" xml:space="preserve">
+    <value>Spotify connects using OAuth PKCE. Your client ID is public; the login token is stored encrypted for your Windows account. The redirect URI must match exactly in Spotify Developer Dashboard.</value>
+  </data>
+  <data name="Public110_090" xml:space="preserve">
+    <value>Backend model management is checked before download.</value>
+  </data>
+  <data name="Public110_058" xml:space="preserve">
+    <value>Approve folder …</value>
+  </data>
+  <data name="Public110_019" xml:space="preserve">
+    <value>Choose file …</value>
+  </data>
+  <data name="Public110_062" xml:space="preserve">
+    <value>Local recognition works offline. The default phrase Hey Jarvis is recommended; custom short English phrases may vary by pronunciation.</value>
+  </data>
+  <data name="Public110_012" xml:space="preserve">
+    <value>Enter sends · Shift+Enter adds a new line</value>
+  </data>
+  <data name="Public110_068" xml:space="preserve">
+    <value>Medium · high accuracy, slow and memory intensive</value>
+  </data>
+  <data name="Public110_059" xml:space="preserve">
+    <value>Persistent trust applies only to the exact same action with the same details. You can search and revoke entries here.</value>
+  </data>
+  <data name="Public110_091" xml:space="preserve">
+    <value>Choose folder …</value>
+  </data>
+  <data name="Public110_038" xml:space="preserve">
+    <value>Leave blank to keep the stored key. Chat content is sent to the configured endpoint.</value>
+  </data>
+  <data name="Public110_096" xml:space="preserve">
+    <value>Windows x64 · Includes .NET runtime · no administrator required</value>
+  </data>
+  <data name="Public110_022" xml:space="preserve">
+    <value>Choose folder and search</value>
+  </data>
+  <data name="Public110_052" xml:space="preserve">
+    <value>Each step is attempted at most once. Uncertain tool results prevent switching providers.</value>
+  </data>
+  <data name="Public110_036" xml:space="preserve">
+    <value>Choose an available model or use Manual for a custom model ID</value>
+  </data>
+  <data name="Public110_035" xml:space="preserve">
+    <value>The conversation, confirmed memories, attachments and read file contents are sent to this endpoint. No background transfer.</value>
+  </data>
+  <data name="Public110_032" xml:space="preserve">
+    <value>You can change the language at any time. Jarvis responds in the selected language by default.</value>
+  </data>
+  <data name="Public110_079" xml:space="preserve">
+    <value>Model and temporary files are stored in the Jarvis resources folder selected during installation.</value>
+  </data>
+  <data name="Public110_076" xml:space="preserve">
+    <value>ElevenLabs API key · leave blank to keep</value>
+  </data>
+  <data name="Public110_004" xml:space="preserve">
+    <value>Choose workspace</value>
+  </data>
+  <data name="Public110_075" xml:space="preserve">
+    <value>Only when ElevenLabs is selected are spoken texts sent to ElevenLabs. Your account costs and usage limits apply. German and English are supported.</value>
+  </data>
+  <data name="Public110_042" xml:space="preserve">
+    <value>I confirmed that this fallback model supports image input and tool calls</value>
+  </data>
+  <data name="Public110_006" xml:space="preserve">
+    <value>Message Jarvis… · Enter sends, Shift+Enter adds a line</value>
+  </data>
+  <data name="Public110_092" xml:space="preserve">
+    <value>Checking free storage …</value>
+  </data>
+  <data name="Public110_081" xml:space="preserve">
+    <value>Apple Music REST access requires an Apple Developer Token and a Music User Token. Tokens are stored locally with DPAPI encryption. Song playback opens through the Windows default handler; the REST API cannot reliably confirm playback.</value>
+  </data>
+  <data name="Public110_017" xml:space="preserve">
+    <value>Direct actions and confirmed agent tools.</value>
+  </data>
+  <data name="Public110_067" xml:space="preserve">
+    <value>Small · more accurate, requires more time and memory</value>
+  </data>
+  <data name="Public110_013" xml:space="preserve">
+    <value>Agent activities</value>
+  </data>
+  <data name="Public110_014" xml:space="preserve">
+    <value>Planning, actual PowerShell and CMD jobs, and Computer Use when needed. Desktop control starts automatically after screen access is approved once; consequential actions still require specific confirmation. Commands run with your normal Windows permissions.</value>
+  </data>
+  <data name="Public110_077" xml:space="preserve">
+    <value>Remove stored cloud key</value>
+  </data>
+  <data name="Public110_061" xml:space="preserve">
+    <value>Enable hands-free mode · listen to microphone in the background</value>
+  </data>
+  <data name="Public110_057" xml:space="preserve">
+    <value>File access is limited to these approved folders. Write operations require your confirmation.</value>
+  </data>
+  <data name="Public110_026" xml:space="preserve">
+    <value>Information you entered. Confirmed entries can be included in model context.</value>
+  </data>
+  <data name="Public110_086" xml:space="preserve">
+    <value>Check the existing AI connection, choose the storage location and install Jarvis.</value>
+  </data>
+  <data name="Public110_088" xml:space="preserve">
+    <value>Checking local services …</value>
+  </data>
+  <data name="Public110_041" xml:space="preserve">
+    <value>Leave blank to keep a stored fallback key.</value>
+  </data>
+  <data name="Public110_044" xml:space="preserve">
+    <value>Choose models in the desired order. Jarvis uses the first step first and moves to the next model after a matching failure.</value>
+  </data>
+  <data name="Public110_015" xml:space="preserve">
+    <value>Simple questions are answered directly. Complex tasks are planned, executed and verified.</value>
   </data>
 </root>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
@@ -49,7 +49,7 @@
     <value>Your private workspace</value>
   </data>
   <data name="Ui.LocalDesktopAIVersion105">
-    <value>Local desktop AI · Version 1.0.8</value>
+    <value>Local desktop AI · Version 1.1.0</value>
   </data>
   <data name="Ui.YourProfile">
     <value>Your profile</value>
@@ -88,7 +88,7 @@
     <value>Optional API key for authenticated or cloud-compatible endpoints; encrypted for this Windows account</value>
   </data>
   <data name="Ui.LeaveBlankToKeepTheSavedKeyChatContentIsSentToTheConfiguredEndpoint">
-    <value>Leave blank to keep the saved key. Chat content is sent to the configured endpoint.</value>
+    <value>Leave blank to keep the saved key. Chat contents are sent to the configured endpoint.</value>
   </data>
   <data name="Ui.ModelID">
     <value>Model ID</value>
@@ -121,7 +121,7 @@
     <value>Trusted approvals</value>
   </data>
   <data name="Ui.PersistentTrustAppliesOnlyToTheExactSameActionAndDetailsSearchAndRevokeEntriesHere">
-    <value>Persistent trust applies only to the exact same action and details. Search and revoke entries here.</value>
+    <value>Persistent approval applies only to the exact same action and details. Search and revoke entries here.</value>
   </data>
   <data name="Ui.SearchApprovals">
     <value>Search approvals</value>
@@ -133,7 +133,7 @@
     <value>Allowed folders</value>
   </data>
   <data name="Ui.AllowFolder">
-    <value>Allow folder…</value>
+    <value>Approve folder…</value>
   </data>
   <data name="Ui.RemoveSelectedFolder">
     <value>Remove selected folder</value>
@@ -154,7 +154,7 @@
     <value>Piper generates speech locally on your PC. The German neural model is downloaded once and then works offline.</value>
   </data>
   <data name="Ui.PiperGeneratesSpeechLocallyOnYourPCTheSelectedVoiceModelIsDownloadedOnceAndThenWorksOffline">
-    <value>Piper generates speech locally on your PC. The selected voice model is downloaded once and then works offline.</value>
+    <value>Piper generates speech locally on your PC. Download the selected voice once, then use it offline.</value>
   </data>
   <data name="Ui.SpeechEngine">
     <value>Speech engine</value>
@@ -202,7 +202,7 @@
     <value>Save speech output settings</value>
   </data>
   <data name="Ui.ModelsAndTemporaryFilesAreStoredInJarvisDataUnderTheInstallationFolderYouSelected">
-    <value>Models and temporary files are stored in JarvisData under the installation folder you selected.</value>
+    <value>Models and intermediate files are stored in the Jarvis resources folder selected during installation.</value>
   </data>
   <data name="Ui.LocalSpeechInput">
     <value>Local speech input</value>
@@ -217,16 +217,16 @@
     <value>Microphone</value>
   </data>
   <data name="Ui.HandsFreeActivationListenToTheMicrophoneInTheBackground">
-    <value>Hands-free activation · listen to the microphone in the background</value>
+    <value>Enable hands-free mode · listen to the microphone in the background</value>
   </data>
   <data name="Ui.WakePhrase">
     <value>Wake phrase</value>
   </data>
   <data name="Ui.LocalDetectionWorksOfflineTheDefaultPhraseHeyJarvisIsRecommendedCustomShortEnglishPhrasesMayVaryWithPronunciation">
-    <value>Local detection works offline. The default phrase Hey Jarvis is recommended; custom short English phrases may vary with pronunciation.</value>
+    <value>Local recognition works offline. The default phrase Hey Jarvis is recommended; custom short English phrases may vary with pronunciation.</value>
   </data>
   <data name="Ui.WakeSoundVolume">
-    <value>Wake sound volume</value>
+    <value>Recognition sound volume</value>
   </data>
   <data name="Ui.TestWakeSound">
     <value>Test wake sound</value>
@@ -253,7 +253,7 @@
     <value>Small · better recognition, needs more memory and processing time</value>
   </data>
   <data name="Ui.LargeV3TurboHighestAccuracyLargeDownloadAndHighRAMUsage">
-    <value>Large V3 Turbo · highest accuracy, large download and high RAM usage</value>
+    <value>Large V3 Turbo · highest accuracy, large download and high memory usage</value>
   </data>
   <data name="Ui.TinyFastestLowerAccuracyMultilingual">
     <value>Tiny · fastest, lower accuracy (multilingual)</value>
@@ -262,10 +262,10 @@
     <value>Base · fast and balanced (multilingual)</value>
   </data>
   <data name="Ui.SmallMoreAccurateTakesMoreTimeAndMemory">
-    <value>Small · more accurate, takes more time and memory</value>
+    <value>Small · more accurate, uses more time and memory</value>
   </data>
   <data name="Ui.MediumHighAccuracySlowerAndMemoryIntensive">
-    <value>Medium · high accuracy, slower and memory intensive</value>
+    <value>Medium · high accuracy, slow and memory-intensive</value>
   </data>
   <data name="Ui.DownloadModel">
     <value>Download model</value>
@@ -289,7 +289,7 @@
     <value>No folder selected</value>
   </data>
   <data name="Ui.ChooseWorkspace">
-    <value>Choose workspace</value>
+    <value>Choose workspace folder</value>
   </data>
   <data name="Ui.Attach">
     <value>Attach</value>
@@ -307,7 +307,7 @@
     <value>Speech settings</value>
   </data>
   <data name="Ui.EnterSendsShiftEnterForANewLine">
-    <value>Enter sends · Shift+Enter for a new line</value>
+    <value>Enter to send · Shift+Enter for a new line</value>
   </data>
   <data name="Ui.Ready">
     <value>Ready</value>
@@ -421,7 +421,7 @@
     <value>Enter your BionicGPT API key and load the models. The key is protected locally with Windows DPAPI.</value>
   </data>
   <data name="Ui.PersonalAIWorkspaceSetup105">
-    <value>Personal AI workspace · Setup 1.0.8</value>
+    <value>Personal AI workspace · Setup 1.1.0</value>
   </data>
   <data name="Ui.Back">
     <value>Back</value>
@@ -472,13 +472,13 @@
     <value>Invalid server address</value>
   </data>
   <data name="Ui.NewChat.Variant2">
-    <value>+   New chat</value>
+    <value>＋   New chat</value>
   </data>
   <data name="Ui.Attach.Variant2">
-    <value>+ Attach</value>
+    <value>＋ Attach</value>
   </data>
   <data name="Ui.ClearAllInformation">
-    <value>Clear all information</value>
+    <value>Delete all information</value>
   </data>
   <data name="Ui.WORKSPACE">
     <value>WORKSPACE</value>
@@ -520,7 +520,7 @@
     <value>Open</value>
   </data>
   <data name="Ui.ChooseFolderAndSearch">
-    <value>Choose folder and search</value>
+    <value>Choose folder &amp; search</value>
   </data>
   <data name="Ui.Save">
     <value>Save</value>
@@ -544,31 +544,31 @@
     <value>The agent stops after at most five model rounds or eight tool calls.</value>
   </data>
   <data name="Ui.InformationYouAddConfirmedEntriesCanBeIncludedInTheModelContext">
-    <value>Information you add. Confirmed entries can be included in the model context.</value>
+    <value>Information you entered. Confirmed entries may be included in model context.</value>
   </data>
   <data name="Ui.NoSavedInformationYet">
     <value>No saved information yet.</value>
   </data>
   <data name="Ui.ChatConfirmedMemoriesAttachmentsAndReadFileContentsAreSentToThisEndpointNoBackgroundTransfers">
-    <value>Chat, confirmed memories, attachments, and read file contents are sent to this endpoint. No background transfers.</value>
+    <value>Conversations, confirmed memories, attachments and read file contents are sent to this endpoint. No background transfer.</value>
   </data>
   <data name="Ui.AudioIsProcessedLocallyWithWhisperRecognizedTextIsAddedOnlyToThePromptFieldAndIsNeverSentAutomatically">
     <value>Audio is processed locally with Whisper. Recognized text is added only to the prompt field and is never sent automatically.</value>
   </data>
   <data name="Ui.TheFirstModelDownloadRequiresInternetTranscriptionThenWorksOfflineModelsUseQ51Quantization">
-    <value>The first model download requires internet. Transcription then works offline; models use Q5_1 quantization.</value>
+    <value>The initial model download requires internet. Recognition then runs offline; models use Q5_1 quantization.</value>
   </data>
   <data name="Ui.YouCanChangeTheLanguageAtAnyTimeJarvisRespondsInTheSelectedLanguageByDefault">
-    <value>You can change the language at any time. Jarvis responds in the selected language by default.</value>
+    <value>You can change the language at any time. Jarvis replies in the selected language by default.</value>
   </data>
   <data name="Ui.FileAccessIsLimitedToTheseApprovedFoldersWriteOperationsRequireYourConfirmation">
-    <value>File access is limited to these approved folders. Write operations require your confirmation.</value>
+    <value>File access is limited to these approved folders. Writes require your approval.</value>
   </data>
   <data name="Ui.OpenAIToolCallingForReadTasksChangesAreLimitedToApprovedWorkFoldersAndRequireConfirmation">
     <value>OpenAI tool calling for read tasks. Changes are limited to approved work folders and require confirmation.</value>
   </data>
   <data name="Ui.CreatedForFelixFGF">
-    <value>Created for Felix FGF</value>
+    <value>Created for FelixFGF</value>
   </data>
   <data name="Ui.MessageJarvis">
     <value>Message Jarvis…</value>
@@ -583,7 +583,7 @@
     <value>Your AI workspace for ideas, code and automation.</value>
   </data>
   <data name="Ui.ChooseChatModel">
-    <value>Choose chat model</value>
+    <value>Select chat model</value>
   </data>
   <data name="Ui.AttachFilesUpTo10MB">
     <value>Attach files up to 10 MB</value>
@@ -805,7 +805,7 @@
     <value>Base · improved recognition (multilingual)</value>
   </data>
   <data name="Ui.DevelopedByFelixFGF">
-    <value>Developed by Felix FGF</value>
+    <value>Developed by FelixFGF</value>
   </data>
   <data name="Ui.LocalOneTimeRemindersNotificationsAppearWhileJarvisIsRunning">
     <value>Local one-time reminders. Notifications appear while Jarvis is running.</value>
@@ -955,7 +955,7 @@
     <value>Enter an OpenAI-compatible API endpoint. An API key is optional and only needed by providers that require authentication.</value>
   </data>
   <data name="Ui.SetUpJarvisOnThisPCVersion105">
-    <value>Set up Jarvis on this PC · Version 1.0.8</value>
+    <value>Set up Jarvis on this PC · Version 1.1.0</value>
   </data>
   <data name="Ui.JarvisSetup">
     <value>Jarvis Setup</value>
@@ -976,7 +976,7 @@
     <value>Hey Jarvis</value>
   </data>
   <data name="Ui.MessageJarvisPressEnterToSendShiftEnterForANewLine.825812017">
-    <value>Message Jarvis… · Press Enter to send, Shift+Enter for a new line</value>
+    <value>Message Jarvis… · Enter to send, Shift+Enter for a new line</value>
   </data>
   <data name="Ui.NeuralPiperGerman">
     <value>Neural · Piper German</value>
@@ -988,7 +988,7 @@
     <value>Spotify connects using OAuth PKCE. Your client ID is public; the access token is encrypted for your Windows account. Enter the exact redirect URI in your Spotify Developer Dashboard.</value>
   </data>
   <data name="Ui.Version105">
-    <value>Version 1.0.8</value>
+    <value>Version 1.1.0</value>
   </data>
   <data name="Ui.600ms">
     <value>600 ms</value>
@@ -1153,16 +1153,16 @@
     <value>Optionally install Ollama using its official installer, or connect BionicGPT at localhost:1235. The API key is protected for your Windows account.</value>
   </data>
   <data name="Ui.InstalledVersionValueNewVersion105">
-    <value>Installed version {_installedVersion}  →  New version 1.0.8</value>
+    <value>Installed version {_installedVersion}  →  New version 1.1.0</value>
   </data>
   <data name="Ui.JarvisValueFoundPreparingUpdateTo105">
-    <value>Jarvis {_installedVersion} found. Preparing update to 1.0.8…</value>
+    <value>Jarvis {_installedVersion} found. Preparing update to 1.1.0…</value>
   </data>
   <data name="Ui.UpdateJarvis">
     <value>Update Jarvis</value>
   </data>
   <data name="Ui.UpdateJarvisToVersion105">
-    <value>Update Jarvis to version 1.0.8</value>
+    <value>Update Jarvis to version 1.1.0</value>
   </data>
   <data name="Ui.UninstallJarvis">
     <value>Uninstall Jarvis</value>
@@ -1174,7 +1174,7 @@
     <value>Jarvis Voice</value>
   </data>
   <data name="Ui.JarvisWasUpdatedToVersion105SettingsChatsModelsAndLogsWerePreserved">
-    <value>Jarvis was updated to version 1.0.8. Settings, chats, models and logs were preserved.</value>
+    <value>Jarvis was updated to version 1.1.0. Settings, chats, models and logs were preserved.</value>
   </data>
   <data name="Ui.DeleteJarvisData">
     <value>Delete Jarvis data</value>
@@ -1324,7 +1324,7 @@
     <value>Scanning Windows recording devices…</value>
   </data>
   <data name="Ui.UpdaterVersion105">
-    <value>Updater · Version 1.0.8</value>
+    <value>Updater · Version 1.1.0</value>
   </data>
   <data name="Ui.TestingConnection">
     <value>Testing connection…</value>
@@ -1333,7 +1333,7 @@
     <value>Connected · </value>
   </data>
   <data name="Ui.Version105Complete">
-    <value>Version 1.0.8 · complete</value>
+    <value>Version 1.1.0 · complete</value>
   </data>
   <data name="Ui.CouldNotSaveTrust">
     <value>Could not save trust: </value>
@@ -1342,7 +1342,7 @@
     <value>Not executed before the final response.</value>
   </data>
   <data name="Ui.ExistingInstallationFoundJarvisWillUpdateToVersion105SettingsChatsModelsAndLogsWillBePreserved">
-    <value>Existing installation found. Jarvis will update to version 1.0.8; settings, chats, models and logs will be preserved.</value>
+    <value>Existing installation found. Jarvis will update to version 1.1.0; settings, chats, models and logs will be preserved.</value>
   </data>
   <data name="Ui.ResumeSpeech">
     <value>Resume speech</value>
@@ -1367,5 +1367,554 @@
   </data>
   <data name="Ui.HowShouldJarvisBeUninstalled">
     <value>How should Jarvis be uninstalled?</value>
+  </data>
+  <data name="Agent.ComputerUseDescription">
+    <value>Planning, real PowerShell and CMD jobs, plus Computer Use when needed. Desktop control starts after one-time screen-access approval; consequential actions still need focused confirmation. Commands run with your normal Windows permissions.</value>
+  </data>
+  <data name="Agent.ComputerUseStatusDescription">
+    <value>Each request is limited to 20 model rounds and 48 tool calls. Running commands can be cancelled; Computer Use starts automatically when the agent needs visible desktop interaction and can be stopped from the purple status banner.</value>
+  </data>
+  <data name="Release110_0">
+    <value>General</value>
+  </data>
+  <data name="Release110_1">
+    <value>Describe your preferred language, tone and working style. Security rules and approvals remain mandatory. Maximum 4000 characters.</value>
+  </data>
+  <data name="Release110_2">
+    <value>Saved instructions restored.</value>
+  </data>
+  <data name="Release110_3">
+    <value>Restore saved instructions</value>
+  </data>
+  <data name="Release110_4">
+    <value>AI &amp; Models</value>
+  </data>
+  <data name="Release110_5">
+    <value>Personalization</value>
+  </data>
+  <data name="Release110_6">
+    <value>Personal instructions</value>
+  </data>
+  <data name="Release110_7">
+    <value>About &amp; Updates</value>
+  </data>
+  <data name="Release110_8">
+    <value>Connection, personal instructions and privacy</value>
+  </data>
+  <data name="Release110_extra_0" xml:space="preserve">
+    <value>Fallback plans</value>
+  </data>
+  <data name="Release110_extra_1" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="Release110_extra_2" xml:space="preserve">
+    <value>New plan</value>
+  </data>
+  <data name="Release110_extra_3" xml:space="preserve">
+    <value>Duplicate</value>
+  </data>
+  <data name="Release110_extra_4" xml:space="preserve">
+    <value>Enable plan</value>
+  </data>
+  <data name="Release110_extra_5" xml:space="preserve">
+    <value>Save plan</value>
+  </data>
+  <data name="Release110_extra_6" xml:space="preserve">
+    <value>Plan saved.</value>
+  </data>
+  <data name="Release110_extra_7" xml:space="preserve">
+    <value>Provider</value>
+  </data>
+  <data name="Release110_extra_8" xml:space="preserve">
+    <value>Model</value>
+  </data>
+  <data name="Release110_extra_9" xml:space="preserve">
+    <value>Capabilities</value>
+  </data>
+  <data name="Release110_extra_10" xml:space="preserve">
+    <value>Failure conditions</value>
+  </data>
+  <data name="Release110_extra_11" xml:space="preserve">
+    <value>Images</value>
+  </data>
+  <data name="Release110_extra_12" xml:space="preserve">
+    <value>Structured output</value>
+  </data>
+  <data name="Release110_extra_13" xml:space="preserve">
+    <value>Timeout</value>
+  </data>
+  <data name="Release110_extra_14" xml:space="preserve">
+    <value>Network error</value>
+  </data>
+  <data name="Release110_extra_15" xml:space="preserve">
+    <value>Rate limit</value>
+  </data>
+  <data name="Release110_extra_16" xml:space="preserve">
+    <value>Server error</value>
+  </data>
+  <data name="Release110_extra_17" xml:space="preserve">
+    <value>Model unavailable</value>
+  </data>
+  <data name="Release110_extra_18" xml:space="preserve">
+    <value>Add step</value>
+  </data>
+  <data name="Release110_extra_19" xml:space="preserve">
+    <value>Remove step</value>
+  </data>
+  <data name="Release110_extra_20" xml:space="preserve">
+    <value>Test selected step</value>
+  </data>
+  <data name="Release110_extra_21" xml:space="preserve">
+    <value>Ordered model changes on failure. Providers reference primary or fallback settings. Confirm capabilities only after verification. Only one plan can be active.</value>
+  </data>
+  <data name="Release110_extra_22" xml:space="preserve">
+    <value>Confirm capabilities only after checking with the provider. Failure conditions specify when this step is used after a previous failure.</value>
+  </data>
+  <data name="Release110_extra_23" xml:space="preserve">
+    <value>Check the name, provider, model and timeout (5–600 seconds).</value>
+  </data>
+  <data name="Release110_extra_24" xml:space="preserve">
+    <value>Model available. Capabilities must be confirmed separately.</value>
+  </data>
+  <data name="Release110_extra_25" xml:space="preserve">
+    <value>The provider did not list this model.</value>
+  </data>
+  <data name="Release110_extra_26" xml:space="preserve">
+    <value>Connection test failed. Check the saved provider configuration.</value>
+  </data>
+  <data name="Release110_extra_27" xml:space="preserve">
+    <value>Multiple fallback plans are enabled. Select exactly one plan.</value>
+  </data>
+  <data name="Release110_extra_28" xml:space="preserve">
+    <value>Plan: selected</value>
+  </data>
+  <data name="Release110_extra_29" xml:space="preserve">
+    <value>Plan: missing capabilities</value>
+  </data>
+  <data name="Release110_extra_30" xml:space="preserve">
+    <value>Plan: condition not met</value>
+  </data>
+  <data name="Release110_extra_31" xml:space="preserve">
+    <value>Plan: timeout</value>
+  </data>
+  <data name="Release110_extra_32" xml:space="preserve">
+    <value>Plan: network error</value>
+  </data>
+  <data name="Release110_extra_33" xml:space="preserve">
+    <value>Plan: rate limit</value>
+  </data>
+  <data name="Release110_extra_34" xml:space="preserve">
+    <value>Plan: server error</value>
+  </data>
+  <data name="Release110_extra_35" xml:space="preserve">
+    <value>Plan: model unavailable</value>
+  </data>
+  <data name="Release110_extra_36" xml:space="preserve">
+    <value>Plan: failed</value>
+  </data>
+  <data name="Release110_extra_37" xml:space="preserve">
+    <value>Clear instructions</value>
+  </data>
+  <data name="Release110_extra_38" xml:space="preserve">
+    <value>Load cloud voices</value>
+  </data>
+  <data name="Release110_extra_39" xml:space="preserve">
+    <value>Cloud voices loaded.</value>
+  </data>
+  <data name="Release110_extra_40" xml:space="preserve">
+    <value>Cloud voices unavailable. Check your key, connection and account limits.</value>
+  </data>
+  <data name="Release110_extra_41" xml:space="preserve">
+    <value>Cloud key removed.</value>
+  </data>
+  <data name="Release110_extra_42" xml:space="preserve">
+    <value>Remove saved cloud key</value>
+  </data>
+  <data name="Release110_extra_43" xml:space="preserve">
+    <value>ElevenLabs API key · leave blank to keep saved key</value>
+  </data>
+  <data name="Release110_extra_44" xml:space="preserve">
+    <value>ElevenLabs voice ID</value>
+  </data>
+  <data name="Release110_extra_45" xml:space="preserve">
+    <value>Voice ID or voice from your account</value>
+  </data>
+  <data name="Release110_extra_46" xml:space="preserve">
+    <value>Only when ElevenLabs is selected, text read aloud is sent to ElevenLabs. Your account charges and usage limits apply. German and English are supported.</value>
+  </data>
+  <data name="Release110_extra_47" xml:space="preserve">
+    <value>Speaking speed</value>
+  </data>
+  <data name="Release110_extra_48" xml:space="preserve">
+    <value>Stop playback</value>
+  </data>
+  <data name="Release110_extra_49" xml:space="preserve">
+    <value>Generating voice preview…</value>
+  </data>
+  <data name="Release110_extra_51" xml:space="preserve">
+    <value>Could not save.</value>
+  </data>
+  <data name="Release110_extra_52" xml:space="preserve">
+    <value>ElevenLabs: API key is missing.</value>
+  </data>
+  <data name="Release110_extra_53" xml:space="preserve">
+    <value>ElevenLabs: Invalid voice ID.</value>
+  </data>
+  <data name="Release110_extra_54" xml:space="preserve">
+    <value>ElevenLabs: Invalid key or permission.</value>
+  </data>
+  <data name="Release110_extra_55" xml:space="preserve">
+    <value>ElevenLabs: Rate or usage limit reached.</value>
+  </data>
+  <data name="Release110_extra_56" xml:space="preserve">
+    <value>ElevenLabs: Service currently unavailable.</value>
+  </data>
+  <data name="Release110_extra_57" xml:space="preserve">
+    <value>ElevenLabs: Audio response too large.</value>
+  </data>
+  <data name="Release110_extra_58" xml:space="preserve">
+    <value>ElevenLabs: Invalid PCM audio.</value>
+  </data>
+  <data name="Release110_extra_59" xml:space="preserve">
+    <value>Speech output failed:</value>
+  </data>
+  <data name="Release110_extra_60" xml:space="preserve">
+    <value>WORKSPACE</value>
+  </data>
+  <data name="Release110_extra_69" xml:space="preserve">
+    <value>Computer Use fallback</value>
+  </data>
+  <data name="Release110_extra_79" xml:space="preserve">
+    <value>Enter a custom model ID</value>
+  </data>
+  <data name="Release110_extra_83" xml:space="preserve">
+    <value>Fallback API base URL</value>
+  </data>
+  <data name="Release110_extra_84" xml:space="preserve">
+    <value>Fallback model ID</value>
+  </data>
+  <data name="Release110_extra_88" xml:space="preserve">
+    <value>I have verified: this fallback model supports image input and tool calling</value>
+  </data>
+  <data name="Release110_extra_93" xml:space="preserve">
+    <value>Leave blank to keep a saved fallback key.</value>
+  </data>
+  <data name="Release110_extra_94" xml:space="preserve">
+    <value>Local desktop AI · Version</value>
+  </data>
+  <data name="Release110_extra_104" xml:space="preserve">
+    <value>Optional fallback key; stored with DPAPI encryption</value>
+  </data>
+  <data name="Release110_extra_105" xml:space="preserve">
+    <value>Optional OpenAI-compatible fallback. Computer Use requires image input and tool calling; confirm these only after verifying provider/model capabilities.</value>
+  </data>
+  <data name="Release110_extra_118" xml:space="preserve">
+    <value>Select an available model or use Manual for a custom model ID</value>
+  </data>
+  <data name="Release110_extra_123" xml:space="preserve">
+    <value>Release channel</value>
+  </data>
+  <data name="Release110_extra_124" xml:space="preserve">
+    <value>Stable</value>
+  </data>
+  <data name="Release110_extra_125" xml:space="preserve">
+    <value>Beta / prerelease</value>
+  </data>
+  <data name="Release110_extra_126" xml:space="preserve">
+    <value>Check for updates</value>
+  </data>
+  <data name="Release110_extra_127" xml:space="preserve">
+    <value>Updates are checked automatically at startup.</value>
+  </data>
+  <data name="Release110_extra_128" xml:space="preserve">
+    <value>Activate Jarvis</value>
+  </data>
+  <data name="Release110_extra_129" xml:space="preserve">
+    <value>Activate your beta account</value>
+  </data>
+  <data name="Release110_extra_130" xml:space="preserve">
+    <value>Beta activation code</value>
+  </data>
+  <data name="Release110_extra_131" xml:space="preserve">
+    <value>CLOSE BETA ACCESS</value>
+  </data>
+  <data name="Release110_extra_132" xml:space="preserve">
+    <value>Continue with Discord</value>
+  </data>
+  <data name="Release110_extra_133" xml:space="preserve">
+    <value>Continue with your authenticated Discord account, then enter the single-use code assigned to you.</value>
+  </data>
+  <data name="Release110_extra_134" xml:space="preserve">
+    <value>Forget saved session</value>
+  </data>
+  <data name="Release110_extra_135" xml:space="preserve">
+    <value>Jarvis never asks for your Discord password. Sign-in runs in Discord's official browser authorization page.</value>
+  </data>
+  <data name="Release110_extra_136" xml:space="preserve">
+    <value>Join Jarvis Discord</value>
+  </data>
+  <data name="Release110_extra_137" xml:space="preserve">
+    <value>No beta code? Join our Discord and get one for free!</value>
+  </data>
+  <data name="Release110_extra_138" xml:space="preserve">
+    <value>Switch Account</value>
+  </data>
+  <data name="Release110_extra_139" xml:space="preserve">
+    <value>VOICE MODE</value>
+  </data>
+  <data name="Release110_extra_140" xml:space="preserve">
+    <value>◖))   Voice mode</value>
+  </data>
+  <data name="Settings.AgentLimits" xml:space="preserve">
+    <value>Each request is limited to 20 model rounds and 48 tool calls. Running commands remain cancellable; the agent starts Computer Use when needed and you can stop it from the purple status banner.</value>
+  </data>
+  <data name="Settings.TimeoutSeconds" xml:space="preserve">
+    <value>Timeout (s)</value>
+  </data>
+  <data name="Voice.AutoPlay" xml:space="preserve">
+    <value>Automatically read chat replies aloud</value>
+  </data>
+  <data name="Voice.PlaybackFailure" xml:space="preserve">
+    <value>Speech playback failed. Check the voice and provider settings.</value>
+  </data>
+  <data name="Fallback.Intro" xml:space="preserve">
+    <value>Choose models in order. Jarvis starts with the first step and uses the next model after a matching failure.</value>
+  </data>
+  <data name="Fallback.TakeOver" xml:space="preserve">
+    <value>Take over on failure</value>
+  </data>
+  <data name="Fallback.Advanced" xml:space="preserve">
+    <value>Advanced settings</value>
+  </data>
+  <data name="Fallback.Primary" xml:space="preserve">
+    <value>Primary provider</value>
+  </data>
+  <data name="Fallback.Backup" xml:space="preserve">
+    <value>Backup provider</value>
+  </data>
+  <data name="Fallback.Verify" xml:space="preserve">
+    <value>Validate plan</value>
+  </data>
+  <data name="Fallback.CapabilityHelp" xml:space="preserve">
+    <value>Confirm capabilities only after checking with the provider.</value>
+  </data>
+  <data name="Fallback.When" xml:space="preserve">
+    <value>Take over after</value>
+  </data>
+  <data name="Fallback.Timeout" xml:space="preserve">
+    <value>Timeout in seconds (5–600)</value>
+  </data>
+  <data name="Fallback.NoReplay" xml:space="preserve">
+    <value>Each step is attempted at most once. Uncertain tool outcomes prevent switching providers.</value>
+  </data>
+  <data name="Fallback.First" xml:space="preserve">
+    <value>use first</value>
+  </data>
+  <data name="Fallback.Next" xml:space="preserve">
+    <value>take over after a matching failure</value>
+  </data>
+  <data name="Fallback.Last" xml:space="preserve">
+    <value>No further fallback is available after the last step.</value>
+  </data>
+  <data name="Fallback.Valid" xml:space="preserve">
+    <value>The plan is valid. Use the connection test to check availability.</value>
+  </data>
+  <data name="Fallback.ToolsMissing" xml:space="preserve">
+    <value>The plan is valid. At least one model lacks confirmed tool capabilities; tasks requiring tools skip that step.</value>
+  </data>
+  <data name="Fallback.Step" xml:space="preserve">
+    <value>Fallback step</value>
+  </data>
+  <data name="Common.Enabled" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="Fallback.NextOnMatchingError" xml:space="preserve">
+    <value>Switch to the next model after a matching failure</value>
+  </data>
+  <data name="Fallback.MoveUp" xml:space="preserve">
+    <value>Move step up</value>
+  </data>
+  <data name="Fallback.MoveDown" xml:space="preserve">
+    <value>Move step down</value>
+  </data>
+  <data name="Fallback.ConnectionTest" xml:space="preserve">
+    <value>Test connection</value>
+  </data>
+  <data name="Common.Disabled" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="Profile.DiscordSource" xml:space="preserve">
+    <value>Discord is the profile source for the Closed Beta.</value>
+  </data>
+  <data name="Profile.LoadingVerifiedSession" xml:space="preserve">
+    <value>The profile is being loaded from the verified session.</value>
+  </data>
+  <data name="Agent.SimpleVsComplex" xml:space="preserve">
+    <value>Simple questions are answered directly. Complex tasks are planned, executed, and verified.</value>
+  </data>
+  <data name="Chat.Sources" xml:space="preserve">
+    <value>Sources</value>
+  </data>
+  <data name="Chat.SourcesAndAttachments" xml:space="preserve">
+    <value>Sources and attachments</value>
+  </data>
+  <data name="Chat.RemoveAttachment" xml:space="preserve">
+    <value>Remove attachment</value>
+  </data>
+  <data name="Chat.AgentRun" xml:space="preserve">
+    <value>Agent run</value>
+  </data>
+  <data name="Chat.HeyJarvisOff" xml:space="preserve">
+    <value>Hey Jarvis — Off</value>
+  </data>
+  <data name="Chat.HeyJarvisOn" xml:space="preserve">
+    <value>Hey Jarvis — On</value>
+  </data>
+  <data name="Public110_000" xml:space="preserve">
+    <value>Jarvis Beta Activation</value>
+  </data>
+  <data name="Public110_001" xml:space="preserve">
+    <value>Checking beta service…</value>
+  </data>
+  <data name="Public110_004" xml:space="preserve">
+    <value>Choose workspace</value>
+  </data>
+  <data name="Public110_006" xml:space="preserve">
+    <value>Message Jarvis… · Enter sends, Shift+Enter adds a line</value>
+  </data>
+  <data name="Public110_012" xml:space="preserve">
+    <value>Enter sends · Shift+Enter adds a new line</value>
+  </data>
+  <data name="Public110_013" xml:space="preserve">
+    <value>Agent activities</value>
+  </data>
+  <data name="Public110_014" xml:space="preserve">
+    <value>Planning, actual PowerShell and CMD jobs, and Computer Use when needed. Desktop control starts automatically after screen access is approved once; consequential actions still require specific confirmation. Commands run with your normal Windows permissions.</value>
+  </data>
+  <data name="Public110_015" xml:space="preserve">
+    <value>Simple questions are answered directly. Complex tasks are planned, executed and verified.</value>
+  </data>
+  <data name="Public110_017" xml:space="preserve">
+    <value>Direct actions and confirmed agent tools.</value>
+  </data>
+  <data name="Public110_019" xml:space="preserve">
+    <value>Choose file …</value>
+  </data>
+  <data name="Public110_022" xml:space="preserve">
+    <value>Choose folder and search</value>
+  </data>
+  <data name="Public110_026" xml:space="preserve">
+    <value>Information you entered. Confirmed entries can be included in model context.</value>
+  </data>
+  <data name="Public110_032" xml:space="preserve">
+    <value>You can change the language at any time. Jarvis responds in the selected language by default.</value>
+  </data>
+  <data name="Public110_034" xml:space="preserve">
+    <value>Choose profile picture …</value>
+  </data>
+  <data name="Public110_035" xml:space="preserve">
+    <value>The conversation, confirmed memories, attachments and read file contents are sent to this endpoint. No background transfer.</value>
+  </data>
+  <data name="Public110_036" xml:space="preserve">
+    <value>Choose an available model or use Manual for a custom model ID</value>
+  </data>
+  <data name="Public110_038" xml:space="preserve">
+    <value>Leave blank to keep the stored key. Chat content is sent to the configured endpoint.</value>
+  </data>
+  <data name="Public110_039" xml:space="preserve">
+    <value>Optional OpenAI-compatible fallback. For Computer Use the selected model must support images and tool calls; confirm this only after checking provider and model capabilities.</value>
+  </data>
+  <data name="Public110_041" xml:space="preserve">
+    <value>Leave blank to keep a stored fallback key.</value>
+  </data>
+  <data name="Public110_042" xml:space="preserve">
+    <value>I confirmed that this fallback model supports image input and tool calls</value>
+  </data>
+  <data name="Public110_044" xml:space="preserve">
+    <value>Choose models in the desired order. Jarvis uses the first step first and moves to the next model after a matching failure.</value>
+  </data>
+  <data name="Public110_047" xml:space="preserve">
+    <value>Computer Use</value>
+  </data>
+  <data name="Public110_052" xml:space="preserve">
+    <value>Each step is attempted at most once. Uncertain tool results prevent switching providers.</value>
+  </data>
+  <data name="Public110_054" xml:space="preserve">
+    <value>Confirm capabilities only after checking with the provider. Error conditions determine when this step is used after a previous failure.</value>
+  </data>
+  <data name="Public110_057" xml:space="preserve">
+    <value>File access is limited to these approved folders. Write operations require your confirmation.</value>
+  </data>
+  <data name="Public110_058" xml:space="preserve">
+    <value>Approve folder …</value>
+  </data>
+  <data name="Public110_059" xml:space="preserve">
+    <value>Persistent trust applies only to the exact same action with the same details. You can search and revoke entries here.</value>
+  </data>
+  <data name="Public110_061" xml:space="preserve">
+    <value>Enable hands-free mode · listen to microphone in the background</value>
+  </data>
+  <data name="Public110_062" xml:space="preserve">
+    <value>Local recognition works offline. The default phrase Hey Jarvis is recommended; custom short English phrases may vary by pronunciation.</value>
+  </data>
+  <data name="Public110_067" xml:space="preserve">
+    <value>Small · more accurate, requires more time and memory</value>
+  </data>
+  <data name="Public110_068" xml:space="preserve">
+    <value>Medium · high accuracy, slow and memory intensive</value>
+  </data>
+  <data name="Public110_069" xml:space="preserve">
+    <value>Large V3 Turbo · highest accuracy, large download and high RAM usage</value>
+  </data>
+  <data name="Public110_070" xml:space="preserve">
+    <value>The first model download requires internet access. Recognition then runs offline; models use Q5_1 quantization.</value>
+  </data>
+  <data name="Public110_072" xml:space="preserve">
+    <value>Piper generates speech locally on your PC. The selected voice model is downloaded once and remains available offline.</value>
+  </data>
+  <data name="Public110_074" xml:space="preserve">
+    <value>ElevenLabs · Cloud</value>
+  </data>
+  <data name="Public110_075" xml:space="preserve">
+    <value>Only when ElevenLabs is selected are spoken texts sent to ElevenLabs. Your account costs and usage limits apply. German and English are supported.</value>
+  </data>
+  <data name="Public110_076" xml:space="preserve">
+    <value>ElevenLabs API key · leave blank to keep</value>
+  </data>
+  <data name="Public110_077" xml:space="preserve">
+    <value>Remove stored cloud key</value>
+  </data>
+  <data name="Public110_079" xml:space="preserve">
+    <value>Model and temporary files are stored in the Jarvis resources folder selected during installation.</value>
+  </data>
+  <data name="Public110_080" xml:space="preserve">
+    <value>Spotify connects using OAuth PKCE. Your client ID is public; the login token is stored encrypted for your Windows account. The redirect URI must match exactly in Spotify Developer Dashboard.</value>
+  </data>
+  <data name="Public110_081" xml:space="preserve">
+    <value>Apple Music REST access requires an Apple Developer Token and a Music User Token. Tokens are stored locally with DPAPI encryption. Song playback opens through the Windows default handler; the REST API cannot reliably confirm playback.</value>
+  </data>
+  <data name="Public110_086" xml:space="preserve">
+    <value>Check the existing AI connection, choose the storage location and install Jarvis.</value>
+  </data>
+  <data name="Public110_088" xml:space="preserve">
+    <value>Checking local services …</value>
+  </data>
+  <data name="Public110_089" xml:space="preserve">
+    <value>Detecting processor, memory and free storage …</value>
+  </data>
+  <data name="Public110_090" xml:space="preserve">
+    <value>Backend model management is checked before download.</value>
+  </data>
+  <data name="Public110_091" xml:space="preserve">
+    <value>Choose folder …</value>
+  </data>
+  <data name="Public110_092" xml:space="preserve">
+    <value>Checking free storage …</value>
+  </data>
+  <data name="Public110_096" xml:space="preserve">
+    <value>Windows x64 · Includes .NET runtime · no administrator required</value>
+  </data>
+  <data name="Public110_098" xml:space="preserve">
+    <value>Dieser PC wird auf eine vorhandene Jarvis-Installation geprüft …</value>
   </data>
 </root>

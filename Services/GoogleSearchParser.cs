@@ -7,7 +7,7 @@ using System.Text.Json;
 
 namespace Jarvis.Services;
 
-public sealed record GoogleSearchResult(string Title, string Url, string Snippet);
+public sealed record GoogleSearchResult(string Title, string Url, string Snippet, string Domain = "", double Relevance = 0, string FetchStatus = "found", string? Error = null);
 
 public static class GoogleSearchParser
 {
@@ -22,13 +22,35 @@ public static class GoogleSearchParser
     {
         var creationDateQuery = IsCreationDateQuery(query);
         var concepts = QueryConcepts(query);
-        if (concepts.Count == 0) return results.ToList();
-        return results.Where(result => !creationDateQuery || IsRelevantCreationDateResult(result))
-            .Select(result => (result, score: concepts.Count(concept => concept.Any(term =>
-                (result.Title + " " + result.Snippet).Contains(term, StringComparison.OrdinalIgnoreCase)))))
-            .Where(match => match.score >= (concepts.Count == 1 ? 1 : Math.Max(2, (int)Math.Ceiling(concepts.Count * 0.6))))
-            .OrderByDescending(match => match.score)
-            .Select(match => match.result).ToList();
+        var distinctiveTerms = Regex.Matches(query.ToLowerInvariant(), @"[\p{L}\p{N}]{5,}").Select(match => match.Value)
+            .Where(term => !new[] { "minecraft", "wikipedia", "documentation", "official", "create", "erstelle", "using" }.Contains(term))
+            .Distinct().ToArray();
+        var unique = new Dictionary<string, GoogleSearchResult>(StringComparer.OrdinalIgnoreCase);
+        foreach (var result in results)
+        {
+            if (!Uri.TryCreate(result.Url, UriKind.Absolute, out var uri) || uri.Scheme is not ("http" or "https")) continue;
+            var canonical = new UriBuilder(uri) { Fragment = "" }.Uri.AbsoluteUri.TrimEnd('/');
+            if (unique.ContainsKey(canonical)) continue;
+            var haystack = result.Title + " " + result.Snippet + " " + uri.Host;
+            var matches = concepts.Count(concept => concept.Any(term => haystack.Contains(term, StringComparison.OrdinalIgnoreCase)));
+            var coverage = concepts.Count == 0 ? 1d : (double)matches / concepts.Count;
+            var officialBoost = IsPreferredTechnicalSource(uri.Host, query) ? .2d : 0d;
+            var score = Math.Min(1d, coverage + officialBoost);
+            var requiredCoverage = concepts.Count <= 2 ? .5d : .6d;
+            if (distinctiveTerms.Length > 0 && !distinctiveTerms.Any(term => haystack.Contains(term, StringComparison.OrdinalIgnoreCase))) continue;
+            if (creationDateQuery && !IsRelevantCreationDateResult(result) || score < requiredCoverage) continue;
+            unique[canonical] = result with { Url = canonical, Domain = uri.Host, Relevance = Math.Round(score, 2) };
+        }
+        return unique.Values.OrderByDescending(result => result.Relevance).ThenBy(result => result.Title).ToList();
+    }
+
+    private static bool IsPreferredTechnicalSource(string host, string query)
+    {
+        if (query.Contains("fabric", StringComparison.OrdinalIgnoreCase))
+            return host.Equals("docs.fabricmc.net", StringComparison.OrdinalIgnoreCase)
+                || host.EndsWith(".fabricmc.net", StringComparison.OrdinalIgnoreCase)
+                || host.Equals("github.com", StringComparison.OrdinalIgnoreCase);
+        return host.StartsWith("docs.", StringComparison.OrdinalIgnoreCase) || host.Equals("github.com", StringComparison.OrdinalIgnoreCase);
     }
 
     public static string ExpandQuery(string query)

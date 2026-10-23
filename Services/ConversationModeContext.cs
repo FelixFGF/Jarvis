@@ -1,0 +1,23 @@
+namespace Jarvis.Services;
+
+public enum ConversationMode
+{
+    Text,
+    Voice
+}
+
+/// <summary>Builds a per-request presentation contract from the real UI mode.</summary>
+public static class ConversationModeContext
+{
+    public static string Build(ConversationMode mode) => mode switch
+    {
+        ConversationMode.Voice => """
+CONVERSATION MODE: VOICE
+This request comes from the live voice interface. Lead with the answer, use natural spoken sentences, and keep the response concise. Do not read Markdown syntax, tables, raw URLs, or long enumerations aloud. Use only capabilities confirmed by the current tools and UI. If a visual result is also available in the text chat, mention that briefly without claiming it was displayed unless the application confirms it.
+""",
+        _ => """
+CONVERSATION MODE: TEXT CHAT
+This request comes from the text chat. Use concise prose for simple questions and structured detail for complex work. Use headings, bullets, tables, links, code blocks, diagrams, charts, or image results only when they materially improve understanding and the corresponding renderer or tool is actually available. Explain relevant tool evidence without dumping unnecessary raw output.
+"""
+    };
+}

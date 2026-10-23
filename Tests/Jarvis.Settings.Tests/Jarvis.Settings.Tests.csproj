@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+<PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0-windows10.0.19041.0</TargetFramework><UseWPF>true</UseWPF><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><RootNamespace>Jarvis</RootNamespace></PropertyGroup>
+<ItemGroup>
+<Compile Include="../../Services/UiLocalization.cs" Link="UiLocalization.cs"/>
+<Compile Include="../../Services/PersonalInstructions.cs" Link="PersonalInstructions.cs"/>
+<Compile Include="../../Services/ConversationModeContext.cs" Link="ConversationModeContext.cs"/>
+<Compile Include="../../Services/StructuredChartData.cs" Link="StructuredChartData.cs"/>
+<Compile Include="../../Services/ImageSearchService.cs" Link="ImageSearchService.cs"/>
+<Compile Include="../../Services/VisualResponseModel.cs" Link="VisualResponseModel.cs"/>
+<Compile Include="../../Services/VisualResponseRenderer.cs" Link="VisualResponseRenderer.cs"/>
+<Compile Include="../../Services/ModelResponseReliability.cs" Link="ModelResponseReliability.cs"/>
+<Compile Include="../../Services/AgentExecutionOrchestrator.cs" Link="AgentExecutionOrchestrator.cs"/>
+<Compile Include="../../Services/ChatGreetingService.cs" Link="ChatGreetingService.cs"/>
+<Compile Include="../../Models/ChatSession.cs" Link="ChatSession.cs"/>
+<Compile Include="../../Models/AppConfig.cs" Link="AppConfig.cs"/>
+<EmbeddedResource Include="../../Localization/UiText.resx" Link="Localization/UiText.resx"/>
+<EmbeddedResource Include="../../Localization/UiText.de.resx" Link="Localization/UiText.de.resx"/>
+</ItemGroup><ItemGroup><Compile Include="../../Models/ModelFallbackPlan.cs" Link="ModelFallbackPlan.cs"/></ItemGroup><ItemGroup><Compile Include="../../Services/ModelFallbackOrchestrator.cs" Link="ModelFallbackOrchestrator.cs"/><Compile Include="../../Services/ApiModelCatalogService.cs" Link="ApiModelCatalogService.cs"/></ItemGroup><ItemGroup><Compile Include="../../Services/ElevenLabsTtsService.cs" Link="ElevenLabsTtsService.cs"/></ItemGroup></Project>

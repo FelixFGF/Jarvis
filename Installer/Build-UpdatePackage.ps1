@@ -35,7 +35,7 @@ if ($LASTEXITCODE -ne 0) { throw 'Jarvis update payload publish failed.' }
 if (-not (Test-Path (Join-Path $stage 'Jarvis.dll'))) { throw 'Jarvis.dll is missing from the Beta update payload.' }
 $assemblyText = [Text.Encoding]::UTF8.GetString([IO.File]::ReadAllBytes((Join-Path $stage 'Jarvis.dll')))
 foreach ($marker in @('BetaActivationWindow', 'BetaSupabaseUrl', 'BetaSupabasePublishableKey', $supabaseUrl, $supabasePublishableKey)) {
-    if (-not $assemblyText.Contains($marker, [StringComparison]::Ordinal)) { throw "Beta activation/configuration verification failed for marker '$($marker -replace '^sb_publishable_.*$', 'publishable-key')'. Refusing to sign an ungated update payload." }
+    if ($assemblyText.IndexOf($marker, [StringComparison]::Ordinal) -lt 0) { throw "Beta activation/configuration verification failed for marker '$($marker -replace '^sb_publishable_.*$', 'publishable-key')'. Refusing to sign an ungated update payload." }
 }
 & dotnet publish (Join-Path $root 'Jarvis.Updater\Jarvis.Updater.csproj') -c Release -r win-x64 --self-contained true -o $helper -p:PublishSingleFile=true -p:NuGetAudit=false
 if ($LASTEXITCODE -ne 0) { throw 'Jarvis updater helper publish failed.' }
