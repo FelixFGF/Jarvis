@@ -59,8 +59,8 @@ public partial class MainWindow : Window
                 var installedFileVersion = FileVersionInfo.GetVersionInfo(Path.Combine(existingInstall, "Jarvis.exe"));
                 _installedVersion = installedFileVersion.ProductVersion ?? installedFileVersion.FileVersion ?? "unknown";
                 StartupStatusText.Text = _language == "de"
-                    ? $"Jarvis {_installedVersion} gefunden. Update auf 1.1.0 wird vorbereitet …"
-                    : $"Jarvis {_installedVersion} found. Preparing update to 1.1.0…";
+                    ? $"Jarvis {_installedVersion} gefunden. Update auf 1.1.1 wird vorbereitet …"
+                    : $"Jarvis {_installedVersion} found. Preparing update to 1.1.1…";
                 StatusText.Text = "Vorhandene Jarvis-Installation erkannt. Die Programmdateien werden aktualisiert; lokale Einstellungen, Chats und Logs bleiben erhalten.";
             }
             else StartupStatusText.Text = _language == "de"
@@ -86,12 +86,12 @@ public partial class MainWindow : Window
             if (_isUpdate)
             {
                 UpdateVersionText.Text = _language == "de"
-                    ? $"Installierte Version {_installedVersion}  →  Neue Version 1.1.0"
-                    : $"Installed version {_installedVersion}  →  New version 1.1.0";
+                    ? $"Installierte Version {_installedVersion}  →  Neue Version 1.1.1"
+                    : $"Installed version {_installedVersion}  →  New version 1.1.1";
                 UpdateVersionText.Visibility = Visibility.Visible;
                 StatusText.Text = _language == "de"
-                    ? "Vorhandene Installation erkannt. Jarvis wird auf Version 1.1.0 aktualisiert; Einstellungen, Chats, Modelle und Logs bleiben erhalten."
-                    : "Existing installation found. Jarvis will update to version 1.1.0; settings, chats, models and logs will be preserved.";
+                    ? "Vorhandene Installation erkannt. Jarvis wird auf Version 1.1.1 aktualisiert; Einstellungen, Chats, Modelle und Logs bleiben erhalten."
+                    : "Existing installation found. Jarvis will update to version 1.1.1; settings, chats, models and logs will be preserved.";
             }
             SetWizardStep(_isUpdate ? 2 : 0);
             StartupSpinnerRotation.BeginAnimation(System.Windows.Media.RotateTransform.AngleProperty, null);
@@ -114,18 +114,18 @@ public partial class MainWindow : Window
             ? (_language == "de" ? "Jarvis aktualisieren" : "Update Jarvis")
             : (_language == "de" ? "Jarvis installieren" : "Install Jarvis");
         WizardStepText.Text = _isUpdate
-            ? (_language == "de" ? "Updater · Version 1.1.0" : "Updater · Version 1.1.0")
+            ? (_language == "de" ? "Updater · Version 1.1.1" : "Updater · Version 1.1.1")
             : _language == "de"
                 ? $"Schritt {_wizardStep + 1} von 3 · {new[] { "KI-Backend", "Modell auswählen", "Installationsordner" }[_wizardStep]}"
                 : $"Step {_wizardStep + 1} of 3 · {new[] { "AI backend", "Choose a model", "Installation folder" }[_wizardStep]}";
         WizardTitle.Text = _isUpdate
-            ? (_language == "de" ? "Jarvis auf Version 1.1.0 aktualisieren" : "Update Jarvis to version 1.1.0")
+            ? (_language == "de" ? "Jarvis auf Version 1.1.1 aktualisieren" : "Update Jarvis to version 1.1.1")
             : (_language == "de" ? "Jarvis auf diesem PC einrichten" : "Set up Jarvis on this PC");
         if (_isUpdate)
         {
             UpdateVersionText.Text = _language == "de"
-                ? $"Installierte Version {_installedVersion}  →  Neue Version 1.1.0"
-                : $"Installed version {_installedVersion}  →  New version 1.1.0";
+                ? $"Installierte Version {_installedVersion}  →  Neue Version 1.1.1"
+                : $"Installed version {_installedVersion}  →  New version 1.1.1";
             UpdateVersionText.Visibility = Visibility.Visible;
         }
     }
@@ -626,11 +626,11 @@ public partial class MainWindow : Window
             CreateUninstaller(target);
             await CreateShortcutsAsync(target, token);
             StatusText.Text = _isUpdate
-                ? (_language == "de" ? "Jarvis wurde auf Version 1.1.0 aktualisiert. Einstellungen, Chats, Modelle und Logs wurden beibehalten." : "Jarvis was updated to version 1.1.0. Settings, chats, models and logs were preserved.")
+                ? (_language == "de" ? "Jarvis wurde auf Version 1.1.1 aktualisiert. Einstellungen, Chats, Modelle und Logs wurden beibehalten." : "Jarvis was updated to version 1.1.1. Settings, chats, models and logs were preserved.")
                 : (_language == "de"
                     ? $"Jarvis wurde installiert. Modelle und Zwischendateien liegen unter „{Path.Combine(target, "JarvisData")}“. Einstellungen, Chats und Logs liegen unter „{Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Jarvis")}“."
                     : $"Jarvis was installed. Models and cache files are stored in “{Path.Combine(target, "JarvisData")}”. Settings, chats and logs are stored in “{Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Jarvis")}”.");
-            ProgressLabel.Text = _language == "de" ? "Version 1.1.0 · abgeschlossen" : "Version 1.1.0 · complete";
+            ProgressLabel.Text = _language == "de" ? "Version 1.1.1 · abgeschlossen" : "Version 1.1.1 · complete";
             if (MessageBox.Show(this, _isUpdate ? "Update abgeschlossen. Jarvis jetzt starten?" : "Installation abgeschlossen. Jarvis jetzt starten?", "Jarvis ist bereit", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
                 Process.Start(new ProcessStartInfo(Path.Combine(target, "Jarvis.exe")) { UseShellExecute = true, WorkingDirectory = target });
             Close();
@@ -858,7 +858,7 @@ public partial class MainWindow : Window
         }
         var uninstallKey = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Uninstall\Jarvis");
         uninstallKey.SetValue("DisplayName", "Jarvis");
-        uninstallKey.SetValue("DisplayVersion", "1.1.0");
+        uninstallKey.SetValue("DisplayVersion", "1.1.1");
         uninstallKey.SetValue("Publisher", "Jarvis");
         uninstallKey.SetValue("InstallLocation", target);
         uninstallKey.SetValue("DisplayIcon", app);

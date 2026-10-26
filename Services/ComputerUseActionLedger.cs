@@ -20,15 +20,36 @@ public enum ComputerUseActionStatus
 public sealed class ComputerUseActionLedger
 {
     private readonly List<ComputerUseActionRecord> _history = [];
+    private string? _activeTaskId;
     public IReadOnlyList<ComputerUseActionRecord> History => _history;
-    public ComputerUseActionRecord? Current => _history.LastOrDefault();
+    public string? ActiveTaskId => _activeTaskId;
+    public ComputerUseActionRecord? Current => _activeTaskId is null
+        ? _history.LastOrDefault()
+        : _history.LastOrDefault(record => string.Equals(record.TaskId, _activeTaskId, StringComparison.Ordinal));
     public bool HasUnverifiedAction => Current?.Status is ComputerUseActionStatus.Pending
         or ComputerUseActionStatus.Executing or ComputerUseActionStatus.AwaitingObservation
         or ComputerUseActionStatus.Verifying or ComputerUseActionStatus.NeedsUserInput;
 
+    /// <summary>
+    /// Starts a fresh request scope. Results from a previous desktop task remain in the
+    /// diagnostic history, but can no longer block or replace an answer to the new request.
+    /// </summary>
+    public void BeginTask(string taskId)
+    {
+        if (string.IsNullOrWhiteSpace(taskId)) throw new ArgumentException("A task identifier is required.", nameof(taskId));
+        _activeTaskId = taskId;
+    }
+
+    public void EndTask(string taskId)
+    {
+        if (string.Equals(_activeTaskId, taskId, StringComparison.Ordinal)) _activeTaskId = null;
+    }
+
     public ComputerUseActionRecord Begin(string taskId, string? planId, int? planStep, string actionType,
         string target, string sourceObservationId, string intendedStateChange = "")
     {
+        if (_activeTaskId is not null && !string.Equals(_activeTaskId, taskId, StringComparison.Ordinal))
+            throw new InvalidOperationException("The desktop action does not belong to the active request.");
         if (HasUnverifiedAction) throw new InvalidOperationException("The preceding desktop action must be observed and resolved before another action can run.");
         if (string.IsNullOrWhiteSpace(taskId) || string.IsNullOrWhiteSpace(actionType)
             || string.IsNullOrWhiteSpace(sourceObservationId))

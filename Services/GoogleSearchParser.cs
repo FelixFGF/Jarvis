@@ -7,7 +7,7 @@ using System.Text.Json;
 
 namespace Jarvis.Services;
 
-public sealed record GoogleSearchResult(string Title, string Url, string Snippet, string Domain = "", double Relevance = 0, string FetchStatus = "found", string? Error = null);
+public sealed record GoogleSearchResult(string Title, string Url, string Snippet, string Domain = "", double Relevance = 0, string FetchStatus = "found", string? Error = null, string Provider = "");
 
 public static class GoogleSearchParser
 {
@@ -22,8 +22,8 @@ public static class GoogleSearchParser
     {
         var creationDateQuery = IsCreationDateQuery(query);
         var concepts = QueryConcepts(query);
-        var distinctiveTerms = Regex.Matches(query.ToLowerInvariant(), @"[\p{L}\p{N}]{5,}").Select(match => match.Value)
-            .Where(term => !new[] { "minecraft", "wikipedia", "documentation", "official", "create", "erstelle", "using" }.Contains(term))
+        var distinctiveTerms = Regex.Matches(query.ToLowerInvariant(), @"[\p{L}\p{N}]{4,}").Select(match => match.Value)
+            .Where(term => !new[] { "minecraft", "fabric", "wikipedia", "documentation", "official", "create", "erstelle", "using", "color", "colors", "colour", "colours", "graphic", "graphics", "bug", "bugs", "issue", "issues", "error", "errors" }.Contains(term))
             .Distinct().ToArray();
         var unique = new Dictionary<string, GoogleSearchResult>(StringComparer.OrdinalIgnoreCase);
         foreach (var result in results)
@@ -36,9 +36,10 @@ public static class GoogleSearchParser
             var coverage = concepts.Count == 0 ? 1d : (double)matches / concepts.Count;
             var officialBoost = IsPreferredTechnicalSource(uri.Host, query) ? .2d : 0d;
             var score = Math.Min(1d, coverage + officialBoost);
-            var requiredCoverage = concepts.Count <= 2 ? .5d : .6d;
-            if (distinctiveTerms.Length > 0 && !distinctiveTerms.Any(term => haystack.Contains(term, StringComparison.OrdinalIgnoreCase))) continue;
-            if (creationDateQuery && !IsRelevantCreationDateResult(result) || score < requiredCoverage) continue;
+            var requiredCoverage = concepts.Count <= 2 ? .5d : .4d;
+            var hasDistinctive = distinctiveTerms.Length == 0 || distinctiveTerms.Any(term => Variants(term).Any(variant => haystack.Contains(variant, StringComparison.OrdinalIgnoreCase)));
+            var minimumMatches = concepts.Count <= 2 ? 1 : 2;
+            if (!hasDistinctive || matches < minimumMatches || creationDateQuery && !IsRelevantCreationDateResult(result) || score < requiredCoverage) continue;
             unique[canonical] = result with { Url = canonical, Domain = uri.Host, Relevance = Math.Round(score, 2) };
         }
         return unique.Values.OrderByDescending(result => result.Relevance).ThenBy(result => result.Title).ToList();
@@ -58,6 +59,71 @@ public static class GoogleSearchParser
         var text = query.ToLowerInvariant();
         var asksCreationDate = IsCreationDateQuery(text);
         return asksCreationDate ? "YouTube founding year creation date established" : query;
+    }
+
+    public static bool LooksTechnical(string query) => Regex.IsMatch(query,
+        @"\b(fabric|minecraft|github|api|sdk|library|framework|documentation|docs|mod|code|coding|bug|issue|error|crash|software)\b", RegexOptions.IgnoreCase);
+
+    public static List<GoogleSearchResult> ParseGitHubSearch(string json, int limit)
+    {
+        using var document = JsonDocument.Parse(json);
+        if (!document.RootElement.TryGetProperty("items", out var items) || items.ValueKind != JsonValueKind.Array)
+            throw new InvalidDataException("GitHub search response did not contain an items array.");
+        var results = new List<GoogleSearchResult>();
+        foreach (var item in items.EnumerateArray())
+        {
+            var title = item.TryGetProperty("full_name", out var fullName) && fullName.ValueKind == JsonValueKind.String ? fullName.GetString() :
+                item.TryGetProperty("title", out var issueTitle) && issueTitle.ValueKind == JsonValueKind.String ? issueTitle.GetString() : null;
+            var url = item.TryGetProperty("html_url", out var htmlUrl) && htmlUrl.ValueKind == JsonValueKind.String ? htmlUrl.GetString() : null;
+            if (item.TryGetProperty("homepage", out var homepage) && homepage.ValueKind == JsonValueKind.String && Uri.TryCreate(homepage.GetString(), UriKind.Absolute, out var homeUri) && homeUri.Scheme is "http" or "https") url = homeUri.AbsoluteUri;
+            var snippet = item.TryGetProperty("description", out var description) && description.ValueKind == JsonValueKind.String ? description.GetString() :
+                item.TryGetProperty("body", out var body) && body.ValueKind == JsonValueKind.String ? body.GetString() : "";
+            if (string.IsNullOrWhiteSpace(title) || !Uri.TryCreate(url, UriKind.Absolute, out var target) || target.Scheme is not ("http" or "https")) continue;
+            results.Add(new(Plain(title), target.AbsoluteUri, Plain(snippet ?? "")));
+            if (results.Count >= Math.Clamp(limit, 1, 20)) break;
+        }
+        return results;
+    }
+
+    public static List<GoogleSearchResult> ParseRedditSearch(string json, int limit)
+    {
+        using var document = JsonDocument.Parse(json);
+        if (!document.RootElement.TryGetProperty("data", out var data) || !data.TryGetProperty("children", out var children) || children.ValueKind != JsonValueKind.Array)
+            throw new InvalidDataException("Reddit search response did not contain data.children.");
+        var results = new List<GoogleSearchResult>();
+        foreach (var child in children.EnumerateArray())
+        {
+            if (!child.TryGetProperty("data", out var item)) continue;
+            var title = item.TryGetProperty("title", out var titleNode) ? titleNode.GetString() : null;
+            var permalink = item.TryGetProperty("permalink", out var linkNode) ? linkNode.GetString() : null;
+            var snippet = item.TryGetProperty("selftext", out var textNode) ? textNode.GetString() ?? "" : "";
+            if (string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(permalink)) continue;
+            var url = permalink.StartsWith("/", StringComparison.Ordinal) ? "https://www.reddit.com" + permalink : permalink;
+            if (!Uri.TryCreate(url, UriKind.Absolute, out var uri) || uri.Scheme != Uri.UriSchemeHttps) continue;
+            results.Add(new(Plain(title), uri.AbsoluteUri, Plain(snippet)));
+            if (results.Count >= Math.Clamp(limit, 1, 20)) break;
+        }
+        return results;
+    }
+
+    public static List<GoogleSearchResult> ParseModrinthSearch(string json, int limit)
+    {
+        using var document = JsonDocument.Parse(json);
+        if (!document.RootElement.TryGetProperty("hits", out var hits) || hits.ValueKind != JsonValueKind.Array)
+            throw new InvalidDataException("Modrinth search response did not contain hits.");
+        var results = new List<GoogleSearchResult>();
+        foreach (var hit in hits.EnumerateArray())
+        {
+            var title = hit.TryGetProperty("title", out var titleNode) ? titleNode.GetString() : null;
+            var slug = hit.TryGetProperty("slug", out var slugNode) ? slugNode.GetString() : null;
+            var type = hit.TryGetProperty("project_type", out var typeNode) ? typeNode.GetString() ?? "mod" : "mod";
+            var description = hit.TryGetProperty("description", out var descriptionNode) ? descriptionNode.GetString() ?? "" : "";
+            var versions = hit.TryGetProperty("versions", out var versionsNode) && versionsNode.ValueKind == JsonValueKind.Array ? string.Join(" ", versionsNode.EnumerateArray().Select(node => node.GetString()).Where(value => !string.IsNullOrWhiteSpace(value))) : "";
+            if (string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(slug)) continue;
+            results.Add(new(Plain(title), $"https://modrinth.com/{Uri.EscapeDataString(type)}/{Uri.EscapeDataString(slug)}", Plain(description + " " + versions)));
+            if (results.Count >= Math.Clamp(limit, 1, 20)) break;
+        }
+        return results;
     }
 
     public static bool IsCreationDateQuery(string query) =>
@@ -81,7 +147,7 @@ public static class GoogleSearchParser
     private static List<string[]> QueryConcepts(string query)
     {
         var terms = Regex.Matches(query.ToLowerInvariant(), @"[\p{L}\p{N}]{3,}").Select(m => m.Value)
-            .Where(term => !new[] { "der", "die", "das", "den", "dem", "des", "ein", "eine", "einer", "eines", "und", "oder", "wie", "was", "wann", "wo", "ist", "war", "wurde", "wurden", "auf", "aus", "von", "für", "es", "the", "and", "for", "from", "with", "when", "was", "were", "is", "are", "it", "its", "search", "google", "suche", "such", "nach" }.Contains(term))
+            .Where(term => !new[] { "der", "die", "das", "den", "dem", "des", "ein", "eine", "einen", "einem", "einer", "eines", "man", "und", "oder", "wie", "was", "wann", "wo", "ist", "war", "wurde", "wurden", "auf", "aus", "von", "für", "bei", "es", "the", "and", "for", "from", "with", "when", "was", "were", "is", "are", "it", "its", "search", "google", "suche", "such", "nach", "bug", "bugs", "issue", "issues", "error", "errors", "crash", "problem", "fix", "lösung", "workaround" }.Contains(term))
             .Distinct().ToList();
         var concepts = new List<string[]>();
         foreach (var term in terms)
@@ -89,10 +155,21 @@ public static class GoogleSearchParser
             if (term.Contains("youtube", StringComparison.Ordinal)) concepts.Add(["youtube"]);
             else if (term.Contains("erstellt", StringComparison.Ordinal) || term.Contains("created", StringComparison.Ordinal) || term.Contains("gründ", StringComparison.Ordinal) || term.Contains("found", StringComparison.Ordinal) || term.Contains("datum", StringComparison.Ordinal))
                 concepts.Add(["created", "founded", "established", "launched", "started", "gründ", "erstell", "gegründ", "creation", "date"]);
-            else concepts.Add([term]);
+            else concepts.Add(Variants(term));
         }
         return concepts;
     }
+
+    private static string[] Variants(string term) => term switch
+    {
+        "color" or "colors" or "colour" or "colours" => ["color", "colour"],
+        "graphic" or "graphics" => ["graphic", "render", "visual"],
+        "bug" or "bugs" or "issue" or "issues" => ["bug", "issue", "error", "glitch"],
+        "shader" or "shaders" => ["shader"],
+        "documentation" or "docs" => ["documentation", "docs"],
+        _ when term.EndsWith("s", StringComparison.Ordinal) && term.Length > 4 => [term, term[..^1]],
+        _ => [term]
+    };
 
     public static bool IsConsentPage(string html) => ContainsAny(html, "consent.google.com", "Before you continue to Google", "consent.googleusercontent.com");
     public static bool IsBlockedPage(string html) => ContainsAny(html, "/sorry/", "unusual traffic", "Our systems have detected unusual traffic", "g-recaptcha", "Please show you're not a robot");

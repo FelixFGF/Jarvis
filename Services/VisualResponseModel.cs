@@ -17,7 +17,7 @@ public sealed record VisualResponseSegment(string? Text, VisualResponseDocument?
 public static partial class VisualResponseParser
 {
     private static readonly HashSet<string> Types = new(StringComparer.OrdinalIgnoreCase)
-    { "bar", "line", "pie", "donut", "area", "stackedBar", "kpi", "table", "progress", "gallery", "timeline", "comparison", "ranking" };
+    { "bar", "line", "pie", "donut", "area", "stackedBar", "kpi", "table", "progress", "gallery", "timeline", "comparison", "ranking", "flowchart", "components", "stepCards", "checklist" };
 
     [GeneratedRegex("```jarvis-visual\\s*(?<json>\\{[\\s\\S]*?\\})\\s*```", RegexOptions.IgnoreCase)]
     private static partial Regex VisualFence();
@@ -65,7 +65,7 @@ public static partial class VisualResponseParser
         if (type.Equals("kpi", StringComparison.OrdinalIgnoreCase) && metrics.Count == 0) throw new InvalidDataException("Kennzahlen fehlen.");
         if (type.Equals("progress", StringComparison.OrdinalIgnoreCase) && (value is null || maximum is null || maximum <= 0 || value < 0 || value > maximum)) throw new InvalidDataException("Der Fortschrittswert ist ungültig.");
         if (type.Equals("gallery", StringComparison.OrdinalIgnoreCase) && images.Count == 0) throw new InvalidDataException("Galeriebilder fehlen.");
-        if (type.Equals("timeline", StringComparison.OrdinalIgnoreCase) && steps.Count == 0) throw new InvalidDataException("Ablaufschritte fehlen.");
+        if (new[] { "timeline", "flowchart", "components", "stepCards", "checklist" }.Contains(type, StringComparer.OrdinalIgnoreCase) && steps.Count == 0) throw new InvalidDataException("Ablaufschritte fehlen.");
         return new(type, title, subtitle, categories, series, metrics, columns, rows, value, maximum, unit, images, steps);
     }
 

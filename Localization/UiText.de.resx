@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
@@ -49,7 +49,7 @@
     <value>Dein privater Arbeitsbereich</value>
   </data>
   <data name="Ui.LocalDesktopAIVersion105">
-    <value>Lokale Desktop-KI · Version 1.1.0</value>
+    <value>Lokale Desktop-KI · Version 1.1.1</value>
   </data>
   <data name="Ui.YourProfile">
     <value>Dein Profil</value>
@@ -421,7 +421,7 @@
     <value>Gib den BionicGPT-API-Schlüssel ein und lade die Modelle. Der Schlüssel wird lokal per Windows-DPAPI geschützt.</value>
   </data>
   <data name="Ui.PersonalAIWorkspaceSetup105">
-    <value>Persönlicher KI-Arbeitsbereich · Setup 1.1.0</value>
+    <value>Persönlicher KI-Arbeitsbereich · Setup 1.1.1</value>
   </data>
   <data name="Ui.Back">
     <value>Zurück</value>
@@ -955,7 +955,7 @@
     <value>Enter an OpenAI-compatible API endpoint. An API key is optional and only needed by providers that require authentication.</value>
   </data>
   <data name="Ui.SetUpJarvisOnThisPCVersion105">
-    <value>Jarvis auf diesem PC einrichten · Version 1.1.0</value>
+    <value>Jarvis auf diesem PC einrichten · Version 1.1.1</value>
   </data>
   <data name="Ui.JarvisSetup">
     <value>Jarvis Setup</value>
@@ -988,7 +988,7 @@
     <value>Spotify wird über OAuth PKCE verbunden. Dein Client-ID ist öffentlich, das Anmelde-Token wird verschlüsselt für dein Windows-Konto gespeichert. In Spotify Developer Dashboard muss die Redirect URI exakt eingetragen sein.</value>
   </data>
   <data name="Ui.Version105">
-    <value>Version 1.1.0</value>
+    <value>Version 1.1.1</value>
   </data>
   <data name="Ui.600ms">
     <value>600 ms</value>
@@ -1153,16 +1153,16 @@
     <value>Installiere optional Ollama über den offiziellen Installer oder verbinde BionicGPT über localhost:1235. Der API-Schlüssel wird für dein Windows-Konto geschützt gespeichert.</value>
   </data>
   <data name="Ui.InstalledVersionValueNewVersion105">
-    <value>Installierte Version {_installedVersion}  →  Neue Version 1.1.0</value>
+    <value>Installierte Version {_installedVersion}  →  Neue Version 1.1.1</value>
   </data>
   <data name="Ui.JarvisValueFoundPreparingUpdateTo105">
-    <value>Jarvis {_installedVersion} gefunden. Update auf 1.1.0 wird vorbereitet …</value>
+    <value>Jarvis {_installedVersion} gefunden. Update auf 1.1.1 wird vorbereitet …</value>
   </data>
   <data name="Ui.UpdateJarvis">
     <value>Jarvis aktualisieren</value>
   </data>
   <data name="Ui.UpdateJarvisToVersion105">
-    <value>Jarvis auf Version 1.1.0 aktualisieren</value>
+    <value>Jarvis auf Version 1.1.1 aktualisieren</value>
   </data>
   <data name="Ui.UninstallJarvis">
     <value>Jarvis deinstallieren</value>
@@ -1174,7 +1174,7 @@
     <value>Jarvis Sprache</value>
   </data>
   <data name="Ui.JarvisWasUpdatedToVersion105SettingsChatsModelsAndLogsWerePreserved">
-    <value>Jarvis wurde auf Version 1.1.0 aktualisiert. Einstellungen, Chats, Modelle und Logs wurden beibehalten.</value>
+    <value>Jarvis wurde auf Version 1.1.1 aktualisiert. Einstellungen, Chats, Modelle und Logs wurden beibehalten.</value>
   </data>
   <data name="Ui.DeleteJarvisData">
     <value>Jarvis-Daten löschen</value>
@@ -1324,7 +1324,7 @@
     <value>Suche verfügbare Windows-Aufnahmegeräte …</value>
   </data>
   <data name="Ui.UpdaterVersion105">
-    <value>Updater · Version 1.1.0</value>
+    <value>Updater · Version 1.1.1</value>
   </data>
   <data name="Ui.TestingConnection">
     <value>Verbindung wird geprüft …</value>
@@ -1333,7 +1333,7 @@
     <value>Verbunden · </value>
   </data>
   <data name="Ui.Version105Complete">
-    <value>Version 1.1.0 · abgeschlossen</value>
+    <value>Version 1.1.1 · abgeschlossen</value>
   </data>
   <data name="Ui.CouldNotSaveTrust">
     <value>Vertrauen konnte nicht gespeichert werden: </value>
@@ -1342,7 +1342,7 @@
     <value>Vor der endgültigen Antwort nicht ausgeführt.</value>
   </data>
   <data name="Ui.ExistingInstallationFoundJarvisWillUpdateToVersion105SettingsChatsModelsAndLogsWillBePreserved">
-    <value>Vorhandene Installation erkannt. Jarvis wird auf Version 1.1.0 aktualisiert; Einstellungen, Chats, Modelle und Logs bleiben erhalten.</value>
+    <value>Vorhandene Installation erkannt. Jarvis wird auf Version 1.1.1 aktualisiert; Einstellungen, Chats, Modelle und Logs bleiben erhalten.</value>
   </data>
   <data name="Ui.ResumeSpeech">
     <value>Vorlesen fortsetzen</value>
@@ -1917,4 +1917,53 @@
   <data name="Public110_015" xml:space="preserve">
     <value>Simple questions are answered directly. Complex tasks are planned, executed and verified.</value>
   </data>
+  <data name="Public110_101" xml:space="preserve">
+    <value>ElevenLabs API-Schlüssel öffnen</value>
+  </data>
+  <data name="Ui.LocalAlarmsAndReminders"><value>Lokale Alarme und Erinnerungen</value></data>
+  <data name="Ui.RemindersRunLimitation"><value>Jarvis verwaltet diese Erinnerungen lokal. Alarme können nur klingeln, solange Jarvis läuft; verpasste Termine werden beim nächsten Start angezeigt.</value></data>
+  <data name="Ui.NewReminder"><value>Neue Erinnerung</value></data>
+  <data name="Ui.Once"><value>Einmal</value></data>
+  <data name="Ui.Daily"><value>Täglich</value></data>
+  <data name="Ui.Weekly"><value>Wöchentlich</value></data>
+  <data name="Ui.NoUpcomingReminder"><value>Keine bevorstehende Erinnerung.</value></data>
+  <data name="Ui.SnoozeTen"><value>10 Min. später</value></data>
+  <data name="Ui.Edit"><value>Bearbeiten</value></data>
+  <data name="Ui.Dismiss"><value>Erledigt</value></data>
+  <data name="Ui.RemindersNavigation"><value>⏰   Erinnerungen</value></data>
+  <data name="Ui.PreviewAlarmSound"><value>Alarmton testen</value></data>
+  <data name="Ui.ExecutionPermissions"><value>Ausführungsfreigaben</value></data>
+  <data name="Ui.ExecutionPermissionDescription"><value>Wähle, wie Jarvis geeignete geschützte Aktionen freigibt. Harte Sicherheitsgrenzen bleiben in jedem Modus aktiv.</value></data>
+  <data name="Ui.PermissionAlwaysAsk"><value>Immer fragen</value></data>
+  <data name="Ui.PermissionAutomaticReview"><value>Automatische Sicherheitsprüfung</value></data>
+  <data name="Ui.PermissionAllowEligible"><value>Alle geeigneten Aktionen erlauben</value></data>
+  <data name="Ui.SecurityReviewerConfigure"><value>Sicherheitsprüfer konfigurieren</value></data>
+  <data name="Ui.SecurityReviewerDisclaimer"><value>Eine KI-Prüfung ist keine Sicherheitsgarantie. Bei Fehlern oder Unsicherheit fragt Jarvis dich.</value></data>
+  <data name="Ui.ApiKey"><value>API-Schlüssel</value></data>
+  <data name="Ui.BrowserNavigation"><value>🌐   Browser</value></data>
+  <data name="Ui.FilesNavigation"><value>📁   Dateien</value></data>
+  <data name="Ui.RecentActivityTracking"><value>Letzte Anwendungsaktivität lokal erfassen</value></data>
+  <data name="Ui.ForegroundMonitoring"><value>Vordergrundfensterwechsel erfassen</value></data>
+  <data name="Ui.ActivityPrivacy"><value>Es werden nur Zeit, Prozessname und Fenstertitel gespeichert (maximal 100 Einträge). Keine Tasten, Passwörter oder Bildschirminhalte.</value></data>
+  <data name="Ui.BrowserSubtitle"><value>Webseiten sicher innerhalb von Jarvis prüfen</value></data>
+  <data name="Ui.FilesSubtitle"><value>Dateien und tatsächliche Änderungen getrennt prüfen</value></data>
+  <data name="Ui.BrowserUntrusted"><value>Webinhalte sind nicht vertrauenswürdig und können Jarvis-Freigaben nicht ändern.</value></data>
+  <data name="Ui.OpenExternally"><value>Extern öffnen</value></data>
+  <data name="Ui.OpenExplorer"><value>Im Explorer öffnen</value></data>
+  <data name="Ui.FileChanges"><value>Dateiänderungen</value></data>
+  <data name="Ui.SelectFile"><value>Datei auswählen</value></data>
+  <data name="Ui.NoTrackedChanges"><value>Keine nachverfolgten Änderungen</value></data>
+  <data name="Ui.ProjectFiles"><value>Projektdateien</value></data>
+  <data name="Ui.Changes"><value>Änderungen</value></data>
+  <data name="Ui.Reload"><value>Neu laden</value></data>
+  <data name="Ui.NoProjectFolder"><value>Kein Projektordner</value></data>
+  <data name="Ui.InspectChanges"><value>Änderungen anzeigen</value></data>
+  <data name="Ui.Rollback"><value>Rückgängig</value></data>
+  <data name="Ui.OpenFile"><value>Datei öffnen</value></data>
+  <data name="Ui.TaskCompleted"><value>Aufgabe abgeschlossen</value></data>
+  <data name="Ui.FilesChanged"><value>Dateien geändert</value></data>
+  <data name="Ui.CreateNewFile"><value>Neue Datei erstellen</value></data>
+  <data name="Ui.CreateNewFolder"><value>Neuen Ordner erstellen</value></data>
+  <data name="Ui.FileConflict"><value>Dateikonflikt</value></data>
+  <data name="Ui.BinaryFileChanged"><value>Binärdatei — Dateimetadaten geändert</value></data>
 </root>

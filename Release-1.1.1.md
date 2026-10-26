@@ -76,7 +76,9 @@ No remote release, push, database change or signing-key change is authorized her
 
 ## Observed test results
 
-- Release build: successful, zero warnings and errors; file version 1.1.1.0.
+- Release and Beta builds: successful with zero errors. NuGet vulnerability metadata
+  produced two NU1900 warnings because the NuGet service index was unavailable;
+  application compilation itself produced no warning. File version is 1.1.1.0.
 - Settings: 11 localization/preferences checks, 14 fallback checks and 4 mocked
   cloud-voice checks passed. Both language resources contain 570 matching keys.
 - Persistence: passed, including six synthetic audio conversions, wake-text
@@ -87,9 +89,86 @@ No remote release, push, database change or signing-key change is authorized her
 - Initial test compilation missed a System.IO import; initial application build
   detected an unclosed XAML cell template. Both were corrected and tests/builds
   rerun successfully. No unresolved compilation failure remains.
-- Final official Beta installer build completed successfully after the last audio
-  level fix. `Jarvis-Setup.exe` and its packaged application both report 1.1.1.0.
-  The installer is 233,956,480 bytes; SHA-256 is
-  `2B233B6DA541DF1FAC0CC878FE69735F26F90A0D9EC40C92C28FBE0FF030C338`.
+- Final official Beta installer build completed successfully after the advanced
+  control and Minecraft-diagnostics additions. `Jarvis-Setup.exe` reports file
+  version 1.1.1.0 and product version 1.1.1. The installer is 234,997,877 bytes;
+  SHA-256 is
+  `4E4FF5ADF6278C0D5E3CDFB45CB6CFFA19AA3127036C0C28B567F5A7370BE114`.
   Its generated checksum file matches. The local EXE is not Authenticode-signed;
   no signing credential was available or embedded.
+
+## Advanced agent and repair additions
+
+- Added dedicated native tools for opening approved files in Notepad, opening visible PowerShell/CMD windows in an approved working directory, waiting for a window, and restoring, minimizing, maximizing or resizing a uniquely identified window with result verification.
+- Allow Everything is evaluated on each tool action, including ordinary one-time terminal/window actions. Destructive and security-sensitive operations remain hard confirmation boundaries. Tool activity remains independent from permission decisions.
+- Added evidence-based Minecraft instance discovery and crash analysis for launcher instance layouts, latest logs, crash reports, Java incompatibility, missing dependencies, mixin failures, memory failures and duplicate mod versions. Controlled repair backups are restricted to files inside the selected instance.
+- Added exact Modrinth project/version lookup for Minecraft version and loader with dependency, HTTPS JAR, size and SHA-512 metadata.
+- Added in-memory task-scoped file-change tracking with actual added/removed line counts and backup/rollback metadata. Existing create-folder and write-file tools now emit change IDs.
+- Fixed manual text-to-speech error reporting so ElevenLabs errors retain their cloud-provider category rather than being described as missing local playback.
+- Added a native WebView2 browser page with address navigation, back/forward/reload, visible loading errors and model tools that navigate and verify the current URL/title. Its isolated profile disables password saving and does not expose cookies or credentials to model tools.
+- Added separate Files and File Changes tabs. The Files tree loads folders lazily and previews bounded text files; File Changes persists actual tracked mutations under the per-user Jarvis data directory and displays aggregate added/removed lines.
+- Added opt-in, event-driven foreground activity history. It keeps at most 100 process/title/timestamp entries locally and never records keys, typed text, screenshots, audio or browser history.
+- Pending eligible approvals now re-evaluate when the permission mode changes during a task; hard security boundaries remain human-confirmed.
+
+## Integrated developer workspace completion
+
+- Chat and workspace now share one resizable view. The right side contains persistent
+  file tabs, an editable AvalonEdit source editor, a lazy project tree, embedded
+  browser tabs and a separate changes tab. The old standalone Browser and Files
+  pages were removed so navigation and tools use the same workspace instance.
+- Editor state persists the selected root, open documents, active document, safe
+  browser URLs, expanded project folders and active workspace view. Files use their real contents, line
+  numbers, dirty indicators, explicit save/reload actions and external-change
+  conflict protection. Users can navigate by path and search both the project and
+  the active document. The syntax catalog covers Python, Java, JavaScript,
+  TypeScript, C#, C/C++, HTML, CSS/SCSS, JSON, XML, YAML, Markdown, PowerShell,
+  SQL, Java properties, INI/configuration and common shell scripts. AvalonEdit
+  6.3.1.120 is bundled; no runtime syntax download is required.
+- Browser tools can navigate, report state, read bounded visible page text, click
+  a precise selector, fill an approved field, scroll, open/select tabs and wait
+  for bounded navigation completion. Password saving and
+  general autofill remain disabled. Returned page content remains untrusted.
+- File changes persist real before/after snapshots where safe, use a line-level
+  diff for exact green additions/red removals, show aggregate counts and provide
+  guarded rollback. Rollback refuses to delete or overwrite files changed after
+  the recorded operation.
+- Substantial tasks with real file mutations receive a compact completion card in
+  chat with actual file and line totals, per-file links and an Inspect changes
+  action. A compact net change pill also remains directly above the composer and
+  opens the Changes workspace. Simple chat replies do not receive an unnecessary card.
+- The Minecraft repair tool is now a real, separately approved operation. It
+  requires diagnosis evidence, selects an exact Minecraft/loader-compatible
+  Modrinth version, creates a ZIP backup, verifies size, SHA-512 and mod-JAR
+  structure, disables only the selected old JAR and restores it if installation
+  fails. A successful download does not claim that Minecraft was launched.
+
+Remaining limits: runtime gameplay verification still needs a real Minecraft
+launch; background audio presence and periodic unattended screenshots are not
+implemented. Foreground application history remains opt-in and records no typed
+content. The WPF client passed a startup smoke test, but the isolated automation
+environment could not visually inspect or click the native window.
+
+## Flexible workspace and integrated terminals
+
+- The workspace is now a persisted optional panel. Hidden mode returns all width
+  to chat; split mode remains resizable; Files, Browser, Changes and Terminal can
+  use the complete content area without destroying chat or open workspace state.
+- The workspace header now accepts, validates and browses for an explicit project
+  root. The tree, relative operations, editor and terminal default directory share
+  that root. Jarvis no longer silently treats its source checkout as the project.
+- Files and Browser navigation use maximized workspace modes and can return to the
+  normal split layout. The existing editor tabs, browser tabs, expanded folders
+  and selected paths remain persisted.
+- Real persistent PowerShell and CMD sessions are available in both the chat side
+  and the workspace Terminal tab. Sessions capture standard output and error,
+  report exit codes, reject overlapping commands, support process-tree interrupt,
+  keep their effective working directory visible and share the existing approval
+  policy and visible tool activity.
+- Completion cards are now policy-gated: normal conversation has no task card;
+  real file mutations or meaningful completed tools can produce completed,
+  partial or failed summaries from actual results.
+- Automated tests executed both shells, output capture, working-directory
+  validation, exit codes, cancellation, duplicate-command rejection, display
+  clearing, layout state and completion-card policy. The Beta WPF executable was
+  started visibly, remained responsive and closed cleanly. Pixel-level manual UI
+  inspection was not available in the automation environment.

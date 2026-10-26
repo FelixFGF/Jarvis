@@ -12,6 +12,8 @@
     <None Include="..\..\App.xaml" Link="App.xaml" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\MainWindow.xaml" Link="MainWindow.xaml" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\MainWindow.xaml.cs" Link="MainWindow.xaml.cs" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\AlarmNotificationWindow.cs" Link="AlarmNotificationWindow.cs" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\MainWindow.InteractiveQuestions.cs" Link="MainWindow.InteractiveQuestions.cs" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\App.xaml.cs" Link="App.xaml.cs" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\app.manifest" Link="app.manifest" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\Jarvis.csproj" Link="Jarvis.csproj" CopyToOutputDirectory="PreserveNewest" />
@@ -25,10 +27,17 @@
     <Compile Include="..\..\Services\ChatStore.cs" Link="Services\ChatStore.cs" />
     <Compile Include="..\..\Services\GoogleSearchParser.cs" Link="Services\GoogleSearchParser.cs" />
     <Compile Include="..\..\Services\WebResearchService.cs" Link="Services\WebResearchService.cs" />
+    <Compile Include="..\..\Services\WebResearchIntentParser.cs" Link="Services\WebResearchIntentParser.cs" />
     <Compile Include="..\..\Services\ImageSearchService.cs" Link="Services\ImageSearchService.cs" />
+    <Compile Include="..\..\Services\ImageSearchIntentParser.cs" Link="Services\ImageSearchIntentParser.cs" />
+    <Compile Include="..\..\Services\ImageDownloadService.cs" Link="Services\ImageDownloadService.cs" />
+    <Compile Include="..\..\Services\ImageGalleryInteraction.cs" Link="Services\ImageGalleryInteraction.cs" />
     <Compile Include="..\..\Services\SpotifyCommandParser.cs" Link="Services\SpotifyCommandParser.cs" />
     <Compile Include="..\..\Services\LocalSpeechService.cs" Link="Services\LocalSpeechService.cs" />
     <Compile Include="..\..\Services\SpeechRecognitionProviders.cs" Link="Services\SpeechRecognitionProviders.cs" />
+    <Compile Include="..\..\Services\SpeechRecognitionContracts.cs" Link="Services\SpeechRecognitionContracts.cs" />
+    <Compile Include="..\..\Services\ElevenLabsSttService.cs" Link="Services\ElevenLabsSttService.cs" />
+    <Compile Include="..\..\Services\InteractiveQuestionSchema.cs" Link="Services\InteractiveQuestionSchema.cs" />
     <Compile Include="..\..\Services\LocalTtsService.cs" Link="Services\LocalTtsService.cs" />
     <Compile Include="..\..\Services\DefaultSystemPrompt.cs" Link="Services\DefaultSystemPrompt.cs" />
     <Compile Include="..\..\Services\CommandExecutionService.cs" Link="Services\CommandExecutionService.cs" />

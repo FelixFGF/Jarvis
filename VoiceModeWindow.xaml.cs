@@ -45,6 +45,8 @@ public partial class VoiceModeWindow : Window
         StateText.Text = _language == "de" ? title switch
         {
             "Ready when you are" => "Bereit, wenn du es bist", "Listening…" => "Jarvis hört zu…", "Thinking…" => "Jarvis denkt nach…",
+            "Generating speech…" => "Sprachausgabe wird erzeugt…",
+            "Executing tools…" => "Werkzeuge werden ausgeführt…",
             "Preparing speech recognition…" => "Spracherkennung wird vorbereitet…",
             "Understanding…" => "Verarbeitet deine Sprache…", "Jarvis is speaking…" => "Jarvis spricht…", "Voice playback failed" => "Sprachausgabe fehlgeschlagen",
             "Voice mode could not start" => "Sprachmodus konnte nicht gestartet werden",
@@ -58,6 +60,7 @@ public partial class VoiceModeWindow : Window
             "Speak naturally. Jarvis will listen for a short pause." => "Sprich ganz normal. Jarvis reagiert nach einer kurzen Sprechpause.",
             "Converting your speech locally." => "Deine Sprache wird lokal in Text umgewandelt.",
             "Jarvis will listen again when the response finishes." => "Wenn die Antwort fertig ist, hört Jarvis wieder zu.",
+            "The verified final answer is being prepared for playback." => "Die geprüfte endgültige Antwort wird für die Wiedergabe vorbereitet.",
             "Speak naturally. Jarvis will respond after a short pause." => "Sprich ganz normal. Nach einer kurzen Pause antwortet Jarvis.", _ => detail
         } : detail;
         RetryButton.Visibility = state == VoiceUiState.Error ? Visibility.Visible : Visibility.Collapsed;
@@ -98,4 +101,4 @@ public partial class VoiceModeWindow : Window
     private void Close_Click(object sender, RoutedEventArgs e) { EndRequested?.Invoke(this, EventArgs.Empty); if (IsVisible) Close(); }
 }
 
-public enum VoiceUiState { Ready, Listening, Thinking, Speaking, Error }
+public enum VoiceUiState { Ready, Listening, Thinking, Executing, Speaking, Error }

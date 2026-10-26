@@ -8,6 +8,26 @@ using System.Xml.Linq;
 using Jarvis;
 using Jarvis.Beta;
 
+if (args.Contains("--live-search", StringComparer.Ordinal))
+{
+    foreach (var query in new[] { "official Fabric documentation", "Minecraft Fabric 1.21.1 hotbar color bug", "google wie man einen minecraft mod bug fixt für crash bei hotbar colors", "Minecraft shader screenshots" })
+    {
+        using var service = new WebResearchService(providerTimeout: TimeSpan.FromSeconds(15));
+        var effectiveQuery = WebResearchIntentParser.TryParse(query, out var routedQuery) ? routedQuery : query;
+        var result = await service.SearchAsync(effectiveQuery, 8, CancellationToken.None);
+        Console.WriteLine($"WEB query={query} final={result.Provider} retained={result.Results.Count}");
+        foreach (var attempt in result.Attempts) Console.WriteLine($"  {attempt.Provider}: outcome={attempt.Outcome} http={attempt.HttpStatus?.ToString() ?? "n/a"} bytes={attempt.RawBytes} raw={attempt.RawCount} parsed={attempt.ParsedCount} retained={attempt.RetainedCount} durationMs={attempt.DurationMs} rejected={attempt.RejectionReason}");
+    }
+    foreach (var query in new[] { "Minecraft logo", "official Minecraft logo", "Minecraft shader screenshots", "Complementary Reimagined shaders", "Minecraft landscape" })
+    {
+        using var service = new ImageSearchService();
+        var result = await service.SearchDetailedAsync(query, 8, CancellationToken.None);
+        Console.WriteLine($"IMAGE query={query} outcome={result.Outcome} retained={result.Results.Count}");
+        foreach (var attempt in result.Attempts) Console.WriteLine($"  {attempt.Provider}: outcome={attempt.Outcome} http={attempt.HttpStatus?.ToString() ?? "n/a"} raw={attempt.RawCount} parsed={attempt.ParsedCount} retained={attempt.RetainedCount}");
+    }
+    return;
+}
+
 var root = Path.Combine(AppContext.BaseDirectory, "test-data-" + Guid.NewGuid().ToString("N"));
 Directory.CreateDirectory(root);
 try
@@ -56,6 +76,10 @@ try
         !((string?)dropdownPopup.Attribute("IsOpen"))!.Contains("Mode=TwoWay", StringComparison.Ordinal) ||
         !dropdownPopup.Descendants(presentationNs + "ItemsPresenter").Any(element => (string?)element.Attribute(xamlNs + "Name") == "ItemsPresenter"))
         throw new Exception("The custom ComboBox template does not wire its toggle, popup, and item host for dropdown interaction.");
+    var selectedPresenter = dropdownToggle.Descendants(presentationNs + "ContentPresenter").Single();
+    if (!((string?)selectedPresenter.Attribute("Content"))!.Contains("SelectedItem", StringComparison.Ordinal)
+        || !((string?)selectedPresenter.Attribute("Content"))!.Contains("ComboBoxSelectionConverter", StringComparison.Ordinal))
+        throw new Exception("The closed ComboBox still reuses a selected item container and can retain stale overlapping labels.");
     var mainWindowXaml = XDocument.Load(Path.Combine(AppContext.BaseDirectory, "MainWindow.xaml"));
     var fallbackSteps = mainWindowXaml.Descendants(presentationNs + "ListBox").Single(element => (string?)element.Attribute(xamlNs + "Name") == "FallbackSteps");
     if (!fallbackSteps.Descendants(presentationNs + "Expander").Any() || !fallbackSteps.Descendants(presentationNs + "ComboBox").Any(element => (string?)element.Attribute("ToolTip") == "{Binding Model}"))
@@ -71,30 +95,66 @@ try
         throw new Exception("The provider settings model selector no longer offers manual model-ID entry.");
     var mainWindowSource = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "MainWindow.xaml.cs"));
     var mainWindowMarkup = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "MainWindow.xaml"));
-    if (!mainWindowMarkup.Contains("Content=\"Hey Jarvis — Off\"", StringComparison.Ordinal)
+    if (!mainWindowMarkup.Contains("x:Name=\"ChatPermissionModeBox\"", StringComparison.Ordinal)
+        || !mainWindowMarkup.Contains("SelectionChanged=\"ChatPermissionMode_Changed\"", StringComparison.Ordinal)
+        || !mainWindowMarkup.Contains("x:Name=\"ChatPermissionModeBox\" Width=\"210\" MinHeight=\"30\" SelectedValuePath=\"Id\"", StringComparison.Ordinal)
+        || !mainWindowMarkup.Contains("x:Name=\"ToolPermissionModeBox\" SelectedValuePath=\"Id\"", StringComparison.Ordinal)
+        || mainWindowMarkup.Contains("ChatPermissionModeBox.Items.OfType&lt;ComboBoxItem&gt;", StringComparison.Ordinal)
+        || !mainWindowSource.Contains("ApplyPermissionModeAsync", StringComparison.Ordinal)
+        || !mainWindowSource.Contains("ChatPermissionModeBox.ItemsSource = options", StringComparison.Ordinal)
+        || !mainWindowSource.Contains("ToolPermissionModeBox.ItemsSource = options", StringComparison.Ordinal)
+        || !mainWindowSource.Contains("_config.ToolPermissionMode = mode", StringComparison.Ordinal)
+        || !mainWindowSource.Contains("RequestApprovalInlineAsync", StringComparison.Ordinal))
+        throw new Exception("The chat permission selector is not synchronized with the persisted execution policy.");
+    if (!mainWindowSource.Contains("if (item.State == \"Ringing\") { await ResolveAlarmAsync(item.Id, false); return; }", StringComparison.Ordinal)
+        || !mainWindowSource.Contains("if (item.State == \"Ringing\") { await ResolveAlarmAsync(item.Id, true); return; }", StringComparison.Ordinal)
+        || !mainWindowSource.Contains("ActiveAlarmCount()", StringComparison.Ordinal))
+        throw new Exception("Stop and snooze do not share the active alarm ID playback lifecycle.");
+    if (!mainWindowMarkup.Contains("x:Name=\"WakeWordButtonLabel\" Text=\"Hey Jarvis — Off\"", StringComparison.Ordinal)
         || !mainWindowSource.Contains("\"Hey Jarvis — On\"", StringComparison.Ordinal)
         || !mainWindowSource.Contains("\"Hey Jarvis — Off\"", StringComparison.Ordinal)
+        || !mainWindowSource.Contains("WakeWordButtonLabel.Text", StringComparison.Ordinal)
         || !mainWindowSource.Contains("_config.WakeWordEnabled", StringComparison.Ordinal))
         throw new Exception("The localized Hey Jarvis control is not derived from the actual wake-word state.");
+    var alarmNotificationSource = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "AlarmNotificationWindow.cs"));
+    if (!alarmNotificationSource.Contains("reminder.Title", StringComparison.Ordinal)
+        || !alarmNotificationSource.Contains("reminder.Description", StringComparison.Ordinal)
+        || !alarmNotificationSource.Contains("Scheduled", StringComparison.Ordinal)
+        || !alarmNotificationSource.Contains("StopRequested", StringComparison.Ordinal)
+        || !alarmNotificationSource.Contains("SnoozeRequested", StringComparison.Ordinal)
+        || !mainWindowSource.Contains("_alarmWindows.TryGetValue(reminder.Id", StringComparison.Ordinal))
+        throw new Exception("Alarm notification does not display real reminder data or deduplicate its lifecycle actions.");
     if (!mainWindowMarkup.Contains("x:Name=\"SourcesButton\"", StringComparison.Ordinal)
         || !mainWindowMarkup.Contains("x:Name=\"SourcesPopup\"", StringComparison.Ordinal)
         || !mainWindowMarkup.Contains("x:Name=\"AttachmentPreviewPanel\"", StringComparison.Ordinal)
         || !mainWindowSource.Contains("private void ShowActivity", StringComparison.Ordinal)
-        || !mainWindowSource.Contains("_activityExpander = new Expander", StringComparison.Ordinal)
-        || !mainWindowSource.Contains("if (_activitySteps is not null)", StringComparison.Ordinal)
+        || !mainWindowSource.Contains("private void BeginToolActivity", StringComparison.Ordinal)
+        || !mainWindowSource.Contains("private void CompleteToolActivity", StringComparison.Ordinal)
+        || !mainWindowSource.Contains("Tool activity", StringComparison.Ordinal)
+        || !mainWindowSource.Contains("catch (OperationCanceledException) when (request.IsCancellationRequested)", StringComparison.Ordinal)
+        || !mainWindowSource.Contains("the user did not cancel the task", StringComparison.Ordinal)
+        || !mainWindowSource.Contains("name == \"ask_questions\"", StringComparison.Ordinal)
+        || mainWindowSource.Contains("_activityExpander = new Expander", StringComparison.Ordinal)
         || !mainWindowSource.Contains("AppendPendingSource(new ChatSource(result.Title", StringComparison.Ordinal)
         || !mainWindowSource.Contains("AppendPendingSource(new ChatSource(info.Name", StringComparison.Ordinal))
         throw new Exception("The compact activity, source, or attachment preview UI is missing.");
+    var questionUiSource = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "MainWindow.InteractiveQuestions.cs"));
+    if (!questionUiSource.Contains("TaskCompletionSource<string>", StringComparison.Ordinal)
+        || !questionUiSource.Contains("RadioButton", StringComparison.Ordinal)
+        || !questionUiSource.Contains("CheckBox", StringComparison.Ordinal)
+        || !questionUiSource.Contains("AcceptsReturn", StringComparison.Ordinal)
+        || !questionUiSource.Contains("completion.TrySetResult", StringComparison.Ordinal))
+        throw new Exception("The native non-blocking clarification form is not wired for all supported control types and duplicate-safe completion.");
     var projectDocument = XDocument.Load(Path.Combine(AppContext.BaseDirectory, "Jarvis.csproj"));
     string ProjectValue(string name) => projectDocument.Descendants().FirstOrDefault(element => element.Name.LocalName == name)?.Value ?? "";
-    if (ProjectValue("Version") != "1.1.0" || ProjectValue("AssemblyVersion") != "1.1.0.0" || ProjectValue("FileVersion") != "1.1.0.0")
-        throw new Exception("Jarvis version metadata changed from 1.1.0 / 1.1.0.0.");
+    if (ProjectValue("Version") != "1.1.1" || ProjectValue("AssemblyVersion") != "1.1.1.0" || ProjectValue("FileVersion") != "1.1.1.0")
+        throw new Exception("Jarvis version metadata changed from 1.1.1 / 1.1.1.0.");
     foreach (var metadataFile in new[] { "Jarvis.Beta.Shared.csproj", "Jarvis.Setup.csproj" })
     {
         var metadata = XDocument.Load(Path.Combine(AppContext.BaseDirectory, metadataFile));
         string Value(string name) => metadata.Descendants().FirstOrDefault(element => element.Name.LocalName == name)?.Value ?? "";
-        if (Value("Version") != "1.1.0" || Value("AssemblyVersion") != "1.1.0.0" || Value("FileVersion") != "1.1.0.0")
-            throw new Exception($"{metadataFile} version metadata is inconsistent with Jarvis 1.1.0.");
+        if (Value("Version") != "1.1.1" || Value("AssemblyVersion") != "1.1.1.0" || Value("FileVersion") != "1.1.1.0")
+            throw new Exception($"{metadataFile} version metadata is inconsistent with Jarvis 1.1.1.");
     }
     var installerSource = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Installer.Setup.MainWindow.xaml.cs"));
     if (!installerSource.Contains("LanguageBox.SelectedValue = \"en\"", StringComparison.Ordinal))
@@ -279,20 +339,86 @@ try
     Console.WriteLine("PASS: Gemini quota exhaustion is not retried; temporary 429 uses bounded backoff/Retry-After; confirmed Ollama fallback is validated; action history is retained and fresh screen context is appended.");
 
     var googleHtml = "<div><a href=\"https://example.com/news?a=1&amp;b=2\"><h3>Fortnite Cup <em>Schedule</em></h3></a><div class=\"VwiC3b\">Next event details</div></div><a href='/url?q=https%3A%2F%2Fexample.org%2Fsecond&amp;sa=U'><h3>Second result</h3></a>";
-    var imageApiHandler = new BetaStubHandler(_ => new HttpResponseMessage(HttpStatusCode.OK)
+    if (!ImageSearchIntentParser.TryParse("zeig mir das minecraft logo", out var germanLogoQuery) || germanLogoQuery != "Minecraft logo"
+        || !ImageSearchIntentParser.TryParse("Show me the Minecraft logo", out var englishLogoQuery) || englishLogoQuery != "Minecraft logo"
+        || !ImageSearchIntentParser.TryParse("Bilder von Complementary Reimagined shaders", out var germanImageQuery) || germanImageQuery != "Complementary Reimagined shaders"
+        || ImageSearchIntentParser.NormalizeTopic("mir das minecraft logo") != "Minecraft logo"
+        || ImageSearchIntentParser.TryParse("Was bedeutet das Logo in dieser App?", out _))
+        throw new Exception("Image-search intent did not remove conversational wrappers safely or produced a false positive.");
+    using (var toolArguments = JsonDocument.Parse(ImageSearchIntentParser.CreateToolArguments(germanLogoQuery, 8)))
+        if (toolArguments.RootElement.GetProperty("query").GetString() != "Minecraft logo" || toolArguments.RootElement.GetProperty("limit").GetInt32() != 8)
+            throw new Exception("The actual deterministic image-search tool arguments lost the normalized query.");
+
+    if (!WebResearchIntentParser.TryParse("Google how to fix this Minecraft bug", out var explicitGoogleQuery) || !explicitGoogleQuery.Contains("Minecraft bug", StringComparison.Ordinal)
+        || WebResearchIntentParser.TryParse("Google is changing its logo again", out _)
+        || WebResearchIntentParser.TryParse("What do you think about Google?", out _))
+        throw new Exception("Web research routing still uses the word Google as an unconditional trigger.");
+    var contextualResearch = WebResearchIntentParser.ComposeContextualQuery(
+        ["Wie fixe ich einen Bug in meiner Mod für Hopper Colors Minecraft 1.18.11?"],
+        "Das Game crasht, Fabric 9-9. Bitte finde mögliche Lösungen.");
+    if (!contextualResearch.Contains("Hopper Colors", StringComparison.OrdinalIgnoreCase)
+        || !contextualResearch.Contains("Minecraft 1.18.11", StringComparison.OrdinalIgnoreCase)
+        || !contextualResearch.Contains("Fabric 9-9", StringComparison.OrdinalIgnoreCase))
+        throw new Exception("A follow-up research instruction discarded the Minecraft crash conversation context.");
+
+    using (var questionJson = JsonDocument.Parse("""{"form_id":"minecraft_crash","title":"Crash details","questions":[{"id":"version","label":"Minecraft version","type":"single_choice","required":true,"allow_other":true,"options":[{"value":"1.18.1","label":"1.18.1"},{"value":"1.18.2","label":"1.18.2"}]},{"id":"report","label":"Do you have a crash report?","type":"yes_no","required":false},{"id":"log","label":"Paste the error","type":"multiline","required":false}]}"""))
     {
-        Content = new StringContent("""{"query":{"pages":[{"title":"File:Jarvis example.jpg","imageinfo":[{"thumburl":"https://upload.wikimedia.org/example-thumb.jpg","descriptionurl":"https://commons.wikimedia.org/wiki/File:Jarvis_example.jpg","extmetadata":{"Artist":{"value":"Example Author"},"LicenseShortName":{"value":"CC BY-SA 4.0"}}}]}]}}""")
+        var form = InteractiveQuestionSchema.Parse(questionJson.RootElement);
+        if (form.Questions.Count != 3 || form.Questions[0].Type != InteractiveQuestionType.SingleChoice || !form.Questions[0].AllowOther || form.Questions[1].Type != InteractiveQuestionType.YesNo)
+            throw new Exception("The native clarification schema lost question types or Other support.");
+    }
+    try
+    {
+        using var invalidQuestionJson = JsonDocument.Parse("""{"form_id":"bad","title":"Bad","questions":[{"id":"same","label":"A","type":"text","required":true},{"id":"same","label":"B","type":"text","required":false}]}""");
+        InteractiveQuestionSchema.Parse(invalidQuestionJson.RootElement);
+        throw new Exception("Duplicate structured-question IDs were accepted.");
+    }
+    catch (InvalidDataException) { }
+    Console.WriteLine("PASS: image/web intent routing, exact serialized image arguments, contextual bug research, and validated interactive-question schemas.");
+
+    var imageApiHandler = new BetaStubHandler(request => new HttpResponseMessage(HttpStatusCode.OK)
+    {
+        Content = new StringContent(request.RequestUri!.Host == "api.openverse.org"
+            ? """{"results":[{"title":"Minecraft shader screenshot","thumbnail":"https://images.openverse.org/thumb.jpg","foreign_landing_url":"https://example.org/minecraft-shader","creator":"Example Author","license":"cc-by","license_version":"4.0"}]}"""
+            : """{"query":{"pages":[{"title":"File:Jarvis example.jpg","imageinfo":[{"thumburl":"https://upload.wikimedia.org/example-thumb.jpg","descriptionurl":"https://commons.wikimedia.org/wiki/File:Jarvis_example.jpg","extmetadata":{"Artist":{"value":"Example Author"},"LicenseShortName":{"value":"CC BY-SA 4.0"}}}]}]}}""")
     });
     using (var imageHttp = new HttpClient(imageApiHandler))
     using (var imageSearch = new ImageSearchService(imageHttp))
     {
-        var images = await imageSearch.SearchAsync("Jarvis", 4, CancellationToken.None);
-        if (images.Count != 1 || images[0].Title != "Jarvis example.jpg" || images[0].Author != "Example Author" || images[0].License != "CC BY-SA 4.0")
-            throw new Exception("Wikimedia image search did not preserve real thumbnail, source, author, and license metadata.");
+        var images = await imageSearch.SearchAsync("Minecraft shader", 4, CancellationToken.None);
+        if (images.Count != 1 || images[0].Title != "Minecraft shader screenshot" || images[0].Author != "Example Author" || images[0].License != "cc-by 4.0" || images[0].Provider != "Openverse")
+            throw new Exception("Openverse image search did not preserve real thumbnail, source, provider, author, and license metadata.");
     }
-    using (var emptyHttp = new HttpClient(new BetaStubHandler(_ => new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent("{}") })))
+    using (var modrinthHttp = new HttpClient(new BetaStubHandler(request => new HttpResponseMessage(HttpStatusCode.OK)
+    {
+        Content = new StringContent(request.RequestUri!.Host == "api.modrinth.com"
+            ? "{\"hits\":[{\"title\":\"Complementary Reimagined\",\"slug\":\"complementary-reimagined\",\"project_type\":\"shader\",\"author\":\"Author\",\"license\":\"ARR\",\"gallery\":[\"https://cdn.modrinth.com/data/example/images/view-a.png\",\"https://cdn.modrinth.com/data/example/images/view-b.png\",\"https://cdn.modrinth.com/data/example/images/view-c.png\"]}]}"
+            : "{\"results\":[]}")
+    })))
+    using (var modrinthSearch = new ImageSearchService(modrinthHttp))
+    {
+        var result = await modrinthSearch.SearchDetailedAsync("Complementary Reimagined shaders", 4, CancellationToken.None);
+        var modrinthAttempt = result.Attempts.Single(attempt => attempt.Provider == "Modrinth");
+        if (!result.IsSuccess || result.Results.Count != 3 || result.Results.Any(image => image.Provider != "Modrinth" || image.FullImageUrl != image.ThumbnailUrl) || result.Results.Select(image => image.SourceUrl).Distinct().Count() != 1 || modrinthAttempt.RawCount != 1 || modrinthAttempt.ParsedCount != 3 || modrinthAttempt.RetainedCount != 3) throw new Exception("Structured Modrinth shader-gallery search collapsed multiple project images or lost full-image metadata.");
+    }
+    using (var emptyHttp = new HttpClient(new BetaStubHandler(request => new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(request.RequestUri!.Host == "api.openverse.org" ? "{\"results\":[]}" : "{}") })))
     using (var emptySearch = new ImageSearchService(emptyHttp))
-        if ((await emptySearch.SearchAsync("nothing", 4, CancellationToken.None)).Count != 0) throw new Exception("Empty image search did not remain empty.");
+    {
+        var empty = await emptySearch.SearchDetailedAsync("nothing", 4, CancellationToken.None);
+        if (empty.Outcome != ImageSearchOutcome.Empty || empty.Results.Count != 0 || empty.Attempts.Count != 2 || empty.Attempts[0].RawCount != 0) throw new Exception("Empty image search did not retain distinct provider diagnostics.");
+    }
+    using (var fallbackHttp = new HttpClient(new BetaStubHandler(request => new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(request.RequestUri!.Host == "api.openverse.org" ? "{\"results\":[]}" : "{\"query\":{\"pages\":[{\"title\":\"File:Minecraft landscape.png\",\"imageinfo\":[{\"url\":\"https://upload.wikimedia.org/minecraft-landscape-full.png\",\"thumburl\":\"https://upload.wikimedia.org/minecraft-landscape.png\",\"descriptionurl\":\"https://commons.wikimedia.org/wiki/File:Minecraft_landscape.png\",\"extmetadata\":{\"Artist\":{\"value\":\"Author\"},\"LicenseShortName\":{\"value\":\"CC BY\"}}}] }]}}" ) })))
+    using (var fallbackSearch = new ImageSearchService(fallbackHttp))
+    {
+        var fallback = await fallbackSearch.SearchDetailedAsync("Minecraft landscape", 4, CancellationToken.None);
+        if (!fallback.IsSuccess || fallback.Results.Single().Provider != "Wikimedia Commons" || fallback.Attempts.Count != 2 || fallback.Attempts[0].Outcome != ImageSearchOutcome.Empty) throw new Exception("Wikimedia fallback did not run after an empty Openverse response.");
+    }
+    using (var malformedHttp = new HttpClient(new BetaStubHandler(_ => new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent("{bad-json") })))
+    using (var malformedSearch = new ImageSearchService(malformedHttp))
+    {
+        var malformed = await malformedSearch.SearchDetailedAsync("Minecraft landscape", 4, CancellationToken.None);
+        if (malformed.IsSuccess || malformed.Attempts.Any(attempt => attempt.Outcome != ImageSearchOutcome.ParseFailed)) throw new Exception("Malformed provider responses were not distinguished from empty results.");
+    }
     try
     {
         using var failingHttp = new HttpClient(new BetaStubHandler(_ => throw new HttpRequestException("offline")));
@@ -300,8 +426,39 @@ try
         await failingSearch.SearchAsync("offline", 4, CancellationToken.None);
         throw new Exception("Image-search network error was silently accepted.");
     }
-    catch (HttpRequestException) { }
-    Console.WriteLine("PASS: real image-search response parsing and attribution metadata.");
+    catch (ImageSearchUnavailableException) { }
+    using (var cancelled = new CancellationTokenSource())
+    {
+        cancelled.Cancel();
+        using var cancelledSearch = new ImageSearchService(new HttpClient(new BetaStubHandler(_ => throw new Exception("A cancelled image search reached the provider."))));
+        try { await cancelledSearch.SearchDetailedAsync("Minecraft landscape", 4, cancelled.Token); throw new Exception("Image-search cancellation was ignored."); }
+        catch (OperationCanceledException) when (cancelled.IsCancellationRequested) { }
+    }
+    using (var downloadHttp = new HttpClient(new BetaStubHandler(_ =>
+    {
+        var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new ByteArrayContent([137, 80, 78, 71]) };
+        response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/png");
+        return response;
+    })))
+    using (var downloader = new ImageDownloadService(downloadHttp))
+    {
+        var downloaded = await downloader.FetchAsync("https://images.example.org/test.png", CancellationToken.None);
+        if (downloaded.Extension != ".png" || downloaded.MediaType != "image/png" || downloaded.Bytes.Length != 4) throw new Exception("Full-image download did not preserve validated image bytes and media metadata.");
+    }
+    using (var invalidDownloadHttp = new HttpClient(new BetaStubHandler(_ => new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent("not an image") })))
+    using (var downloader = new ImageDownloadService(invalidDownloadHttp))
+    {
+        try { await downloader.FetchAsync("https://images.example.org/not-image", CancellationToken.None); throw new Exception("A non-image response was accepted as a gallery download."); }
+        catch (InvalidDataException) { }
+    }
+    using (var cancelledDownloadHttp = new HttpClient(new AsyncStubHandler(async (_, token) => { await Task.Delay(TimeSpan.FromSeconds(2), token); return new HttpResponseMessage(HttpStatusCode.OK); })))
+    using (var downloader = new ImageDownloadService(cancelledDownloadHttp))
+    using (var cancelledDownload = new CancellationTokenSource(20))
+    {
+        try { await downloader.FetchAsync("https://images.example.org/cancelled.png", cancelledDownload.Token); throw new Exception("A cancelled gallery download continued to completion."); }
+        catch (OperationCanceledException) when (cancelledDownload.IsCancellationRequested) { }
+    }
+    Console.WriteLine("PASS: image-search routing, multi-image retention, full-image metadata/download validation, empty results, provider fallback and unavailable-provider reporting.");
     var searchResults = GoogleSearchParser.Parse(googleHtml, 6);
     if (searchResults.Count != 2 || searchResults[0].Title != "Fortnite Cup Schedule" || searchResults[0].Url != "https://example.com/news?a=1&b=2" || searchResults[0].Snippet != "Next event details" || searchResults[1].Url != "https://example.org/second") throw new Exception("Google result parsing failed for standard and wrapped links.");
     var youtubeQuery = "such auf google nach youtube wann es erstellt wurde";
@@ -342,6 +499,12 @@ try
     var bingHtml = "<ol><li class=\"b_algo\"><h2><a href=\"https://example.com/result\">Official <strong>Cup</strong> Schedule</a></h2><p>Dates and times</p></li></ol>";
     var bingResults = GoogleSearchParser.ParseBing(bingHtml, 6);
     if (bingResults.Count != 1 || bingResults[0].Title != "Official Cup Schedule" || bingResults[0].Snippet != "Dates and times") throw new Exception("Bing fallback parsing failed.");
+    var githubResults = GoogleSearchParser.ParseGitHubSearch("{\"items\":[{\"full_name\":\"FabricMC/fabric-docs\",\"html_url\":\"https://github.com/FabricMC/fabric-docs\",\"homepage\":\"https://docs.fabricmc.net/\",\"description\":\"Official Fabric documentation for Minecraft mod development\"}]}", 5);
+    if (githubResults.Count != 1 || githubResults[0].Url != "https://docs.fabricmc.net/" || !GoogleSearchParser.LooksTechnical("Minecraft Fabric docs")) throw new Exception("Structured GitHub technical search parsing failed.");
+    var modrinthResults = GoogleSearchParser.ParseModrinthSearch("{\"hits\":[{\"title\":\"Hotbar Colors Fix\",\"slug\":\"hotbar-colors-fix\",\"project_type\":\"mod\",\"description\":\"Fixes a Fabric hotbar colour rendering crash\",\"versions\":[\"1.21.1\"]}]}", 5);
+    if (modrinthResults.Count != 1 || modrinthResults[0].Url != "https://modrinth.com/mod/hotbar-colors-fix" || !modrinthResults[0].Snippet.Contains("1.21.1", StringComparison.Ordinal)) throw new Exception("Structured Modrinth research parsing failed.");
+    var redditResults = GoogleSearchParser.ParseRedditSearch("{\"data\":{\"children\":[{\"data\":{\"title\":\"Fabric hotbar colour crash fix\",\"permalink\":\"/r/fabricmc/comments/example/fix/\",\"selftext\":\"Resolved by updating the rendering mod.\"}}]}}", 5);
+    if (redditResults.Count != 1 || redditResults[0].Url != "https://www.reddit.com/r/fabricmc/comments/example/fix/" || !redditResults[0].Snippet.Contains("Resolved", StringComparison.Ordinal)) throw new Exception("Structured Reddit research parsing failed.");
     var fabricQuery = "Wie erstelle ich eine Fabric-Mod für Minecraft 1.21.1 mit Java 21?";
     var fabricFiltered = GoogleSearchParser.KeepRelevant(fabricQuery, new[]
     {
@@ -350,18 +513,26 @@ try
         new GoogleSearchResult("Duplicate", "https://docs.fabricmc.net/develop/getting-started/creating-a-project#top", "Fabric mod Minecraft 1.21.1 Java 21")
     });
     if (fabricFiltered.Count != 1 || fabricFiltered[0].Domain != "docs.fabricmc.net" || fabricFiltered[0].Relevance < .7) throw new Exception("Technical relevance filtering accepted an unrelated or duplicate result.");
+    var hotbarFiltered = GoogleSearchParser.KeepRelevant("Minecraft Fabric 1.21.1 hotbar color bug", new[]
+    {
+        new GoogleSearchResult("Hotbar colors render incorrectly with Fabric", "https://github.com/example/mod/issues/42", "Minecraft 1.21.1 visual bug affects the hotbar colour overlay."),
+        new GoogleSearchResult("Minecraft server port list", "https://example.org/ports", "Fabric servers and network port colors."),
+        new GoogleSearchResult("Fabric documentation", "https://docs.fabricmc.net/", "Official Fabric developer documentation.")
+    });
+    if (hotbarFiltered.Count != 1 || !hotbarFiltered[0].Url.Contains("issues/42", StringComparison.Ordinal)) throw new Exception("Hotbar relevance filtering rejected a legitimate singular/plural result or accepted generic Fabric pages.");
     var fabricRss = """<?xml version="1.0"?><rss><channel><item><title>Fabric Documentation - Creating Your First Mod</title><link>https://docs.fabricmc.net/develop/getting-started/creating-a-project</link><description>Create a Fabric mod for Minecraft 1.21.1 using Java 21.</description></item><item><title>Fabric Example Mod</title><link>https://github.com/FabricMC/fabric-example-mod</link><description>Official Fabric Minecraft mod project for Java.</description></item></channel></rss>""";
     using (var researchHttp = new HttpClient(new AsyncStubHandler((_, _) => Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(fabricRss) }))))
     using (var research = new WebResearchService(researchHttp, TimeSpan.FromSeconds(1)))
     {
         var result = await research.SearchAsync(fabricQuery, 5, CancellationToken.None);
-        if (!result.IsSuccess || result.Provider != "Bing RSS" || result.Results.Count != 2 || result.Attempts.Single().Outcome != SearchProviderOutcome.RelevantResults) throw new Exception("Structured research did not return multiple relevant technical sources.");
+        var successful = result.Attempts.Single(attempt => attempt.Outcome == SearchProviderOutcome.RelevantResults);
+        if (!result.IsSuccess || result.Provider != "Bing RSS" || result.Results.Count != 2 || successful.Outcome != SearchProviderOutcome.RelevantResults || successful.ParsedCount != 2 || successful.RetainedCount != 2 || successful.HttpStatus != 200) throw new Exception("Structured research did not return multiple relevant technical sources with diagnostics.");
     }
     using (var emptyResearchHttp = new HttpClient(new AsyncStubHandler((request, _) => Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(request.RequestUri!.Host.Contains("bing") ? "<rss><channel></channel></rss>" : "<html>unexpected markup</html>") }))))
     using (var emptyResearch = new WebResearchService(emptyResearchHttp, TimeSpan.FromSeconds(1)))
     {
         var result = await emptyResearch.SearchAsync(fabricQuery, 5, CancellationToken.None);
-        if (result.IsSuccess || result.Attempts.Count != 3 || result.Attempts.Any(attempt => attempt.Outcome == SearchProviderOutcome.RelevantResults)) throw new Exception("Empty or unexpected search responses were reported as successful.");
+        if (result.IsSuccess || result.Attempts.Count != 5 || result.Attempts.Any(attempt => attempt.Outcome == SearchProviderOutcome.RelevantResults)) throw new Exception("Empty or unexpected search responses were reported as successful.");
     }
     using (var timeoutHttp = new HttpClient(new AsyncStubHandler(async (request, cancellation) =>
     {
@@ -371,7 +542,7 @@ try
     using (var timeoutResearch = new WebResearchService(timeoutHttp, TimeSpan.FromMilliseconds(30)))
     {
         var result = await timeoutResearch.SearchAsync("Fabric Minecraft Java mod", 5, CancellationToken.None);
-        if (!result.IsSuccess || result.Attempts[0].Outcome != SearchProviderOutcome.TimedOut || result.Provider != "DuckDuckGo HTML") throw new Exception("Provider timeout cancelled the parent search instead of using a bounded fallback.");
+        if (!result.IsSuccess || !result.Attempts.Any(attempt => attempt.Outcome == SearchProviderOutcome.TimedOut) || result.Provider != "DuckDuckGo HTML") throw new Exception("Provider timeout cancelled the parent search instead of using a bounded fallback.");
     }
     using (var cancellationHttp = new HttpClient(new AsyncStubHandler(async (_, cancellation) => { await Task.Delay(TimeSpan.FromSeconds(5), cancellation); return new HttpResponseMessage(HttpStatusCode.OK); })))
     using (var cancellationResearch = new WebResearchService(cancellationHttp, TimeSpan.FromSeconds(10)))
@@ -532,6 +703,17 @@ try
     if (beforeAnyAction.HasUnverifiedAction || beforeAnyAction.History.Count != 0)
         throw new Exception("A provider failure before tool execution must not fabricate a dispatched desktop action.");
     Console.WriteLine("PASS: action ledger requires a fresh post-action observation, blocks stale/overlapping inputs, preserves uncertain dispatch and cancellation, and reconciles failed-click/verified-shortcut Discord scenarios without claiming unverified success.");
+
+    var scopedActions = new ComputerUseActionLedger();
+    scopedActions.BeginTask("old-request");
+    var staleFailure = scopedActions.Begin("old-request", null, null, "computer_click", "Untitled - Notepad", "old-screen");
+    scopedActions.MarkExecuting(staleFailure.ActionId);
+    scopedActions.MarkFailed(staleFailure.ActionId, "The requested result was not achieved.");
+    if (scopedActions.Current?.Status != ComputerUseActionStatus.Failed) throw new Exception("The failed fixture action was not recorded.");
+    scopedActions.BeginTask("new-request");
+    if (scopedActions.Current is not null || scopedActions.HasUnverifiedAction)
+        throw new Exception("A stale desktop failure leaked into a newer chat request.");
+    Console.WriteLine("PASS: a fresh request scope cannot inherit or repeat a previous Notepad action outcome.");
 
     var map = new ScreenshotCoordinateMap(new System.Drawing.Rectangle(-1920, 0, 3840, 2160), 1600, 900);
     var mappedCenter = map.ToDesktop(800, 450);
@@ -806,11 +988,12 @@ try
 
     if (SpeechRecognitionProviderRouter.NormalizeProviderId("windows") != "windows"
         || SpeechRecognitionProviderRouter.NormalizeProviderId("WHISPER") != "whisper"
+        || SpeechRecognitionProviderRouter.NormalizeProviderId("ElevenLabs") != "elevenlabs"
         || SpeechRecognitionProviderRouter.NormalizeProviderId("unexpected") != "whisper")
         throw new Exception("Speech-provider selection does not preserve supported values or safely migrate unknown values to Whisper.");
-    var speechConfig = new AppConfig { SpeechProvider = "windows" };
+    var speechConfig = new AppConfig { SpeechProvider = "windows", ElevenLabsSttModelId = "scribe_v2" };
     var restoredSpeechConfig = JsonSerializer.Deserialize<AppConfig>(JsonSerializer.Serialize(speechConfig));
-    if (restoredSpeechConfig?.SpeechProvider != "windows") throw new Exception("Speech-provider selection was not persisted.");
+    if (restoredSpeechConfig?.SpeechProvider != "windows" || restoredSpeechConfig.ElevenLabsSttModelId != "scribe_v2") throw new Exception("Speech-provider selection or ElevenLabs STT model was not persisted.");
 
     var fakeWhisper = new FakeSpeechProvider("whisper", true, (_, _) => Task.FromResult("recognized text"));
     var unavailableWindows = new FakeSpeechProvider("windows", false, (_, _) => throw new InvalidOperationException("unavailable"));
@@ -828,6 +1011,44 @@ try
     try { await new SpeechRecognitionProviderRouter([fakeWhisper, failingSpeech]).Get("windows").TranscribeAsync(speechRequest, CancellationToken.None); throw new Exception("Speech provider errors were swallowed."); }
     catch (InvalidDataException ex) when (ex.Message == "recognition failed") { }
     Console.WriteLine("PASS: speech provider selection, settings persistence, unavailable components, transcription results, cancellation and provider errors are handled explicitly.");
+
+    var sttAudio = Path.Combine(root, "elevenlabs-stt.wav");
+    await File.WriteAllBytesAsync(sttAudio, [82, 73, 70, 70, 36, 0, 0, 0, 87, 65, 86, 69]);
+    string sttUri = "", sttKey = "", sttBody = "";
+    using (var sttHttp = new HttpClient(new BetaStubHandler(request =>
+    {
+        sttUri = request.RequestUri?.AbsoluteUri ?? "";
+        sttKey = request.Headers.TryGetValues("xi-api-key", out var keys) ? keys.Single() : "";
+        sttBody = request.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+        return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent("{\"language_code\":\"de\",\"text\":\"Hey Jarvis, was geht?\"}") };
+    })))
+    using (var stt = new ElevenLabsSttService(sttHttp))
+    {
+        var transcript = await stt.TranscribeAsync(sttAudio, "scribe_v2", "fixture-secret-key", CancellationToken.None);
+        if (transcript != "Hey Jarvis, was geht?" || sttUri != "https://api.elevenlabs.io/v1/speech-to-text" || sttKey != "fixture-secret-key"
+            || !sttBody.Contains("name=file", StringComparison.Ordinal) || !sttBody.Contains("name=model_id", StringComparison.Ordinal) || !sttBody.Contains("scribe_v2", StringComparison.Ordinal)
+            || sttBody.Contains("fixture-secret-key", StringComparison.Ordinal))
+            throw new Exception("ElevenLabs STT request construction, authentication header, multipart audio, model, or transcription parsing is incorrect.");
+    }
+    using (var unauthorizedStt = new ElevenLabsSttService(new HttpClient(new BetaStubHandler(_ => new HttpResponseMessage(HttpStatusCode.Unauthorized)))))
+    {
+        try { await unauthorizedStt.TranscribeAsync(sttAudio, "scribe_v2", "rejected", CancellationToken.None); throw new Exception("ElevenLabs STT authentication failure was accepted."); }
+        catch (ElevenLabsException ex) when (ex.Kind == ElevenLabsErrorKind.Authentication) { }
+    }
+    using (var malformedStt = new ElevenLabsSttService(new HttpClient(new BetaStubHandler(_ => new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent("{bad") }))))
+    {
+        try { await malformedStt.TranscribeAsync(sttAudio, "scribe_v2", "fixture", CancellationToken.None); throw new Exception("Malformed ElevenLabs STT JSON was accepted."); }
+        catch (ElevenLabsException ex) when (ex.Kind == ElevenLabsErrorKind.Parsing) { }
+    }
+    using (var cancelledStt = new ElevenLabsSttService(new HttpClient(new AsyncStubHandler(async (_, token) => { await Task.Delay(2000, token); return new HttpResponseMessage(HttpStatusCode.OK); }))))
+    using (var sttCancellation = new CancellationTokenSource(20))
+    {
+        try { await cancelledStt.TranscribeAsync(sttAudio, "scribe_v2", "fixture", sttCancellation.Token); throw new Exception("ElevenLabs STT cancellation was ignored."); }
+        catch (OperationCanceledException) when (sttCancellation.IsCancellationRequested) { }
+    }
+    if (ElevenLabsSttService.IsValidModelId("eleven_multilingual_v2") || !ElevenLabsSttService.IsValidModelId("scribe_v2"))
+        throw new Exception("ElevenLabs TTS and STT model identifiers were not kept distinct.");
+    Console.WriteLine("PASS: ElevenLabs STT endpoint, multipart request, Scribe model validation, response parsing, authentication errors, and cancellation are deterministic.");
 
     var nativeSpeech = new WindowsNativeSpeechRecognitionProvider();
     var nativeAvailability = nativeSpeech.GetAvailability(speechRequest);

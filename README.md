@@ -175,7 +175,7 @@ dotnet build Jarvis.csproj -c Release
 Publish a self-contained Windows x64 build:
 
 ```powershell
-dotnet publish Jarvis.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=false -o "G:\Projekte\Jarvis\Jarvis-EXE"
+dotnet publish Jarvis.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=false -o ".\artifacts\Jarvis-win-x64"
 ```
 
 The published output includes the runtime files required by this build.

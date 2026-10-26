@@ -35,7 +35,8 @@ public sealed class AgentExecutionOrchestrator
         "write_file", "create_folder", "open_app", "open_folder", "open_url", "open_private_browser",
         "close_window", "move_window", "maximize_window", "run_powershell", "run_cmd", "command_cancel",
         "spotify_control", "apple_music_control", "computer_click", "computer_type_text",
-        "computer_press_key", "computer_scroll", "computer_invoke_control"
+        "computer_press_key", "computer_scroll", "computer_invoke_control",
+        "create_reminder", "cancel_reminder", "snooze_reminder"
     };
 
     private AgentExecutionOrchestrator(string taskId, AgentTaskAssessment assessment)

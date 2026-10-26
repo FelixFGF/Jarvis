@@ -7,36 +7,6 @@ using NAudio.Wave.SampleProviders;
 
 namespace Jarvis.Services;
 
-public sealed record SpeechProviderAvailability(bool Available, string Message, IReadOnlyList<string> Languages);
-
-public sealed record SpeechTranscriptionRequest(string AudioPath, string? WhisperModelPath, string LanguageTag);
-
-public interface ISpeechRecognitionProvider
-{
-    string Id { get; }
-    SpeechProviderAvailability GetAvailability(SpeechTranscriptionRequest request);
-    Task PrepareAsync(SpeechTranscriptionRequest request, CancellationToken cancellationToken);
-    Task<string> TranscribeAsync(SpeechTranscriptionRequest request, CancellationToken cancellationToken);
-}
-
-public sealed class SpeechRecognitionProviderRouter
-{
-    public const string Whisper = "whisper";
-    public const string Windows = "windows";
-    private readonly IReadOnlyDictionary<string, ISpeechRecognitionProvider> _providers;
-
-    public SpeechRecognitionProviderRouter(IEnumerable<ISpeechRecognitionProvider> providers)
-    {
-        _providers = providers.ToDictionary(provider => provider.Id, StringComparer.OrdinalIgnoreCase);
-        if (!_providers.ContainsKey(Whisper)) throw new ArgumentException("The Whisper provider is required.", nameof(providers));
-    }
-
-    public static string NormalizeProviderId(string? providerId) =>
-        string.Equals(providerId, Windows, StringComparison.OrdinalIgnoreCase) ? Windows : Whisper;
-
-    public ISpeechRecognitionProvider Get(string? providerId) => _providers[NormalizeProviderId(providerId)];
-}
-
 public sealed class WhisperSpeechRecognitionProvider(LocalSpeechService speech) : ISpeechRecognitionProvider
 {
     public string Id => SpeechRecognitionProviderRouter.Whisper;

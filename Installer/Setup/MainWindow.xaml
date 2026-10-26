@@ -9,13 +9,13 @@
         <Grid Grid.Row="0" Margin="0,0,0,20">
             <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
             <Border Width="48" Height="48" CornerRadius="15" Background="#211D37" Padding="2"><Image Source="/Assets/Jarvis.png" Stretch="Uniform"/></Border>
-            <StackPanel Grid.Column="1" Margin="14,1,0,0" VerticalAlignment="Center"><TextBlock Text="JARVIS" FontSize="18" FontWeight="SemiBold"/><TextBlock Text="Persönlicher KI-Arbeitsbereich · Setup 1.1.0" Foreground="{StaticResource TextMuted}" FontSize="12" Margin="0,3,0,0"/></StackPanel>
+            <StackPanel Grid.Column="1" Margin="14,1,0,0" VerticalAlignment="Center"><TextBlock Text="JARVIS" FontSize="18" FontWeight="SemiBold"/><TextBlock Text="Persönlicher KI-Arbeitsbereich · Setup 1.1.1" Foreground="{StaticResource TextMuted}" FontSize="12" Margin="0,3,0,0"/></StackPanel>
             <ComboBox x:Name="LanguageBox" Grid.Column="2" Width="136" Margin="0,0,10,0" VerticalAlignment="Center" SelectedValuePath="Tag" SelectionChanged="Language_SelectionChanged"><ComboBoxItem Content="English" Tag="en"/><ComboBoxItem Content="Deutsch" Tag="de"/></ComboBox>
             <Button x:Name="CancelButton" Grid.Column="3" Content="Cancel" Click="Cancel_Click" Padding="13,8"/>
         </Grid>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
           <StackPanel>
-            <TextBlock x:Name="WizardTitle" Text="Jarvis auf diesem PC einrichten · Version 1.1.0" FontSize="25" FontWeight="SemiBold" Margin="0,3,0,6"/><TextBlock x:Name="WizardStepText" Foreground="{StaticResource TextMuted}" FontSize="12" Margin="0,0,0,12"/><ProgressBar x:Name="StartupProgress" Height="4" IsIndeterminate="True" Margin="0,0,0,12"/>
+            <TextBlock x:Name="WizardTitle" Text="Jarvis auf diesem PC einrichten · Version 1.1.1" FontSize="25" FontWeight="SemiBold" Margin="0,3,0,6"/><TextBlock x:Name="WizardStepText" Foreground="{StaticResource TextMuted}" FontSize="12" Margin="0,0,0,12"/><ProgressBar x:Name="StartupProgress" Height="4" IsIndeterminate="True" Margin="0,0,0,12"/>
             <TextBlock Text="Prüfe die vorhandene KI-Verbindung, wähle den Speicherort und installiere Jarvis." FontSize="13" Foreground="{StaticResource TextMuted}" TextWrapping="Wrap" Margin="0,0,0,18"/>
             <Border x:Name="BackendCard" Background="{StaticResource Surface}" BorderBrush="{StaticResource Stroke}" BorderThickness="1" CornerRadius="14" Padding="16" Margin="0,0,0,12">
               <StackPanel>
@@ -67,7 +67,7 @@
                 </Grid>
                 <TextBlock Text="JARVIS" FontSize="22" FontWeight="SemiBold" HorizontalAlignment="Center"/>
                 <TextBlock x:Name="StartupStatusText" Text="Checking this PC for an existing Jarvis installation…" Foreground="{StaticResource TextMuted}" FontSize="13" TextAlignment="Center" TextWrapping="Wrap" Margin="0,10,0,0"/>
-                <TextBlock Text="Version 1.1.0" Foreground="{StaticResource Accent}" FontSize="12" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,12,0,0"/>
+                <TextBlock Text="Version 1.1.1" Foreground="{StaticResource Accent}" FontSize="12" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,12,0,0"/>
             </StackPanel>
         </Grid>
     </Grid>

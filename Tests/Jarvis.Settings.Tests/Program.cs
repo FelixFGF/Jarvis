@@ -33,10 +33,17 @@ internal static class Program
         UiLocalization.Apply(root, "de");
         Check((string)advanced.Header == "Erweiterte Einstellungen", "Fallback advanced controls switch back to German");
         Check(UiLocalization.Translate("untranslated-test-key", "en") == "untranslated-test-key", "Missing translation preserves value");
+        var selectionConverter = new ComboBoxSelectionConverter();
+        var firstSelection = selectionConverter.Convert(new ComboBoxItem { Content = "Always ask" }, typeof(object), null, System.Globalization.CultureInfo.InvariantCulture);
+        var secondSelection = selectionConverter.Convert(new ComboBoxItem { Content = "Automatic security review" }, typeof(object), null, System.Globalization.CultureInfo.InvariantCulture);
+        Check((string?)firstSelection == "Always ask" && (string?)secondSelection == "Automatic security review", "Closed selectors display only the current item content after selection changes");
         Check(UiLocalization.DetectInitialLanguage(System.Globalization.CultureInfo.GetCultureInfo("de-DE")) == "en", "Fresh installations default to English regardless of Windows locale");
         var config = new AppConfig { UiLanguage = "en", PersonalInstructions = "Be concise.", SystemPrompt = "Legacy custom prompt", Model = "keep-model" };
         var restored = JsonSerializer.Deserialize<AppConfig>(JsonSerializer.Serialize(config))!;
         Check(restored.UiLanguage == "en" && restored.PersonalInstructions == "Be concise." && restored.Model == "keep-model" && restored.SystemPrompt == "Legacy custom prompt", "Settings persistence and legacy preservation");
+        var workspaceConfig = new AppConfig { WorkspaceRoot = @"C:\Work", WorkspaceOpenFiles = [@"C:\Work\a.cs", @"C:\Work\b.py"], WorkspaceActiveFile = @"C:\Work\b.py", WorkspaceExpandedDirectories = [@"C:\Work\src"], WorkspaceBrowserUrls = ["https://example.test/docs"], WorkspaceActiveView = "Browser", WorkspaceVisible = true, WorkspaceLayoutMode = "Browser", ChatTerminalVisible = true };
+        var restoredWorkspace = JsonSerializer.Deserialize<AppConfig>(JsonSerializer.Serialize(workspaceConfig))!;
+        Check(restoredWorkspace.WorkspaceRoot == @"C:\Work" && restoredWorkspace.WorkspaceOpenFiles.Count == 2 && restoredWorkspace.WorkspaceActiveFile.EndsWith("b.py") && restoredWorkspace.WorkspaceExpandedDirectories.Single().EndsWith("src") && restoredWorkspace.WorkspaceBrowserUrls.Single().StartsWith("https://") && restoredWorkspace.WorkspaceActiveView == "Browser" && restoredWorkspace.WorkspaceVisible && restoredWorkspace.WorkspaceLayoutMode == "Browser" && restoredWorkspace.ChatTerminalVisible, "workspace root, visibility, mode, terminals, expanded folders, file tabs, active document and safe browser URLs persist");
         var germanPreference = JsonSerializer.Deserialize<AppConfig>(JsonSerializer.Serialize(new AppConfig { UiLanguage = "de" }))!;
         Check(germanPreference.UiLanguage == "de", "Existing explicit language preference is preserved");
         var sourced = JsonSerializer.Deserialize<ChatSession>(JsonSerializer.Serialize(new ChatSession { Messages = [new ChatRecord("assistant", "answer", null, [new ChatSource("Docs", "https://docs.example.test", "web", "used", "docs.example.test")])] }))!;
@@ -52,6 +59,22 @@ internal static class Program
         Check(new AppConfig().SpeechProvider == "whisper" && new AppConfig().SpeechModel == "small", "Clean settings default to Whisper Small");
         Check(JsonSerializer.Deserialize<AppConfig>("{\"SpeechProvider\":\"whisper\"}")!.SpeechModel == "small", "Legacy config without a model adopts Whisper Small");
         Check(JsonSerializer.Deserialize<AppConfig>("{\"SpeechProvider\":\"whisper\",\"SpeechModel\":\"base\"}")!.SpeechModel == "base", "Existing explicit speech model is preserved");
+        Check(ImageSearchIntentParser.TryParse("Search the web for Minecraft shader images and show me relevant results.", out var imageQuery) && imageQuery == "Minecraft shader", "Explicit web image request routes to image search");
+        Check(ImageSearchIntentParser.TryParse("Search for Minecraft shader screenshots and show me the images.", out imageQuery) && imageQuery == "Minecraft shader screenshots", "Screenshot request preserves the useful visual search term");
+        Check(ImageSearchIntentParser.TryParse("Find images of Complementary Reimagined shaders.", out imageQuery) && imageQuery == "Complementary Reimagined shaders", "Named image request preserves subject");
+        Check(ImageSearchIntentParser.TryParse("Find the official Minecraft logo and show the source.", out imageQuery) && imageQuery == "official Minecraft logo", "Official logo request routes to image search");
+        Check(ImageSearchIntentParser.TryParse("Zeig mir das Minecraft Logo", out imageQuery) && imageQuery == "Minecraft logo", "German Minecraft logo request removes conversational words");
+        Check(ImageSearchIntentParser.TryParse("Zeig mir offizielle Minecraft-Logos", out imageQuery) && imageQuery == "official Minecraft logo", "German official logo request normalizes inflection and hyphenation");
+        Check(ImageSearchIntentParser.TryParse("Zeig mir Complementary Reimagined Shader", out imageQuery) && imageQuery == "Complementary Reimagined Shader", "Named shader request routes to image search without requiring the word image");
+        Check(!ImageSearchIntentParser.TryParse("Find the official Fabric documentation.", out _), "Documentation request remains ordinary web research");
+        Check(WebResearchIntentParser.TryParse("google wie man einen minecraft mod bug fixt für crash bei hotbar colors", out var researchQuery) && researchQuery.Contains("minecraft mod bug", StringComparison.OrdinalIgnoreCase) && researchQuery.Contains("hotbar colors", StringComparison.OrdinalIgnoreCase), "German google-as-a-verb request routes to web research with issue details intact");
+        Check(WebResearchIntentParser.TryParse("search how to fix this Fabric hotbar crash", out researchQuery) && researchQuery.Contains("Fabric hotbar crash", StringComparison.OrdinalIgnoreCase), "English how-to-fix request routes to web research");
+        Check(!WebResearchIntentParser.TryParse("Make Firefox my default browser", out _), "Default-browser request is not misclassified as research");
+        Check(ImageGalleryInteraction.WrapIndex(-1, 4) == 3 && ImageGalleryInteraction.WrapIndex(4, 4) == 0 && ImageGalleryInteraction.ClampZoom(.5) == 1 && ImageGalleryInteraction.ClampZoom(20) == 8, "Image gallery navigation and zoom boundaries");
+        var rankedImages = ImageSearchService.Rank("official Minecraft logo", [
+            new WebImageResult("Minecraft landscape", "https://images.example/land.jpg", "https://example.test/land", "", "", "Openverse", "https://images.example/land.jpg"),
+            new WebImageResult("Minecraft logo", "https://upload.wikimedia.org/logo.png", "https://commons.wikimedia.org/wiki/File:Logo", "", "", "Wikimedia Commons", "https://upload.wikimedia.org/logo.png")], 8);
+        Check(rankedImages.Count == 1 && rankedImages[0].Title == "Minecraft logo", "Logo ranking rejects generic Minecraft screenshots and prioritizes logo evidence");
         var rejected = false; try { PersonalInstructions.Validate(new string('x',4001)); } catch (ArgumentException) { rejected = true; }
         Check(rejected, "Character limit");
         Check(StructuredChartData.TryParse("""{"type":"bar","title":"Usage","labels":["A","B"],"values":[2,4]}""", out var chart)
@@ -67,6 +90,10 @@ internal static class Program
         Console.WriteLine(checks + " checks passed."); FallbackChecks.RunAsync().GetAwaiter().GetResult();
         VisualChecks.Run();
         AgentChecks.Run();
+        ReminderChecks.RunAsync().GetAwaiter().GetResult();
         VoiceChecks.RunAsync().GetAwaiter().GetResult();
+        SecurityReviewChecks.RunAsync().GetAwaiter().GetResult();
+        AdvancedControlChecks.Run();
+        TerminalChecks.RunAsync().GetAwaiter().GetResult();
     }
 }

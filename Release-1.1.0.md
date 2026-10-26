@@ -90,7 +90,7 @@ An actual installed 1.0.8-to-1.1.0 upgrade remains a release validation step.
 - Official Beta installer script completed successfully after correcting an
   ambiguous WPF/WinForms ComboBox type reference. Application and setup file
   versions are 1.1.0.0. The script verified the Beta gate in the packaged assembly.
-- Fresh output: `G:\Projekte\Jarvis\Jarvis\Installer\artifacts\Jarvis-Setup.exe`
+- Fresh output: `Installer\artifacts\Jarvis-Setup.exe`
   (233,951,335 bytes), SHA-256
   `1C7E77F1050766CFDDD25415A4A8B8025A3C80428EC757A900B1D88E03A72693`.
 - This output is a local build, not a declaration of complete release acceptance.

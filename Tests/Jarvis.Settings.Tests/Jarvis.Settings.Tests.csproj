@@ -6,13 +6,37 @@
 <Compile Include="../../Services/ConversationModeContext.cs" Link="ConversationModeContext.cs"/>
 <Compile Include="../../Services/StructuredChartData.cs" Link="StructuredChartData.cs"/>
 <Compile Include="../../Services/ImageSearchService.cs" Link="ImageSearchService.cs"/>
+<Compile Include="../../Services/ImageSearchIntentParser.cs" Link="ImageSearchIntentParser.cs"/>
+<Compile Include="../../Services/WebResearchIntentParser.cs" Link="WebResearchIntentParser.cs"/>
+<Compile Include="../../Services/ImageGalleryInteraction.cs" Link="ImageGalleryInteraction.cs"/>
 <Compile Include="../../Services/VisualResponseModel.cs" Link="VisualResponseModel.cs"/>
 <Compile Include="../../Services/VisualResponseRenderer.cs" Link="VisualResponseRenderer.cs"/>
 <Compile Include="../../Services/ModelResponseReliability.cs" Link="ModelResponseReliability.cs"/>
 <Compile Include="../../Services/AgentExecutionOrchestrator.cs" Link="AgentExecutionOrchestrator.cs"/>
+<Compile Include="../../Services/InteractiveQuestionSchema.cs" Link="InteractiveQuestionSchema.cs"/>
+<Compile Include="../../Services/ReminderService.cs" Link="ReminderService.cs"/>
+<Compile Include="../../Services/CloudSpeechRecognitionServices.cs" Link="CloudSpeechRecognitionServices.cs"/>
+<Compile Include="../../Services/SpeechRecognitionContracts.cs" Link="SpeechRecognitionContracts.cs"/>
+<Compile Include="../../Services/ToolPermissionPolicy.cs" Link="ToolPermissionPolicy.cs"/>
+<Compile Include="../../Services/MinecraftDiagnosisService.cs" Link="MinecraftDiagnosisService.cs"/>
+<Compile Include="../../Services/ModrinthApiService.cs" Link="ModrinthApiService.cs"/>
+<Compile Include="../../Services/FileChangeTrackingService.cs" Link="FileChangeTrackingService.cs"/>
+<Compile Include="../../Services/SyntaxLanguageCatalog.cs" Link="SyntaxLanguageCatalog.cs"/>
+<Compile Include="../../Services/CommandExecutionService.cs" Link="CommandExecutionService.cs"/>
+<Compile Include="../../Services/TerminalSessionService.cs" Link="TerminalSessionService.cs"/>
+<Compile Include="../../Services/WorkspaceLayoutState.cs" Link="WorkspaceLayoutState.cs"/>
+<Compile Include="../../Services/TaskCompletionPolicy.cs" Link="TaskCompletionPolicy.cs"/>
+<Compile Include="../../Services/SecurityReviewService.cs" Link="SecurityReviewService.cs"/>
+<Compile Include="../../Services/EmojiReference.cs" Link="EmojiReference.cs"/>
+<Compile Include="../../Services/EmojiTypography.cs" Link="EmojiTypography.cs"/>
+<Compile Include="../../Services/ComboBoxSelectionConverter.cs" Link="ComboBoxSelectionConverter.cs"/>
 <Compile Include="../../Services/ChatGreetingService.cs" Link="ChatGreetingService.cs"/>
 <Compile Include="../../Models/ChatSession.cs" Link="ChatSession.cs"/>
 <Compile Include="../../Models/AppConfig.cs" Link="AppConfig.cs"/>
 <EmbeddedResource Include="../../Localization/UiText.resx" Link="Localization/UiText.resx"/>
 <EmbeddedResource Include="../../Localization/UiText.de.resx" Link="Localization/UiText.de.resx"/>
-</ItemGroup><ItemGroup><Compile Include="../../Models/ModelFallbackPlan.cs" Link="ModelFallbackPlan.cs"/></ItemGroup><ItemGroup><Compile Include="../../Services/ModelFallbackOrchestrator.cs" Link="ModelFallbackOrchestrator.cs"/><Compile Include="../../Services/ApiModelCatalogService.cs" Link="ApiModelCatalogService.cs"/></ItemGroup><ItemGroup><Compile Include="../../Services/ElevenLabsTtsService.cs" Link="ElevenLabsTtsService.cs"/></ItemGroup></Project>
+<None Include="../../MainWindow.xaml" Link="MainWindow.xaml" CopyToOutputDirectory="PreserveNewest"/>
+<None Include="../../WorkspaceView.xaml" Link="WorkspaceView.xaml" CopyToOutputDirectory="PreserveNewest"/>
+<None Include="../../TerminalPanel.xaml" Link="TerminalPanel.xaml" CopyToOutputDirectory="PreserveNewest"/>
+<None Include="../../MainWindow.WorkspaceTerminal.cs" Link="MainWindow.WorkspaceTerminal.cs" CopyToOutputDirectory="PreserveNewest"/>
+</ItemGroup><ItemGroup><Compile Include="../../Models/ModelFallbackPlan.cs" Link="ModelFallbackPlan.cs"/></ItemGroup><ItemGroup><Compile Include="../../Services/ModelFallbackOrchestrator.cs" Link="ModelFallbackOrchestrator.cs"/><Compile Include="../../Services/ApiModelCatalogService.cs" Link="ApiModelCatalogService.cs"/></ItemGroup><ItemGroup><Compile Include="../../Services/ElevenLabsTtsService.cs" Link="ElevenLabsTtsService.cs"/><PackageReference Include="NAudio" Version="2.2.1" /></ItemGroup></Project>

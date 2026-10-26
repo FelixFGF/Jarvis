@@ -16,6 +16,10 @@ internal static class AgentChecks
             "Implementiere im bestehenden Projekt eine API, ergänze Tests und führe danach den Build aus.", hasWorkspace: true);
         Check(coding.Kind == AgentTaskKind.ComplexWork && coding.RequiresPlan && coding.RequiresTools,
             "Complex coding work requires a verified plan");
+        var modelPlanContext = AgentExecutionOrchestrator.Start("Implementiere mehrere Änderungen und teste sie danach.", false, true).BuildRuntimeContext();
+        Check(modelPlanContext.Contains("Create the visible plan_task", StringComparison.Ordinal)
+            && !modelPlanContext.Contains("Inspect the project, versions, dependencies", StringComparison.Ordinal),
+            "Controller requires a model plan without supplying a hardcoded developer checklist");
         Check(AgentExecutionOrchestrator.Assess("Recherchiere im Web die aktuelle offizielle API").Kind == AgentTaskKind.Research,
             "Explicit current research is classified deterministically");
 
@@ -31,6 +35,9 @@ internal static class AgentChecks
             && run.RecordFailure("compiler", "CS1000 at line 33") == AgentRetryDecision.ChangeApproach
             && run.RecordFailure("compiler", "CS1000 at line 51") == AgentRetryDecision.Stop,
             "Repeated failure signatures produce bounded repair decisions");
+        run.RecordToolResult("search_images", false, false, "provider timed out");
+        Check(run.Phase == AgentExecutionPhase.Repairing && run.History.Last().Summary.Contains("timed out", StringComparison.Ordinal),
+            "Failed tool calls retain their real failure instead of becoming user cancellation");
         Check(AgentExecutionOrchestrator.RequiresFollowUpVerification("run_powershell", "{\"ok\":true,\"state\":\"running\"}")
             && !AgentExecutionOrchestrator.RequiresFollowUpVerification("command_status", "{\"ok\":true,\"state\":\"completed\",\"exit_code\":0}"),
             "Command start is not completion while final command status is evidence");
