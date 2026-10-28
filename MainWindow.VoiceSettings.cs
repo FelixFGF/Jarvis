@@ -171,8 +171,12 @@ public partial class MainWindow
         _config.TtsVoiceName = TtsVoiceBox.SelectedValue?.ToString() ?? "";
         _config.TtsPiperVoiceId = TtsPiperVoiceBox.SelectedValue?.ToString() ?? _config.TtsPiperVoiceId;
         _config.TtsVolume = TtsVolumeSlider.Value / 100d;
+        _config.TtsSpeed = Math.Clamp(TtsSpeedSlider.Value, 0.7d, 1.2d);
+        _config.TtsAutoPlay = TtsAutoPlayCheck.IsChecked == true;
+        _config.TtsAudioCacheEnabled = TtsAudioCacheCheck.IsChecked == true;
         _tts.Engine = _config.TtsEngine; _tts.PreferredVoiceName = _config.TtsVoiceName;
-        _tts.PiperVoiceId = _config.TtsPiperVoiceId; _tts.Volume = (float)_config.TtsVolume;
+        _tts.PiperVoiceId = _config.TtsPiperVoiceId; _tts.Volume = (float)_config.TtsVolume; _tts.Speed = _config.TtsSpeed; _tts.AudioCacheEnabled = _config.TtsAudioCacheEnabled;
+        ChatAutoTtsToggle.IsChecked = _config.TtsAutoPlay; UpdateChatAutoTtsUi(); UpdateTtsAudioCacheUi();
         try { await PersistConfig(); TtsVoiceStatus.Text = UiLocalization.Translate("Stimm-Einstellungen gespeichert.", _config.UiLanguage); }
         catch (Exception) { TtsVoiceStatus.Text = UiLocalization.Translate("Speichern fehlgeschlagen.", _config.UiLanguage); }
     }

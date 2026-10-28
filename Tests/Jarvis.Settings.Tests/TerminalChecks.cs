@@ -47,6 +47,15 @@ internal static class TerminalChecks
             cmdDone = await WaitReadyAsync(service, cmd.Id);
             Check(string.Equals(cmdDone.WorkingDirectory, Path.GetFullPath(child), StringComparison.OrdinalIgnoreCase), "CMD cd updates the visible effective working directory");
 
+            var secondPs = service.Start("powershell", root, [root]);
+            await service.ExecuteAsync(secondPs.Id, "Write-Output 'second-tab'", CancellationToken.None);
+            var secondDone = await WaitReadyAsync(service, secondPs.Id);
+            Check(secondDone.StandardOutput.Contains("second-tab", StringComparison.Ordinal) && !service.Get(cmd.Id).StandardOutput.Contains("second-tab", StringComparison.Ordinal), "independent terminal tabs retain separate shell processes and output");
+            service.Close(secondPs.Id);
+            await service.ExecuteAsync(cmd.Id, "echo surviving-tab", CancellationToken.None);
+            cmdDone = await WaitReadyAsync(service, cmd.Id);
+            Check(cmdDone.StandardOutput.Contains("surviving-tab", StringComparison.OrdinalIgnoreCase), "closing one terminal tab leaves the other shell session usable");
+
             await service.ExecuteAsync(ps.Id, "Start-Sleep -Seconds 20", CancellationToken.None);
             var duplicateRejected = false;
             try { await service.ExecuteAsync(ps.Id, "Write-Output duplicate", CancellationToken.None); } catch (InvalidOperationException) { duplicateRejected = true; }

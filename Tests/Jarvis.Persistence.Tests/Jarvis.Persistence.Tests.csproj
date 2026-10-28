@@ -39,6 +39,7 @@
     <Compile Include="..\..\Services\ElevenLabsSttService.cs" Link="Services\ElevenLabsSttService.cs" />
     <Compile Include="..\..\Services\InteractiveQuestionSchema.cs" Link="Services\InteractiveQuestionSchema.cs" />
     <Compile Include="..\..\Services\LocalTtsService.cs" Link="Services\LocalTtsService.cs" />
+    <Compile Include="..\..\Services\SpeechAudioCache.cs" Link="Services\SpeechAudioCache.cs" />
     <Compile Include="..\..\Services\DefaultSystemPrompt.cs" Link="Services\DefaultSystemPrompt.cs" />
     <Compile Include="..\..\Services\CommandExecutionService.cs" Link="Services\CommandExecutionService.cs" />
     <Compile Include="..\..\Services\WindowsComputerUseService.cs" Link="Services\WindowsComputerUseService.cs" />
@@ -47,6 +48,7 @@
     <Compile Include="..\..\Services\ComputerUseSessionState.cs" Link="Services\ComputerUseSessionState.cs" />
     <Compile Include="..\..\Services\AgentPlanOutcome.cs" Link="Services\AgentPlanOutcome.cs" />
     <Compile Include="..\..\Services\ComputerUseActionLedger.cs" Link="Services\ComputerUseActionLedger.cs" />
+    <Compile Include="..\..\Services\ComputerUseTransitionTracker.cs" Link="Services\ComputerUseTransitionTracker.cs" />
     <Compile Include="..\..\Services\DesktopGeometry.cs" Link="Services\DesktopGeometry.cs" />
     <Compile Include="..\..\Services\FirefoxLaunch.cs" Link="Services\FirefoxLaunch.cs" />
     <Compile Include="..\..\Services\PublicWebPageReader.cs" Link="Services\PublicWebPageReader.cs" />

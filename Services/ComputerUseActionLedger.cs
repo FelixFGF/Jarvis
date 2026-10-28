@@ -54,6 +54,11 @@ public sealed class ComputerUseActionLedger
         if (string.IsNullOrWhiteSpace(taskId) || string.IsNullOrWhiteSpace(actionType)
             || string.IsNullOrWhiteSpace(sourceObservationId))
             throw new ArgumentException("A desktop action needs task, action, and source-observation identifiers.");
+        if (_history.Any(previous => string.Equals(previous.TaskId, taskId, StringComparison.Ordinal)
+            && string.Equals(previous.ActionType, actionType, StringComparison.Ordinal)
+            && string.Equals(previous.Target.Trim(), target.Trim(), StringComparison.OrdinalIgnoreCase)
+            && string.Equals(previous.SourceObservationId, sourceObservationId, StringComparison.Ordinal)))
+            throw new InvalidOperationException("The same desktop input was already attempted against this observation. Capture a fresh state or choose a materially different action.");
         var record = new ComputerUseActionRecord(Guid.NewGuid().ToString("N"), taskId, planId, planStep,
             actionType, target, sourceObservationId, intendedStateChange, DateTimeOffset.UtcNow);
         _history.Add(record);

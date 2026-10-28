@@ -41,6 +41,8 @@ internal static class Program
         var config = new AppConfig { UiLanguage = "en", PersonalInstructions = "Be concise.", SystemPrompt = "Legacy custom prompt", Model = "keep-model" };
         var restored = JsonSerializer.Deserialize<AppConfig>(JsonSerializer.Serialize(config))!;
         Check(restored.UiLanguage == "en" && restored.PersonalInstructions == "Be concise." && restored.Model == "keep-model" && restored.SystemPrompt == "Legacy custom prompt", "Settings persistence and legacy preservation");
+        var speechPreferences = JsonSerializer.Deserialize<AppConfig>(JsonSerializer.Serialize(new AppConfig { TtsAutoPlay = false, DiscordRichPresenceEnabled = false }))!;
+        Check(!speechPreferences.TtsAutoPlay && !speechPreferences.DiscordRichPresenceEnabled, "Auto-read and Discord presence preferences persist independently without a per-user Discord application ID");
         var workspaceConfig = new AppConfig { WorkspaceRoot = @"C:\Work", WorkspaceOpenFiles = [@"C:\Work\a.cs", @"C:\Work\b.py"], WorkspaceActiveFile = @"C:\Work\b.py", WorkspaceExpandedDirectories = [@"C:\Work\src"], WorkspaceBrowserUrls = ["https://example.test/docs"], WorkspaceActiveView = "Browser", WorkspaceVisible = true, WorkspaceLayoutMode = "Browser", ChatTerminalVisible = true };
         var restoredWorkspace = JsonSerializer.Deserialize<AppConfig>(JsonSerializer.Serialize(workspaceConfig))!;
         Check(restoredWorkspace.WorkspaceRoot == @"C:\Work" && restoredWorkspace.WorkspaceOpenFiles.Count == 2 && restoredWorkspace.WorkspaceActiveFile.EndsWith("b.py") && restoredWorkspace.WorkspaceExpandedDirectories.Single().EndsWith("src") && restoredWorkspace.WorkspaceBrowserUrls.Single().StartsWith("https://") && restoredWorkspace.WorkspaceActiveView == "Browser" && restoredWorkspace.WorkspaceVisible && restoredWorkspace.WorkspaceLayoutMode == "Browser" && restoredWorkspace.ChatTerminalVisible, "workspace root, visibility, mode, terminals, expanded folders, file tabs, active document and safe browser URLs persist");
@@ -95,5 +97,6 @@ internal static class Program
         SecurityReviewChecks.RunAsync().GetAwaiter().GetResult();
         AdvancedControlChecks.Run();
         TerminalChecks.RunAsync().GetAwaiter().GetResult();
+        AudioActivityChecks.Run();
     }
 }

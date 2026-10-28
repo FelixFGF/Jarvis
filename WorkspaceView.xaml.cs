@@ -40,6 +40,7 @@ public partial class WorkspaceView : System.Windows.Controls.UserControl
     public event EventHandler? SplitRequested;
     public event Action<object?, string>? MaximizeRequested;
     public event Action<object?, string?>? ProjectRootChanged;
+    public event Action<object?, string>? ViewChanged;
     public string? ProjectRoot => _root;
 
     public WorkspaceView()
@@ -103,6 +104,8 @@ public partial class WorkspaceView : System.Windows.Controls.UserControl
         WorkspaceTabs.SelectedItem = view.Equals("Browser", StringComparison.OrdinalIgnoreCase) ? BrowserTab :
             view.Equals("Changes", StringComparison.OrdinalIgnoreCase) ? ChangesTab :
             view.Equals("Terminal", StringComparison.OrdinalIgnoreCase) ? TerminalTab : EditorTab;
+        if (view.Equals("Terminal", StringComparison.OrdinalIgnoreCase)) WorkspaceTerminalPanel.EnsureSession();
+        ViewChanged?.Invoke(this, view);
     }
 
     public async Task OpenFileAsync(string path, bool select = true)

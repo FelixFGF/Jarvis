@@ -147,14 +147,14 @@ try
         throw new Exception("The native non-blocking clarification form is not wired for all supported control types and duplicate-safe completion.");
     var projectDocument = XDocument.Load(Path.Combine(AppContext.BaseDirectory, "Jarvis.csproj"));
     string ProjectValue(string name) => projectDocument.Descendants().FirstOrDefault(element => element.Name.LocalName == name)?.Value ?? "";
-    if (ProjectValue("Version") != "1.1.1" || ProjectValue("AssemblyVersion") != "1.1.1.0" || ProjectValue("FileVersion") != "1.1.1.0")
-        throw new Exception("Jarvis version metadata changed from 1.1.1 / 1.1.1.0.");
+    if (ProjectValue("Version") != "1.1.2" || ProjectValue("AssemblyVersion") != "1.1.2.0" || ProjectValue("FileVersion") != "1.1.2.0")
+        throw new Exception("Jarvis version metadata changed from 1.1.2 / 1.1.2.0.");
     foreach (var metadataFile in new[] { "Jarvis.Beta.Shared.csproj", "Jarvis.Setup.csproj" })
     {
         var metadata = XDocument.Load(Path.Combine(AppContext.BaseDirectory, metadataFile));
         string Value(string name) => metadata.Descendants().FirstOrDefault(element => element.Name.LocalName == name)?.Value ?? "";
-        if (Value("Version") != "1.1.1" || Value("AssemblyVersion") != "1.1.1.0" || Value("FileVersion") != "1.1.1.0")
-            throw new Exception($"{metadataFile} version metadata is inconsistent with Jarvis 1.1.1.");
+        if (Value("Version") != "1.1.2" || Value("AssemblyVersion") != "1.1.2.0" || Value("FileVersion") != "1.1.2.0")
+            throw new Exception($"{metadataFile} version metadata is inconsistent with Jarvis 1.1.2.");
     }
     var installerSource = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Installer.Setup.MainWindow.xaml.cs"));
     if (!installerSource.Contains("LanguageBox.SelectedValue = \"en\"", StringComparison.Ordinal))
@@ -715,6 +715,22 @@ try
         throw new Exception("A stale desktop failure leaked into a newer chat request.");
     Console.WriteLine("PASS: a fresh request scope cannot inherit or repeat a previous Notepad action outcome.");
 
+    var replayGuard = new ComputerUseActionLedger();
+    replayGuard.BeginTask("launcher-chain");
+    var firstEnter = replayGuard.Begin("launcher-chain", "launcher-plan", 1, "computer_press_key", "Steam library search", "steam-screen-1");
+    replayGuard.MarkExecuting(firstEnter.ActionId);
+    replayGuard.MarkFailed(firstEnter.ActionId, "Input was not dispatched.");
+    try
+    {
+        replayGuard.Begin("launcher-chain", "launcher-plan", 1, "computer_press_key", "Steam library search", "steam-screen-1");
+        throw new Exception("The same desktop input was replayed against the same screenshot.");
+    }
+    catch (InvalidOperationException) { }
+    var freshEnter = replayGuard.Begin("launcher-chain", "launcher-plan", 1, "computer_press_key", "Steam library search", "steam-screen-2");
+    if (freshEnter.SourceObservationId != "steam-screen-2")
+        throw new Exception("A legitimate repeated key action against a fresh screen was blocked.");
+    Console.WriteLine("PASS: desktop input replay is blocked on the same observation but allowed after a fresh screen changes the evidence.");
+
     var map = new ScreenshotCoordinateMap(new System.Drawing.Rectangle(-1920, 0, 3840, 2160), 1600, 900);
     var mappedCenter = map.ToDesktop(800, 450);
     var mappedTopLeft = map.ToDesktop(0, 0);
@@ -786,6 +802,19 @@ try
         || !DesktopGeometry.CoversMonitor(monitorPrimary.Bounds, monitorPrimary.Bounds))
         throw new Exception("Multi-monitor association, mixed DPI, portrait geometry, or fullscreen bounds were calculated incorrectly.");
     Console.WriteLine("PASS: desktop geometry maps windows across negative coordinates, mixed DPI, portrait monitors, and avoids falsely assigning off-screen windows.");
+    if (Environment.GetEnvironmentVariable("JARVIS_LIVE_MONITOR_CAPTURE") == "1")
+    {
+        var captureService = new WindowsComputerUseService();
+        var liveMonitors = captureService.GetMonitorGeometries();
+        if (liveMonitors.Count == 0) throw new Exception("LIVE: Windows returned no monitors.");
+        foreach (var monitor in liveMonitors)
+        {
+            var capture = captureService.CaptureMonitor(monitor.Id);
+            if (!capture.DataUrl.StartsWith("data:image/jpeg;base64,", StringComparison.Ordinal) || capture.CoordinateMap.DesktopBounds != monitor.Bounds)
+                throw new Exception($"LIVE: Monitor {monitor.Id} did not produce a mapped in-memory JPEG capture.");
+        }
+        Console.WriteLine($"PASS: LIVE captured {liveMonitors.Count} physical monitor image(s) in memory with monitor-specific coordinate maps.");
+    }
 
     var privateArgs = FirefoxLaunch.BuildPrivateWindowArguments("https://www.ebay.com");
     if (!privateArgs.SequenceEqual(new[] { "-private-window", "https://www.ebay.com/" })
@@ -803,6 +832,7 @@ try
 
     var desktopToolSource = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "MainWindow.xaml.cs"));
     if (!desktopToolSource.Contains("name\":\"inspect_desktop\"", StringComparison.Ordinal)
+        || !desktopToolSource.Contains("name\":\"computer_wait_for_state\"", StringComparison.Ordinal)
         || !desktopToolSource.Contains("name\":\"open_private_browser\"", StringComparison.Ordinal)
         || !desktopToolSource.Contains("CaptureMonitor(monitor.Id", StringComparison.Ordinal)
         || !desktopToolSource.Contains("_lastMonitorObservationMaps.TryGetValue", StringComparison.Ordinal)
@@ -864,6 +894,9 @@ try
         || !computerUseSource.Contains("This tool call was not executed. A desktop action already ran from this model response", StringComparison.Ordinal)
         || !computerUseSource.Contains("action_id = actionRecord.ActionId", StringComparison.Ordinal)
         || !computerUseSource.Contains("post-action observation_id", StringComparison.Ordinal)
+        || !computerUseSource.Contains("WaitForDesktopTransitionAsync", StringComparison.Ordinal)
+        || !computerUseSource.Contains("computer_wait_for_state", StringComparison.Ordinal)
+        || !computerUseSource.Contains("wait_for_window, inspect_desktop", StringComparison.Ordinal)
         || !computerUseSource.Contains("_computerUseActionLedger.IsVerifiedForPlanStep", StringComparison.Ordinal))
         throw new Exception("The live model tool loop does not enforce the single-action observation barrier or exact verification linkage.");
     Console.WriteLine("PASS: session approval precedes overlay creation, with monitor-scoped overlay and screenshot coordinate mapping wired.");
@@ -886,9 +919,12 @@ try
         if (!mainWindowCode.Contains("computer_click", StringComparison.Ordinal)
             || !mainWindowCode.Contains("read_web_page", StringComparison.Ordinal)
             || !mainWindowCode.Contains("new WebResearchService()", StringComparison.Ordinal)
-            || !mainWindowCode.Contains("PublicWebPageReader().ReadAsync", StringComparison.Ordinal))
+            || !mainWindowCode.Contains("PublicWebPageReader().ReadAsync", StringComparison.Ordinal)
+            || mainWindowCode.Contains("RequiresPlan && _activePlan is null", StringComparison.Ordinal)
+            || mainWindowCode.Contains("function = new { name = \"plan_task\" }", StringComparison.Ordinal)
+            || !mainWindowCode.Contains("plan_task is a high-priority option", StringComparison.Ordinal))
             throw new Exception("Autonomous Computer Use or independent web research is not wired into the main agent request flow.");
-        Console.WriteLine("PASS: Computer Use and independent Google/fallback/page-reading tools are wired into the agent request flow.");
+        Console.WriteLine("PASS: Computer Use and independent research tools are wired into the agent flow, while plan_task remains high priority without a forced tool choice.");
     }
 
     if (!WindowsComputerUseService.ParseKeyChord("CTRL+SHIFT+TAB").SequenceEqual(new ushort[] { 0x11, 0x10, 0x09 })

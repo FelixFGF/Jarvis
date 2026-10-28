@@ -13,11 +13,18 @@
 <Compile Include="../../Services/VisualResponseRenderer.cs" Link="VisualResponseRenderer.cs"/>
 <Compile Include="../../Services/ModelResponseReliability.cs" Link="ModelResponseReliability.cs"/>
 <Compile Include="../../Services/AgentExecutionOrchestrator.cs" Link="AgentExecutionOrchestrator.cs"/>
+<Compile Include="../../Services/ComputerUseTransitionTracker.cs" Link="ComputerUseTransitionTracker.cs"/>
 <Compile Include="../../Services/InteractiveQuestionSchema.cs" Link="InteractiveQuestionSchema.cs"/>
 <Compile Include="../../Services/ReminderService.cs" Link="ReminderService.cs"/>
 <Compile Include="../../Services/CloudSpeechRecognitionServices.cs" Link="CloudSpeechRecognitionServices.cs"/>
 <Compile Include="../../Services/SpeechRecognitionContracts.cs" Link="SpeechRecognitionContracts.cs"/>
 <Compile Include="../../Services/ToolPermissionPolicy.cs" Link="ToolPermissionPolicy.cs"/>
+<Compile Include="../../Services/WindowsAudioControlService.cs" Link="WindowsAudioControlService.cs"/>
+<Compile Include="../../Services/ApplicationActivityService.cs" Link="ApplicationActivityService.cs"/>
+<Compile Include="../../Services/VoiceSessionPolicy.cs" Link="VoiceSessionPolicy.cs"/>
+<Compile Include="../../Services/CriticalSystemActionService.cs" Link="CriticalSystemActionService.cs"/>
+<Compile Include="../../Services/DiscordRichPresenceService.cs" Link="DiscordRichPresenceService.cs"/>
+<Compile Include="../../Services/SpeechAudioCache.cs" Link="SpeechAudioCache.cs"/>
 <Compile Include="../../Services/MinecraftDiagnosisService.cs" Link="MinecraftDiagnosisService.cs"/>
 <Compile Include="../../Services/ModrinthApiService.cs" Link="ModrinthApiService.cs"/>
 <Compile Include="../../Services/FileChangeTrackingService.cs" Link="FileChangeTrackingService.cs"/>
@@ -36,6 +43,7 @@
 <EmbeddedResource Include="../../Localization/UiText.resx" Link="Localization/UiText.resx"/>
 <EmbeddedResource Include="../../Localization/UiText.de.resx" Link="Localization/UiText.de.resx"/>
 <None Include="../../MainWindow.xaml" Link="MainWindow.xaml" CopyToOutputDirectory="PreserveNewest"/>
+<None Include="../../MainWindow.xaml.cs" Link="MainWindow.xaml.cs" CopyToOutputDirectory="PreserveNewest"/>
 <None Include="../../WorkspaceView.xaml" Link="WorkspaceView.xaml" CopyToOutputDirectory="PreserveNewest"/>
 <None Include="../../TerminalPanel.xaml" Link="TerminalPanel.xaml" CopyToOutputDirectory="PreserveNewest"/>
 <None Include="../../MainWindow.WorkspaceTerminal.cs" Link="MainWindow.WorkspaceTerminal.cs" CopyToOutputDirectory="PreserveNewest"/>

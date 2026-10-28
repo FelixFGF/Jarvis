@@ -87,6 +87,23 @@ internal static class VoiceChecks
         catch (OperationCanceledException) { }
         Console.WriteLine("PASS: Cloud voice cancellation");
 
+        var cacheCalls = 0;
+        {
+            var cacheRoot = Path.Combine(AppContext.BaseDirectory, "jarvis-tts-cache-" + Guid.NewGuid().ToString("N"));
+            try
+            {
+                var cache = new SpeechAudioCache(cacheRoot);
+                async Task<byte[]> Generate(CancellationToken token) { token.ThrowIfCancellationRequested(); cacheCalls++; await Task.Yield(); return [0, 0, 1, 0]; }
+                _ = await cache.GetOrCreateAsync("voice|speed|Kann ich dir noch bei etwas helfen?", Generate, default);
+                _ = await cache.GetOrCreateAsync("voice|speed|Kann ich dir noch bei etwas helfen?", Generate, default);
+                if (cacheCalls != 1 || cache.SizeBytes() != 4) throw new Exception("Repeated ElevenLabs phrase was not served from the local PCM cache.");
+                cache.Clear();
+                if (cache.SizeBytes() != 0) throw new Exception("Speech cache could not be cleared.");
+            }
+            finally { try { if (Directory.Exists(cacheRoot)) Directory.Delete(cacheRoot, true); } catch { } }
+        }
+        Console.WriteLine("PASS: Optional ElevenLabs phrase cache reuses exact audio and can be cleared");
+
         using (var groqClient = new HttpClient(new AsyncHandler(async (request, token) =>
         {
             if (request.RequestUri!.AbsoluteUri != "https://api.groq.com/openai/v1/audio/transcriptions" || request.Headers.Authorization?.Scheme != "Bearer") throw new Exception("Groq request contract");

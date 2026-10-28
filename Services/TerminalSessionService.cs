@@ -8,7 +8,10 @@ namespace Jarvis.Services;
 
 public sealed record TerminalSessionSnapshot(
     string Id, string Shell, string WorkingDirectory, string State, string StandardOutput,
-    string StandardError, string? RunningCommand, int? LastExitCode, DateTimeOffset StartedAt);
+    string StandardError, string? RunningCommand, int? LastExitCode, DateTimeOffset StartedAt)
+{
+    public string DisplayName => Shell == "cmd" ? "Command Prompt" : "PowerShell";
+}
 
 /// <summary>Owns real, non-elevated PowerShell and CMD processes with redirected input and output.</summary>
 public sealed class TerminalSessionService : IDisposable

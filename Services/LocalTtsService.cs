@@ -57,6 +57,8 @@ public sealed class LocalTtsService : IDisposable
     public Func<string> CloudApiKey { get; set; } = () => "";
     public string CloudVoiceId { get; set; } = "";
     public double Speed { get; set; } = 1;
+    /// <summary>Stores generated ElevenLabs PCM locally and reuses exact phrases.</summary>
+    public bool AudioCacheEnabled { get; set; }
     public float Volume { get => _volume; set { _volume = Math.Clamp(value, 0f, 1f); if (_output is not null) _output.Volume = _volume; } }
     public bool IsPiperModelInstalled(string resourceDirectory, string? voiceId = null) => FindPiperModelDirectory(resourceDirectory, voiceId ?? _piperVoiceId) is not null;
 
@@ -133,6 +135,12 @@ public sealed class LocalTtsService : IDisposable
             {
                 voice = string.IsNullOrWhiteSpace(_preferredVoiceName) ? null : voices.FirstOrDefault(v => string.Equals(v.DisplayName, _preferredVoiceName, StringComparison.OrdinalIgnoreCase) && v.Language.StartsWith(culture, StringComparison.OrdinalIgnoreCase));
                 voice ??= voices.Where(v => v.Language.StartsWith(culture, StringComparison.OrdinalIgnoreCase)).OrderByDescending(IsNaturalVoice).ThenByDescending(v => v.DisplayName.Contains("Online", StringComparison.OrdinalIgnoreCase)).ThenBy(v => v.DisplayName, StringComparer.CurrentCultureIgnoreCase).FirstOrDefault();
+                // Chat playback used to fail when the response language had no exact
+                // local voice although Voice Mode could use another installed voice.
+                // Prefer a configured/default voice before reporting a real absence.
+                voice ??= string.IsNullOrWhiteSpace(_preferredVoiceName) ? null : voices.FirstOrDefault(v => string.Equals(v.DisplayName, _preferredVoiceName, StringComparison.OrdinalIgnoreCase));
+                voice ??= SpeechSynthesizer.DefaultVoice;
+                voice ??= voices.FirstOrDefault();
                 if (voice is null) throw new InvalidOperationException("Keine lokale Windows-Sprachstimme ist installiert. Installiere eine Stimme unter Einstellungen → Zeit und Sprache → Sprachausgabe.");
                 _synth.Voice = voice;
                 _synth.Options.SpeakingRate = Math.Clamp(Speed, 0.7, 1.2);
@@ -143,7 +151,7 @@ public sealed class LocalTtsService : IDisposable
                 byte[] bytes; WaveFormat format;
                 if (useCloud)
                 {
-                    bytes = await _cloud.GenerateAsync(part, CloudVoiceId, Speed, CloudApiKey(), cancellation.Token);
+                    bytes = await GetOrCreateCloudAudioAsync(part, cancellation.Token).ConfigureAwait(false);
                     format = new WaveFormat(24000, 16, 1);
                 }
                 else if (usePiper)
@@ -182,6 +190,59 @@ public sealed class LocalTtsService : IDisposable
             }
             cancellation.Dispose();
         }
+    }
+
+    public async Task<int> CacheCloudPhraseAsync(string source, CancellationToken cancellationToken = default)
+    {
+        ObjectDisposedException.ThrowIf(_disposed, this);
+        if (!AudioCacheEnabled) throw new InvalidOperationException("Der lokale Sprachcache ist deaktiviert.");
+        if (_engine != "elevenlabs") throw new InvalidOperationException("Der Sprachcache wird für ElevenLabs-Audio verwendet.");
+        var text = Prepare(source);
+        if (text.Length is 0 or > 500) throw new InvalidDataException("Nur kurze, wiederverwendbare Sätze bis 500 Zeichen können vorgeladen werden.");
+        var count = 0;
+        foreach (var part in SplitForSpeech(text))
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            _ = await GetOrCreateCloudAudioAsync(part, cancellationToken).ConfigureAwait(false);
+            count++;
+        }
+        return count;
+    }
+
+    public long GetAudioCacheSizeBytes()
+    {
+        return new SpeechAudioCache(SpeechCacheDirectory).SizeBytes();
+    }
+
+    public void ClearAudioCache()
+    {
+        new SpeechAudioCache(SpeechCacheDirectory).Clear();
+    }
+
+    /// <summary>Uses an installed local engine to announce a cloud playback failure.</summary>
+    public async Task<bool> TrySpeakLocalFallbackAsync(string source, string? preferredLanguage = null)
+    {
+        var originalEngine = _engine;
+        try
+        {
+            _engine = IsPiperModelInstalled(_resourceDirectory, _piperVoiceId) ? "piper" : "windows";
+            await SpeakAsync(source, preferredLanguage).ConfigureAwait(false);
+            return true;
+        }
+        catch { return false; }
+        finally { _engine = originalEngine; }
+    }
+
+    private string SpeechCacheDirectory => Path.Combine(_resourceDirectory, "Cache", "Speech", "ElevenLabs-v1");
+
+    private async Task<byte[]> GetOrCreateCloudAudioAsync(string text, CancellationToken cancellationToken)
+    {
+        if (!AudioCacheEnabled)
+            return await _cloud.GenerateAsync(text, CloudVoiceId, Speed, CloudApiKey(), cancellationToken).ConfigureAwait(false);
+
+        var identity = $"pcm24k-v1\n{CloudVoiceId}\n{Math.Round(Speed, 2):0.00}\n{text}";
+        return await new SpeechAudioCache(SpeechCacheDirectory).GetOrCreateAsync(identity,
+            token => _cloud.GenerateAsync(text, CloudVoiceId, Speed, CloudApiKey(), token), cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

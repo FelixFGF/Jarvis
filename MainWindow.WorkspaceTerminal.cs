@@ -8,6 +8,7 @@ public partial class MainWindow
 {
     private readonly TerminalSessionService _terminalSessions = new();
     private WorkspaceLayoutMode _workspaceLayout = WorkspaceLayoutMode.Hidden;
+    private JarvisPresenceActivity _workspacePresenceActivity = JarvisPresenceActivity.Chatting;
 
     private void ConfigureWorkspaceAndTerminals()
     {
@@ -15,6 +16,12 @@ public partial class MainWindow
         IntegratedWorkspace.SplitRequested += (_, _) => SetWorkspaceLayout(WorkspaceLayoutMode.Split);
         IntegratedWorkspace.MaximizeRequested += (_, view) => SetWorkspaceLayout(ParseWorkspaceView(view));
         IntegratedWorkspace.ProjectRootChanged += (_, root) => OnProjectRootChanged(root);
+        IntegratedWorkspace.ViewChanged += (_, view) =>
+        {
+            _workspacePresenceActivity = view.Equals("Files", StringComparison.OrdinalIgnoreCase) || view.Equals("Terminal", StringComparison.OrdinalIgnoreCase)
+                ? JarvisPresenceActivity.Coding : JarvisPresenceActivity.Chatting;
+            _ = UpdateDiscordPresenceAsync(_voiceModeEnabled ? JarvisPresenceActivity.Voice : _workspacePresenceActivity);
+        };
         ChatTerminalPanel.Configure(_terminalSessions, TerminalAllowedRoots, DefaultTerminalDirectory, AuthorizeTerminalCommandAsync, _config.UiLanguage);
         IntegratedWorkspace.ConfigureTerminal(_terminalSessions, TerminalAllowedRoots, DefaultTerminalDirectory, AuthorizeTerminalCommandAsync, _config.UiLanguage);
         _workspaceLayout = WorkspaceLayoutState.Parse(_config.WorkspaceLayoutMode, _config.WorkspaceVisible);
@@ -73,11 +80,8 @@ public partial class MainWindow
         var roots = (_config.AllowedRoots ?? []).Where(Directory.Exists).Select(Path.GetFullPath).ToList();
         if (IntegratedWorkspace.ProjectRoot is { } project && Directory.Exists(project) && !roots.Contains(project, StringComparer.OrdinalIgnoreCase)) roots.Add(project);
         if (_activeChat?.Workspace is { Length: > 0 } chatRoot && Directory.Exists(chatRoot) && !roots.Contains(chatRoot, StringComparer.OrdinalIgnoreCase)) roots.Add(chatRoot);
-        if (roots.Count == 0)
-        {
-            var profile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            if (Directory.Exists(profile)) roots.Add(profile);
-        }
+        var profile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        if (Directory.Exists(profile) && !roots.Contains(profile, StringComparer.OrdinalIgnoreCase)) roots.Add(profile);
         return roots;
     }
 
@@ -85,7 +89,7 @@ public partial class MainWindow
         ? root
         : _activeChat?.Workspace is { } workspace && Directory.Exists(workspace)
             ? workspace
-            : TerminalAllowedRoots().FirstOrDefault() ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            : Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
     private async Task<bool> AuthorizeTerminalCommandAsync(string shell, string command, string workingDirectory, CancellationToken token)
     {

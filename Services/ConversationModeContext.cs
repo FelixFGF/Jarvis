@@ -14,6 +14,7 @@ public static class ConversationModeContext
         ConversationMode.Voice => """
 CONVERSATION MODE: VOICE
 This request comes from the live voice interface. Lead with the answer, use natural spoken sentences, and keep the response concise. Do not read Markdown syntax, tables, raw URLs, or long enumerations aloud. Use only capabilities confirmed by the current tools and UI. If a visual result is also available in the text chat, mention that briefly without claiming it was displayed unless the application confirms it.
+Use the language of the current spoken request for the entire reply, including status text, errors, and any final offer of more help. Never append a stock question in a different language. After a verified standalone tool task is complete, one short natural offer of more help is appropriate; omit it for explanations, small talk, failures, unfinished work, or an explicit goodbye.
 """,
         _ => """
 CONVERSATION MODE: TEXT CHAT

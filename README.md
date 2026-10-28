@@ -14,6 +14,7 @@
 
 <p align="center">
   <a href="https://my-jarvisai.netlify.app/">Website</a> •
+  <a href="Release-1.1.2.md">Release notes 1.1.2</a> •
   <a href="https://github.com/FelixFGF/Jarvis/issues">Report a Bug</a> •
   <a href="https://dsc.gg/local-jarvis">Request a Feature</a>
 </p>

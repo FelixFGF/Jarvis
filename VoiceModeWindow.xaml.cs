@@ -64,7 +64,7 @@ public partial class VoiceModeWindow : Window
             "Speak naturally. Jarvis will respond after a short pause." => "Sprich ganz normal. Nach einer kurzen Pause antwortet Jarvis.", _ => detail
         } : detail;
         RetryButton.Visibility = state == VoiceUiState.Error ? Visibility.Visible : Visibility.Collapsed;
-        var active = state is VoiceUiState.Listening or VoiceUiState.Speaking;
+        var active = state is VoiceUiState.Listening or VoiceUiState.Speaking or VoiceUiState.AwaitingFollowUp;
         LogoScale.BeginAnimation(System.Windows.Media.ScaleTransform.ScaleXProperty, null);
         LogoScale.BeginAnimation(System.Windows.Media.ScaleTransform.ScaleYProperty, null);
         LogoGlow.BeginAnimation(System.Windows.Media.Effects.DropShadowEffect.BlurRadiusProperty, null);
@@ -101,4 +101,4 @@ public partial class VoiceModeWindow : Window
     private void Close_Click(object sender, RoutedEventArgs e) { EndRequested?.Invoke(this, EventArgs.Empty); if (IsVisible) Close(); }
 }
 
-public enum VoiceUiState { Ready, Listening, Thinking, Executing, Speaking, Error }
+public enum VoiceUiState { Ready, Listening, Thinking, Executing, Speaking, AwaitingFollowUp, EndingSession, Error }

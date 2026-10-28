@@ -46,6 +46,13 @@ internal static class AdvancedControlChecks
             && terminalMarkup.Contains("x:Name=\"PromptLabel\"", StringComparison.Ordinal)
             && !terminalMarkup.Contains("Click=\"Run_Click\"", StringComparison.Ordinal),
             "workspace clear action and Enter-first PowerShell-style terminal UI are wired into the active XAML");
+        Check(terminalMarkup.Contains("x:Name=\"SessionTabs\"", StringComparison.Ordinal)
+            && terminalMarkup.Contains("x:Name=\"NewTerminalPopup\"", StringComparison.Ordinal)
+            && terminalMarkup.Contains("IsReadOnly=\"False\"", StringComparison.Ordinal)
+            && terminalMarkup.Contains("IsTabStop=\"True\"", StringComparison.Ordinal)
+            && terminalMarkup.Contains("PopupPowerShell_Click", StringComparison.Ordinal)
+            && terminalMarkup.Contains("PopupCmd_Click", StringComparison.Ordinal),
+            "terminal uses focusable command input, native in-app tabs and an explicit PowerShell/CMD new-tab menu");
         Check(workspaceSource.Contains("UpdateWorkspaceAvailability(root)", StringComparison.Ordinal)
             && workspaceSource.Contains("CommandManager.InvalidateRequerySuggested()", StringComparison.Ordinal)
             && workspaceSource.Contains("IntegratedWorkspace.ProjectRoot ?? _activeChat?.Workspace", StringComparison.Ordinal),

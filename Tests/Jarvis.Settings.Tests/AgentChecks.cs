@@ -16,10 +16,16 @@ internal static class AgentChecks
             "Implementiere im bestehenden Projekt eine API, ergänze Tests und führe danach den Build aus.", hasWorkspace: true);
         Check(coding.Kind == AgentTaskKind.ComplexWork && coding.RequiresPlan && coding.RequiresTools,
             "Complex coding work requires a verified plan");
+        var desktopChain = AgentExecutionOrchestrator.Assess(
+            "Nutze Computer-Use, um von Steam aus Epic Games zu starten und dann von Epic Games aus Rocket League zu starten.");
+        Check(desktopChain.Kind == AgentTaskKind.ComplexWork && desktopChain.RequiresPlan && desktopChain.RequiresTools,
+            "Multi-launcher Computer Use work requires an observe-act-verify plan");
+        Check(AgentExecutionOrchestrator.MaxModelRounds >= 30 && AgentExecutionOrchestrator.MaxToolCalls >= 64,
+            "Bounded execution budget accommodates multi-step desktop verification");
         var modelPlanContext = AgentExecutionOrchestrator.Start("Implementiere mehrere Änderungen und teste sie danach.", false, true).BuildRuntimeContext();
-        Check(modelPlanContext.Contains("Create the visible plan_task", StringComparison.Ordinal)
+        Check(modelPlanContext.Contains("Strongly prefer plan_task", StringComparison.Ordinal)
             && !modelPlanContext.Contains("Inspect the project, versions, dependencies", StringComparison.Ordinal),
-            "Controller requires a model plan without supplying a hardcoded developer checklist");
+            "Controller prioritizes a model plan without forcing a hardcoded developer checklist");
         Check(AgentExecutionOrchestrator.Assess("Recherchiere im Web die aktuelle offizielle API").Kind == AgentTaskKind.Research,
             "Explicit current research is classified deterministically");
 
@@ -45,6 +51,21 @@ internal static class AgentChecks
             && !AgentExecutionOrchestrator.CanCompleteNonVisualPlanStep("Needs confirmation", false)
             && AgentExecutionOrchestrator.CanCompleteNonVisualPlanStep("Needs confirmation", true),
             "Plan completion requires a separately reconciled successful tool result");
+
+        var unchanged = new ComputerUseTransitionTracker("foreground=steam|steam");
+        Check(!unchanged.Observe("foreground=steam|steam")
+            && !unchanged.Observe("foreground=steam|steam")
+            && !unchanged.Observe("foreground=steam|steam")
+            && !unchanged.Observe("foreground=steam|steam")
+            && unchanged.Observe("foreground=steam|steam")
+            && !unchanged.Changed,
+            "Unchanged desktop settles only after a bounded grace period");
+        var changed = new ComputerUseTransitionTracker("foreground=steam|steam");
+        Check(!changed.Observe("foreground=epic|steam|epic")
+            && !changed.Observe("foreground=epic|steam|epic")
+            && changed.Observe("foreground=epic|steam|epic")
+            && changed.Changed,
+            "Changed launcher desktop must stabilize before verification capture");
 
         var first = ChatGreetingService.SelectKey("de", deterministicIndex: 2);
         var second = ChatGreetingService.SelectKey("de", first, deterministicIndex: 2);

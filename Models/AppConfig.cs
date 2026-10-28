@@ -61,7 +61,8 @@ public sealed class AppConfig
     public string ElevenLabsApiKeyProtected { get; set; } = "";
     public string ElevenLabsVoiceId { get; set; } = "";
     public double TtsSpeed { get; set; } = 1d;
-    public bool TtsAutoPlay { get; set; }
+    public bool TtsAutoPlay { get; set; } = true;
+    public bool TtsAudioCacheEnabled { get; set; }
     public double TtsVolume { get; set; } = 1d;
     public string ResourceDirectory { get; set; } = "";
     public string UiLanguage { get; set; } = "";
@@ -72,6 +73,7 @@ public sealed class AppConfig
     public string AppleMusicDeveloperTokenProtected { get; set; } = "";
     public string AppleMusicUserTokenProtected { get; set; } = "";
     public string AppleMusicStorefront { get; set; } = "de";
+    public bool DiscordRichPresenceEnabled { get; set; }
 }
 
 public sealed record TrustedApprovalRecord(string Key, string Title, string Details)
