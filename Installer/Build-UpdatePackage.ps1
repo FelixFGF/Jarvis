@@ -8,6 +8,22 @@ $ErrorActionPreference = 'Stop'
 $root = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $key = [Environment]::GetEnvironmentVariable('JARVIS_UPDATE_SIGNING_PRIVATE_KEY_PEM')
 if ([string]::IsNullOrWhiteSpace($key)) { throw 'JARVIS_UPDATE_SIGNING_PRIVATE_KEY_PEM is required to create an authenticated update package.' }
+$key = $key.Trim()
+# GitHub secrets are often stored as one line with escaped newlines, or as a
+# base64-encoded PEM value. Accept both representations without ever writing the
+# private key to disk or to the build log.
+if ($key.Contains('\n', [StringComparison]::Ordinal)) {
+    $key = $key.Replace('\r', "`r", [StringComparison]::Ordinal).Replace('\n', "`n", [StringComparison]::Ordinal)
+}
+if (-not $key.Contains('-----BEGIN', [StringComparison]::Ordinal)) {
+    try {
+        $decodedKey = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($key))
+        if ($decodedKey.Contains('-----BEGIN', [StringComparison]::Ordinal)) { $key = $decodedKey.Trim() }
+    } catch [FormatException] { }
+}
+if (-not $key.Contains('-----BEGIN', [StringComparison]::Ordinal)) {
+    throw 'JARVIS_UPDATE_SIGNING_PRIVATE_KEY_PEM must contain PEM text, escaped-newline PEM text, or base64-encoded PEM text.'
+}
 $supabaseUrl = $env:JARVIS_SUPABASE_URL
 $supabasePublishableKey = $env:JARVIS_SUPABASE_PUBLISHABLE_KEY
 if ($Configuration -eq 'Beta') {

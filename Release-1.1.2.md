@@ -85,3 +85,4 @@ Jarvis 1.1.2 consolidates the completed release work and all intended follow-up 
 - English Windows TTS and native Windows desktop recognition integration checks were skipped because those optional Windows language components are not installed on the release workstation.
 - External provider calls, Discord presentation, launcher/game workflows and pixel-level UI appearance still require suitable live accounts, applications and desktop surfaces. They are not considered verified by compilation or mocks alone.
 - The distributable installer is built from the Beta configuration through `Installer/Build-Installer.ps1` and reports version 1.1.2 / 1.1.2.0.
+- GitHub always publishes the verified installer and checksum. Authenticated updater assets are added only when the repository signing key can create a valid signed package; an invalid signing configuration no longer hides the installer download.
