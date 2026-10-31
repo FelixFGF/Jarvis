@@ -6,6 +6,7 @@ using System.Text.Json;
 namespace Jarvis.Services;
 
 public enum JarvisPresenceActivity { Chatting, Voice, Coding }
+public enum DiscordPresenceConnectionState { Disabled, Connecting, Connected, Disconnected }
 public interface IDiscordRpcTransport : IAsyncDisposable
 {
     Task ConnectAsync(CancellationToken token);
@@ -19,39 +20,74 @@ public sealed class DiscordRichPresenceService : IAsyncDisposable
     public const string DownloadUrl = "https://my-jarvisai.netlify.app";
     private readonly Func<string, IDiscordRpcTransport> _factory;
     private readonly SemaphoreSlim _gate = new(1, 1);
+    private readonly TimeSpan _reconnectInterval;
+    private readonly CancellationTokenSource _lifetime = new();
     private IDiscordRpcTransport? _transport;
     private string _applicationId = "";
     private JarvisPresenceActivity? _currentActivity;
-    public DiscordRichPresenceService(Func<string, IDiscordRpcTransport>? factory = null) => _factory = factory ?? (id => new DiscordNamedPipeTransport(id));
+    private Task? _reconnectLoop;
+    private bool _desiredEnabled;
+    public bool IsEnabled => _desiredEnabled;
+    public DiscordPresenceConnectionState ConnectionState { get; private set; } = DiscordPresenceConnectionState.Disabled;
+    public event EventHandler<DiscordPresenceConnectionState>? ConnectionStateChanged;
+    public DiscordRichPresenceService(Func<string, IDiscordRpcTransport>? factory = null, TimeSpan? reconnectInterval = null)
+    {
+        _factory = factory ?? (id => new DiscordNamedPipeTransport(id));
+        _reconnectInterval = reconnectInterval ?? TimeSpan.FromSeconds(15);
+    }
 
     public async Task<bool> SetAsync(bool enabled, JarvisPresenceActivity activity, CancellationToken token = default)
     {
         await _gate.WaitAsync(token);
         try
         {
-            if (!enabled) { await ClearCoreAsync(token); return false; }
-            var applicationId = ApplicationId;
-            // Always resend the complete activity, even when the broad mode did not
-            // change. Discord replaces activity payloads wholesale and a prior client
-            // reconnect or partial update may otherwise leave assets/buttons missing.
-            try { await SetCoreAsync(applicationId, activity, token); }
-            catch (IOException)
-            {
-                await ClearCoreAsync(CancellationToken.None);
-                await SetCoreAsync(applicationId, activity, token);
-            }
-            return true;
+            _desiredEnabled = enabled;
+            _currentActivity = activity;
+            if (!enabled) { await DisableCoreAsync(token); return false; }
+            EnsureReconnectLoop();
+            return await EnsureConnectedCoreAsync(token);
         }
         finally { _gate.Release(); }
     }
 
-    private async Task SetCoreAsync(string applicationId, JarvisPresenceActivity activity, CancellationToken token)
+    private async Task<bool> EnsureConnectedCoreAsync(CancellationToken token)
     {
-        if (_transport is null || !string.Equals(_applicationId, applicationId, StringComparison.Ordinal))
+        if (!_desiredEnabled || _currentActivity is null) return false;
+        SetConnectionState(DiscordPresenceConnectionState.Connecting);
+        using var operation = CancellationTokenSource.CreateLinkedTokenSource(token);
+        operation.CancelAfter(_transport is null ? TimeSpan.FromSeconds(8) : TimeSpan.FromSeconds(4));
+        var ioToken = operation.Token;
+        try
         {
-            await ClearCoreAsync(token); _applicationId = applicationId; _transport = _factory(_applicationId); await _transport.ConnectAsync(token);
-            await _transport.SendAsync(0, JsonSerializer.Serialize(new { v = 1, client_id = _applicationId }), token);
+            if (_transport is null || !string.Equals(_applicationId, ApplicationId, StringComparison.Ordinal))
+            {
+                await DropTransportCoreAsync();
+                _applicationId = ApplicationId;
+                _transport = _factory(_applicationId);
+                await _transport.ConnectAsync(ioToken);
+                await _transport.SendAsync(0, JsonSerializer.Serialize(new { v = 1, client_id = _applicationId }), ioToken);
+            }
+            await SendActivityCoreAsync(_currentActivity.Value, ioToken);
+            SetConnectionState(DiscordPresenceConnectionState.Connected);
+            return true;
         }
+        catch (Exception ex) when (ex is IOException or TimeoutException)
+        {
+            await DropTransportCoreAsync();
+            SetConnectionState(DiscordPresenceConnectionState.Disconnected);
+            return false;
+        }
+        catch (OperationCanceledException) when (!token.IsCancellationRequested)
+        {
+            await DropTransportCoreAsync();
+            SetConnectionState(DiscordPresenceConnectionState.Disconnected);
+            return false;
+        }
+    }
+
+    private async Task SendActivityCoreAsync(JarvisPresenceActivity activity, CancellationToken token)
+    {
+        if (_transport is null) throw new IOException("Discord RPC is not connected.");
         var (details, state) = activity switch
         {
             JarvisPresenceActivity.Voice => ("Talking with Jarvis", "Voice session active"),
@@ -80,23 +116,74 @@ public sealed class DiscordRichPresenceService : IAsyncDisposable
         _currentActivity = activity;
     }
 
+    private void EnsureReconnectLoop()
+    {
+        if (_reconnectLoop is { IsCompleted: false }) return;
+        _reconnectLoop = Task.Run(ReconnectLoopAsync);
+    }
+
+    private async Task ReconnectLoopAsync()
+    {
+        while (!_lifetime.IsCancellationRequested)
+        {
+            try { await Task.Delay(_reconnectInterval, _lifetime.Token); }
+            catch (OperationCanceledException) { return; }
+            if (!_desiredEnabled) continue;
+            try
+            {
+                await _gate.WaitAsync(_lifetime.Token);
+                try
+                {
+                    // A complete SET_ACTIVITY also acts as a bounded liveness probe.
+                    // On failure the transport is dropped and the next tick reconnects.
+                    await EnsureConnectedCoreAsync(_lifetime.Token);
+                }
+                finally { _gate.Release(); }
+            }
+            catch (OperationCanceledException) when (_lifetime.IsCancellationRequested) { return; }
+            catch { SetConnectionState(DiscordPresenceConnectionState.Disconnected); }
+        }
+    }
+
     public async Task ClearAsync(CancellationToken token = default)
     {
         await _gate.WaitAsync(token);
-        try { await ClearCoreAsync(token); }
+        try { _desiredEnabled = false; await DisableCoreAsync(token); }
         finally { _gate.Release(); }
     }
 
-    private async Task ClearCoreAsync(CancellationToken token)
+    private async Task DisableCoreAsync(CancellationToken token)
     {
         if (_transport is not null)
         {
             try { await _transport.SendAsync(1, JsonSerializer.Serialize(new { cmd = "SET_ACTIVITY", args = new { pid = Environment.ProcessId, activity = (object?)null }, nonce = Guid.NewGuid().ToString("N") }), token); } catch { }
-            await _transport.DisposeAsync(); _transport = null;
         }
-        _applicationId = ""; _currentActivity = null;
+        await DropTransportCoreAsync();
+        _applicationId = ""; _currentActivity = null; SetConnectionState(DiscordPresenceConnectionState.Disabled);
     }
-    public async ValueTask DisposeAsync() => await ClearAsync();
+
+    private async Task DropTransportCoreAsync()
+    {
+        if (_transport is null) return;
+        try { await _transport.DisposeAsync(); } catch { }
+        _transport = null;
+        _applicationId = "";
+    }
+
+    private void SetConnectionState(DiscordPresenceConnectionState state)
+    {
+        if (ConnectionState == state) return;
+        ConnectionState = state;
+        ConnectionStateChanged?.Invoke(this, state);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        _lifetime.Cancel();
+        await ClearAsync();
+        if (_reconnectLoop is not null) try { await _reconnectLoop; } catch { }
+        _lifetime.Dispose(); _gate.Dispose();
+    }
 }
 
 internal sealed class DiscordNamedPipeTransport(string applicationId) : IDiscordRpcTransport

@@ -49,7 +49,7 @@
     <value>Your private workspace</value>
   </data>
   <data name="Ui.LocalDesktopAIVersion105">
-    <value>Local desktop AI · Version 1.1.2</value>
+    <value>Local desktop AI · Version 1.1.3</value>
   </data>
   <data name="Ui.YourProfile">
     <value>Your profile</value>
@@ -421,7 +421,7 @@
     <value>Enter your BionicGPT API key and load the models. The key is protected locally with Windows DPAPI.</value>
   </data>
   <data name="Ui.PersonalAIWorkspaceSetup105">
-    <value>Personal AI workspace · Setup 1.1.2</value>
+    <value>Personal AI workspace · Setup 1.1.3</value>
   </data>
   <data name="Ui.Back">
     <value>Back</value>
@@ -955,7 +955,7 @@
     <value>Enter an OpenAI-compatible API endpoint. An API key is optional and only needed by providers that require authentication.</value>
   </data>
   <data name="Ui.SetUpJarvisOnThisPCVersion105">
-    <value>Set up Jarvis on this PC · Version 1.1.2</value>
+    <value>Set up Jarvis on this PC · Version 1.1.3</value>
   </data>
   <data name="Ui.JarvisSetup">
     <value>Jarvis Setup</value>
@@ -988,7 +988,7 @@
     <value>Spotify connects using OAuth PKCE. Your client ID is public; the access token is encrypted for your Windows account. Enter the exact redirect URI in your Spotify Developer Dashboard.</value>
   </data>
   <data name="Ui.Version105">
-    <value>Version 1.1.2</value>
+    <value>Version 1.1.3</value>
   </data>
   <data name="Ui.600ms">
     <value>600 ms</value>
@@ -1153,16 +1153,16 @@
     <value>Optionally install Ollama using its official installer, or connect BionicGPT at localhost:1235. The API key is protected for your Windows account.</value>
   </data>
   <data name="Ui.InstalledVersionValueNewVersion105">
-    <value>Installed version {_installedVersion}  →  New version 1.1.2</value>
+    <value>Installed version {_installedVersion}  →  New version 1.1.3</value>
   </data>
   <data name="Ui.JarvisValueFoundPreparingUpdateTo105">
-    <value>Jarvis {_installedVersion} found. Preparing update to 1.1.2…</value>
+    <value>Jarvis {_installedVersion} found. Preparing update to 1.1.3…</value>
   </data>
   <data name="Ui.UpdateJarvis">
     <value>Update Jarvis</value>
   </data>
   <data name="Ui.UpdateJarvisToVersion105">
-    <value>Update Jarvis to version 1.1.2</value>
+    <value>Update Jarvis to version 1.1.3</value>
   </data>
   <data name="Ui.UninstallJarvis">
     <value>Uninstall Jarvis</value>
@@ -1174,7 +1174,7 @@
     <value>Jarvis Voice</value>
   </data>
   <data name="Ui.JarvisWasUpdatedToVersion105SettingsChatsModelsAndLogsWerePreserved">
-    <value>Jarvis was updated to version 1.1.2. Settings, chats, models and logs were preserved.</value>
+    <value>Jarvis was updated to version 1.1.3. Settings, chats, models and logs were preserved.</value>
   </data>
   <data name="Ui.DeleteJarvisData">
     <value>Delete Jarvis data</value>
@@ -1324,7 +1324,7 @@
     <value>Scanning Windows recording devices…</value>
   </data>
   <data name="Ui.UpdaterVersion105">
-    <value>Updater · Version 1.1.2</value>
+    <value>Updater · Version 1.1.3</value>
   </data>
   <data name="Ui.TestingConnection">
     <value>Testing connection…</value>
@@ -1333,7 +1333,7 @@
     <value>Connected · </value>
   </data>
   <data name="Ui.Version105Complete">
-    <value>Version 1.1.2 · complete</value>
+    <value>Version 1.1.3 · complete</value>
   </data>
   <data name="Ui.CouldNotSaveTrust">
     <value>Could not save trust: </value>
@@ -1342,7 +1342,7 @@
     <value>Not executed before the final response.</value>
   </data>
   <data name="Ui.ExistingInstallationFoundJarvisWillUpdateToVersion105SettingsChatsModelsAndLogsWillBePreserved">
-    <value>Existing installation found. Jarvis will update to version 1.1.2; settings, chats, models and logs will be preserved.</value>
+    <value>Existing installation found. Jarvis will update to version 1.1.3; settings, chats, models and logs will be preserved.</value>
   </data>
   <data name="Ui.ResumeSpeech">
     <value>Resume speech</value>
@@ -1967,4 +1967,10 @@
   <data name="Ui.FileConflict"><value>File conflict</value></data>
   <data name="Ui.BinaryFileChanged"><value>Binary file — file metadata changed</value></data>
   <data name="Privacy.DiscordPresence" xml:space="preserve"><value>Enable Discord Rich Presence</value></data>
+  <data name="ChatDelete.WindowTitle"><value>Delete conversation</value></data>
+  <data name="ChatDelete.Title"><value>Delete conversation?</value></data>
+  <data name="ChatDelete.Explanation"><value>This conversation and its locally stored messages will be permanently removed.</value></data>
+  <data name="ChatDelete.Cancel"><value>Cancel</value></data>
+  <data name="ChatDelete.CancelAutomation"><value>Cancel deletion</value></data>
+  <data name="ChatDelete.Delete"><value>Delete</value></data>
 </root>

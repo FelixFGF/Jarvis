@@ -10,7 +10,7 @@ The matching SHA-256 file is available at:
 
 `https://github.com/FelixFGF/Jarvis/releases/latest/download/Jarvis-Setup.exe.sha256`
 
-Pushing a version tag such as `v1.1.2` runs the GitHub Actions workflow and publishes the installer and checksum as release assets.
+Pushing a version tag normally runs the GitHub Actions workflow and publishes the installer and checksum as release assets. Version `v1.1.3` is intentionally source-only; its installer is built and retained locally.
 
 `Build-Installer.ps1` publishes Jarvis with the `Beta` configuration as a self-contained Windows x64 WPF app, compresses that publish output and embeds it in the custom WPF bootstrapper. This is required: the ordinary `Release` configuration does not include Closed Beta activation. The deliverable is one `Jarvis-Setup.exe`; the `.sha256` sidecar is a verification aid, not a runtime dependency.
 
@@ -19,7 +19,7 @@ Pushing a version tag such as `v1.1.2` runs the GitHub Actions workflow and publ
 Run from this folder or any PowerShell prompt:
 
 ```powershell
-pwsh -NoProfile -ExecutionPolicy Bypass -File .\Installer\Build-Installer.ps1 -Configuration Beta -Version 1.1.2
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\Installer\Build-Installer.ps1 -Configuration Beta -Version 1.1.3
 ```
 
 Output: `Installer\artifacts\Jarvis-Setup.exe`. The Beta client embeds the Supabase URL and publishable key from `Jarvis.csproj`; the URL can be overridden with `JARVIS_SUPABASE_URL`, and the public key can be overridden with `JARVIS_SUPABASE_PUBLISHABLE_KEY`. Never use a service-role key. A .NET 8 SDK is needed only on the build PC. The installed Jarvis app includes its .NET 8 runtime and does not require the SDK or a separately installed .NET runtime.

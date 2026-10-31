@@ -147,14 +147,14 @@ try
         throw new Exception("The native non-blocking clarification form is not wired for all supported control types and duplicate-safe completion.");
     var projectDocument = XDocument.Load(Path.Combine(AppContext.BaseDirectory, "Jarvis.csproj"));
     string ProjectValue(string name) => projectDocument.Descendants().FirstOrDefault(element => element.Name.LocalName == name)?.Value ?? "";
-    if (ProjectValue("Version") != "1.1.2" || ProjectValue("AssemblyVersion") != "1.1.2.0" || ProjectValue("FileVersion") != "1.1.2.0")
-        throw new Exception("Jarvis version metadata changed from 1.1.2 / 1.1.2.0.");
+    if (ProjectValue("Version") != "1.1.3" || ProjectValue("AssemblyVersion") != "1.1.3.0" || ProjectValue("FileVersion") != "1.1.3.0")
+        throw new Exception("Jarvis version metadata changed from 1.1.3 / 1.1.3.0.");
     foreach (var metadataFile in new[] { "Jarvis.Beta.Shared.csproj", "Jarvis.Setup.csproj" })
     {
         var metadata = XDocument.Load(Path.Combine(AppContext.BaseDirectory, metadataFile));
         string Value(string name) => metadata.Descendants().FirstOrDefault(element => element.Name.LocalName == name)?.Value ?? "";
-        if (Value("Version") != "1.1.2" || Value("AssemblyVersion") != "1.1.2.0" || Value("FileVersion") != "1.1.2.0")
-            throw new Exception($"{metadataFile} version metadata is inconsistent with Jarvis 1.1.2.");
+        if (Value("Version") != "1.1.3" || Value("AssemblyVersion") != "1.1.3.0" || Value("FileVersion") != "1.1.3.0")
+            throw new Exception($"{metadataFile} version metadata is inconsistent with Jarvis 1.1.3.");
     }
     var installerSource = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Installer.Setup.MainWindow.xaml.cs"));
     if (!installerSource.Contains("LanguageBox.SelectedValue = \"en\"", StringComparison.Ordinal))

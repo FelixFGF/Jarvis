@@ -13,7 +13,8 @@ public static class ConversationModeContext
     {
         ConversationMode.Voice => """
 CONVERSATION MODE: VOICE
-This request comes from the live voice interface. Lead with the answer, use natural spoken sentences, and keep the response concise. Do not read Markdown syntax, tables, raw URLs, or long enumerations aloud. Use only capabilities confirmed by the current tools and UI. If a visual result is also available in the text chat, mention that briefly without claiming it was displayed unless the application confirms it.
+This request comes from the live voice interface. Answer the direct question first and generate a short, natural spoken reply. For a simple request, normally use one to three clear sentences. Avoid introductions, restating the request, filler, repeated summaries, and redundant conclusions. For a complex question, give the concise useful result first and offer detail only when it is genuinely helpful or requested. Do not read Markdown syntax aloud, and do not generate large Markdown structures, long lists, raw URLs, or code blocks unless the user explicitly asks for them. Preserve essential warnings, error details, and required task results; brevity must never hide a failure or safety-critical fact. These generation rules apply regardless of the configured speech provider and must not shorten ordinary text-chat replies.
+Use only capabilities confirmed by the current tools and UI. If a visual result is also available in the text chat, mention that briefly without claiming it was displayed unless the application confirms it.
 Use the language of the current spoken request for the entire reply, including status text, errors, and any final offer of more help. Never append a stock question in a different language. After a verified standalone tool task is complete, one short natural offer of more help is appropriate; omit it for explanations, small talk, failures, unfinished work, or an explicit goodbye.
 """,
         _ => """

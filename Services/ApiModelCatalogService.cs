@@ -50,10 +50,12 @@ public sealed class ApiModelCatalogService : IDisposable
         return !value.StartsWith('/') && !value.StartsWith('\\');
     }
 
-    public static object CreateChatCompletionPayload(string modelId, object messages, object tools, object toolChoice, double temperature)
+    public static object CreateChatCompletionPayload(string modelId, object messages, object? tools, object? toolChoice, double temperature)
     {
         if (!IsValidModelId(modelId)) throw new ArgumentException("A valid model ID is required.", nameof(modelId));
-        return new { model = modelId.Trim(), messages, tools, tool_choice = toolChoice, temperature };
+        return tools is null
+            ? new { model = modelId.Trim(), messages, temperature }
+            : new { model = modelId.Trim(), messages, tools, tool_choice = toolChoice ?? "auto", temperature };
     }
 
     public static Uri ResolveOpenAiModelsUri(string endpoint)

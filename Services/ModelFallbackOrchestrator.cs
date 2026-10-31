@@ -35,7 +35,8 @@ public static class ModelFallbackOrchestrator
     public static async Task<FallbackResult> ExecuteAsync(ModelFallbackPlan plan, RequestCapabilities required,
         Func<bool> unresolvedAction, Func<ModelFallbackStep, CancellationToken, Task<HttpResponseMessage>> send,
         Action<string, string> status, CancellationToken token,
-        Func<ModelFallbackStep, bool>? isCurrentProvider = null)
+        Func<ModelFallbackStep, bool>? isCurrentProvider = null,
+        Func<ModelFallbackStep, TimeSpan>? timeoutSelector = null)
     {
         Validate(plan);
         if (!plan.Enabled) throw new InvalidOperationException("Disabled fallback plan cannot route requests.");
@@ -54,7 +55,7 @@ public static class ModelFallbackOrchestrator
             var delay = TimeSpan.FromMilliseconds(Math.Min(4000, 500 * Math.Pow(2, attempt++)));
             status(step.Model, failure == FallbackFailures.None ? "selected" : failure.ToString());
             using var deadline = CancellationTokenSource.CreateLinkedTokenSource(token);
-            deadline.CancelAfter(TimeSpan.FromSeconds(step.TimeoutSeconds));
+            deadline.CancelAfter(timeoutSelector?.Invoke(step) ?? TimeSpan.FromSeconds(step.TimeoutSeconds));
             try
             {
                 var response = await send(step, deadline.Token);

@@ -36,12 +36,26 @@
 <Compile Include="../../Services/SecurityReviewService.cs" Link="SecurityReviewService.cs"/>
 <Compile Include="../../Services/EmojiReference.cs" Link="EmojiReference.cs"/>
 <Compile Include="../../Services/EmojiTypography.cs" Link="EmojiTypography.cs"/>
+<Compile Include="../../Services/EmojiColorRendering.cs" Link="EmojiColorRendering.cs"/>
 <Compile Include="../../Services/ComboBoxSelectionConverter.cs" Link="ComboBoxSelectionConverter.cs"/>
 <Compile Include="../../Services/ChatGreetingService.cs" Link="ChatGreetingService.cs"/>
+<Compile Include="../../Services/ThinkingModeService.cs" Link="ThinkingModeService.cs"/>
+<Compile Include="../../Services/DeferredConversationState.cs" Link="DeferredConversationState.cs"/>
+<Compile Include="../../Services/ChatDeletionPolicy.cs" Link="ChatDeletionPolicy.cs"/>
+<Compile Include="../../Services/ChatRequestContextPolicy.cs" Link="ChatRequestContextPolicy.cs"/>
+<Compile Include="../../Services/OpenAiCompatibleChatTransport.cs" Link="OpenAiCompatibleChatTransport.cs"/>
+<Compile Include="../../Services/ProviderTimeoutPolicy.cs" Link="ProviderTimeoutPolicy.cs"/>
+<Compile Include="../../Services/ChatMessageEditPolicy.cs" Link="ChatMessageEditPolicy.cs"/>
+<Compile Include="../../Services/SvgGraphicService.cs" Link="SvgGraphicService.cs"/>
+<Compile Include="../../Services/SvgGraphicRenderer.cs" Link="SvgGraphicRenderer.cs"/>
+<Compile Include="../../Services/JarvisStoragePaths.cs" Link="JarvisStoragePaths.cs"/>
+<Compile Include="../../Services/SvgDesignGuidance.cs" Link="SvgDesignGuidance.cs"/>
+<Compile Include="../../Services/RequestComplexityPolicy.cs" Link="RequestComplexityPolicy.cs"/>
 <Compile Include="../../Models/ChatSession.cs" Link="ChatSession.cs"/>
 <Compile Include="../../Models/AppConfig.cs" Link="AppConfig.cs"/>
 <EmbeddedResource Include="../../Localization/UiText.resx" Link="Localization/UiText.resx"/>
 <EmbeddedResource Include="../../Localization/UiText.de.resx" Link="Localization/UiText.de.resx"/>
+<PackageReference Include="Emoji.Wpf" Version="0.3.4" />
 <None Include="../../MainWindow.xaml" Link="MainWindow.xaml" CopyToOutputDirectory="PreserveNewest"/>
 <None Include="../../MainWindow.xaml.cs" Link="MainWindow.xaml.cs" CopyToOutputDirectory="PreserveNewest"/>
 <None Include="../../WorkspaceView.xaml" Link="WorkspaceView.xaml" CopyToOutputDirectory="PreserveNewest"/>

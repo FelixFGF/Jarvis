@@ -35,7 +35,13 @@ public static class EmojiTypography
     private static Run CreateRun(string text, WpfFontFamily? font, FontWeight? weight, WpfFontStyle? style)
     {
         var run = new Run(text);
-        if (font is not null) run.FontFamily = font;
+        if (font is not null)
+        {
+            run.FontFamily = font;
+            TextOptions.SetTextFormattingMode(run, TextFormattingMode.Display);
+            TextOptions.SetTextRenderingMode(run, TextRenderingMode.ClearType);
+            TextOptions.SetTextHintingMode(run, TextHintingMode.Fixed);
+        }
         if (weight is { } fontWeight) run.FontWeight = fontWeight;
         if (style is { } fontStyle) run.FontStyle = fontStyle;
         return run;

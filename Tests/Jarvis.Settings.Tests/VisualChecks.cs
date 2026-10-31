@@ -23,6 +23,41 @@ internal static class VisualChecks
         var emojiText = new System.Windows.Controls.TextBlock(); EmojiTypography.Append(emojiText.Inlines, "Text 🧠 and 👨‍💻");
         var emojiRuns = emojiText.Inlines.OfType<System.Windows.Documents.Run>().ToArray();
         Check(emojiRuns.Count(run => run.FontFamily?.Source == "Segoe UI Emoji") >= 2 && string.Concat(emojiRuns.Select(run => run.Text)) == "Text 🧠 and 👨‍💻", "visible emoji runs use Segoe UI Emoji while preserving copied text");
+        Check(emojiRuns.Where(run => run.FontFamily?.Source == "Segoe UI Emoji").All(run => System.Windows.Media.TextOptions.GetTextFormattingMode(run) == System.Windows.Media.TextFormattingMode.Display), "emoji runs opt into the Windows color-font rendering path");
+        Check(EmojiTypography.IsEmojiElement("❤️") && EmojiTypography.IsEmojiElement("👍🏽") && EmojiTypography.IsEmojiElement("🇩🇪"), "variation-selector, skin-tone and flag sequences remain single emoji text elements");
+        var emojiRender = EmojiColorRendering.RenderVerificationImage();
+        var emojiHarnessPath = Path.Combine(AppContext.BaseDirectory, "emoji-color-verification.png");
+        File.WriteAllBytes(emojiHarnessPath, emojiRender.Png);
+        Check(emojiRender.ColoredPixels > 250 && File.Exists(emojiHarnessPath), "Emoji.Wpf COLR/CPAL renderer produces real colored pixels for the dedicated chat harness");
+        var greeting = RequestComplexityPolicy.Classify("hey was geht?", ThinkingMode.Deep);
+        var normalQuestion = RequestComplexityPolicy.Classify("What is RAM?", ThinkingMode.Balanced);
+        var complexTask = RequestComplexityPolicy.Classify("Analyze this project and fix the build.", ThinkingMode.Deep);
+        Check(greeting.Level == RequestComplexityLevel.SimpleConversation && greeting.EffectiveThinkingMode == ThinkingMode.Fast && greeting.HistoryCharacterBudget <= 1800 && !greeting.IncludeRuntimeContext, "simple greeting selects the compact no-runtime fast path even when Deep is selected");
+        Check(new[] { "Hey!", "Hallo Jarvis.", "Wie läuft's?", "Danke!", "Alles klar.", "Was machst du?", "Guten Morgen.", "Hi, wie geht es dir?" }
+            .All(text => RequestComplexityPolicy.Classify(text, ThinkingMode.Deep).Level == RequestComplexityLevel.SimpleConversation),
+            "representative German and English greetings consistently classify as Level 1");
+        Check(normalQuestion.Level == RequestComplexityLevel.NormalQuestion && complexTask.Level == RequestComplexityLevel.ComplexTask, "normal questions and complex tasks remain distinct");
+        var simpleTools = ChatRequestContextPolicy.SelectToolNames("hey was geht?");
+        var simplePrompt = RequestComplexityPolicy.BuildSimpleSystemPrompt(true);
+        Check(simpleTools.Count == 0 && !simplePrompt.Contains("SVG", StringComparison.OrdinalIgnoreCase) && !simplePrompt.Contains("Computer Use", StringComparison.OrdinalIgnoreCase)
+            && RequestComplexityPolicy.EstimateInputTokens([simplePrompt, "hey was geht?"]) < 150,
+            "simple outgoing request has no tools, SVG/Computer Use guidance, or thousand-token prompt overhead");
+        var svgDecision = RequestComplexityPolicy.Classify("Create a professional SVG architecture diagram.", ThinkingMode.Deep);
+        Check(svgDecision.Level == RequestComplexityLevel.ComplexTask && ChatRequestContextPolicy.SelectToolNames("Create a professional SVG architecture diagram.").Contains("create_or_update_svg"),
+            "complex visual requests retain their dedicated tool and deep preference");
+        Check(SvgDesignGuidance.Prompt.Contains("plan the composition", StringComparison.OrdinalIgnoreCase)
+            && SvgDesignGuidance.Prompt.Contains("flowcharts", StringComparison.OrdinalIgnoreCase)
+            && SvgDesignGuidance.Prompt.Contains("dark chat", StringComparison.OrdinalIgnoreCase)
+            && SvgDesignGuidance.Prompt.Contains("review the complete SVG", StringComparison.OrdinalIgnoreCase),
+            "runtime SVG guidance covers composition, layouts, dark UI contrast and final review");
+        var rootSelection = JarvisStoragePaths.NormalizeSelectedInstallPath(Path.GetPathRoot(Path.GetTempPath())!);
+        Check(rootSelection.EndsWith("Jarvis-FGF", StringComparison.OrdinalIgnoreCase) && JarvisStoragePaths.NormalizeSelectedInstallPath(rootSelection) == rootSelection, "root and custom install selections append Jarvis-FGF exactly once");
+        var storageRoot = Path.Combine(AppContext.BaseDirectory, "JarvisStorageTests", Guid.NewGuid().ToString("N"));
+        var legacyRoot = Path.Combine(AppContext.BaseDirectory, "JarvisLegacyTests", Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(Path.Combine(legacyRoot, "SVG")); File.WriteAllText(Path.Combine(legacyRoot, "SVG", "kept.svg"), "<svg/>");
+        var storage = new JarvisStoragePaths(storageRoot); storage.EnsureUsedDirectories();
+        var migration = storage.MigrateLegacyData(legacyRoot);
+        Check(migration.Succeeded && File.Exists(Path.Combine(storage.SvgRoot, "kept.svg")) && File.Exists(Path.Combine(legacyRoot, "SVG", "kept.svg")), "legacy SVG migration verifies the copy and preserves the source: " + string.Join("; ", migration.Errors));
         Check(EmojiReference.Prompt.Contains("Technology and AI") && EmojiReference.Prompt.Contains("🧠") && EmojiReference.Prompt.Contains("🔒"), "categorized Unicode emoji reference is available to protected context");
         Check(ToolPermissionPolicy.Parse("ask") == ToolPermissionMode.AlwaysAsk && ToolPermissionPolicy.Parse("automatic_review") == ToolPermissionMode.AutomaticReview && ToolPermissionPolicy.Parse("allow_eligible") == ToolPermissionMode.AllowEligible, "permission modes parse deterministically");
         Check(ToolPermissionPolicy.IsEligibleForAutomaticApproval("Read metadata", "Inspect active window", false) && !ToolPermissionPolicy.IsEligibleForAutomaticApproval("Delete file", "remove output", false) && !ToolPermissionPolicy.IsEligibleForAutomaticApproval("Read metadata", "safe", true), "automatic permission eligibility remains conservative");

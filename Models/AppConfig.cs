@@ -7,6 +7,7 @@ public sealed class AppConfig
     public ObservableCollection<ModelFallbackPlan> FallbackPlans { get; set; } = [];
     public string Endpoint { get; set; } = "http://localhost:1234/v1";
     public string Model { get; set; } = "";
+    public string ThinkingMode { get; set; } = "balanced";
     public string ApiKeyProtected { get; set; } = "";
     public string ComputerUseFallbackEndpoint { get; set; } = "http://localhost:11434/v1";
     public string ComputerUseFallbackModel { get; set; } = "";
@@ -74,6 +75,12 @@ public sealed class AppConfig
     public string AppleMusicUserTokenProtected { get; set; } = "";
     public string AppleMusicStorefront { get; set; } = "de";
     public bool DiscordRichPresenceEnabled { get; set; }
+    public int LocalProviderRequestTimeoutSeconds { get; set; } = 900;
+    public int LocalProviderStreamingInactivitySeconds { get; set; } = 180;
+    public int CloudProviderRequestTimeoutSeconds { get; set; } = 180;
+    public int CloudProviderStreamingInactivitySeconds { get; set; } = 90;
+    public int MaximumAgentTaskSeconds { get; set; } = 1800;
+    public int DefaultToolTimeoutSeconds { get; set; } = 300;
 }
 
 public sealed record TrustedApprovalRecord(string Key, string Title, string Details)

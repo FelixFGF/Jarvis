@@ -40,7 +40,7 @@ public partial class MainWindow : Window
         Opacity = 0;
         BackendBox.ItemsSource = _backends;
         ModelBox.ItemsSource = _models;
-        InstallPathBox.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs", "Jarvis");
+        InstallPathBox.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs", Jarvis.Services.JarvisStoragePaths.ProductDirectoryName);
         LanguageBox.SelectedValue = "en";
         ApplyLanguage();
         Loaded += async (_, _) =>
@@ -59,8 +59,8 @@ public partial class MainWindow : Window
                 var installedFileVersion = FileVersionInfo.GetVersionInfo(Path.Combine(existingInstall, "Jarvis.exe"));
                 _installedVersion = installedFileVersion.ProductVersion ?? installedFileVersion.FileVersion ?? "unknown";
                 StartupStatusText.Text = _language == "de"
-                    ? $"Jarvis {_installedVersion} gefunden. Update auf 1.1.2 wird vorbereitet …"
-                    : $"Jarvis {_installedVersion} found. Preparing update to 1.1.2…";
+                    ? $"Jarvis {_installedVersion} gefunden. Update auf 1.1.3 wird vorbereitet …"
+                    : $"Jarvis {_installedVersion} found. Preparing update to 1.1.3…";
                 StatusText.Text = "Vorhandene Jarvis-Installation erkannt. Die Programmdateien werden aktualisiert; lokale Einstellungen, Chats und Logs bleiben erhalten.";
             }
             else StartupStatusText.Text = _language == "de"
@@ -86,12 +86,12 @@ public partial class MainWindow : Window
             if (_isUpdate)
             {
                 UpdateVersionText.Text = _language == "de"
-                    ? $"Installierte Version {_installedVersion}  →  Neue Version 1.1.2"
-                    : $"Installed version {_installedVersion}  →  New version 1.1.2";
+                    ? $"Installierte Version {_installedVersion}  →  Neue Version 1.1.3"
+                    : $"Installed version {_installedVersion}  →  New version 1.1.3";
                 UpdateVersionText.Visibility = Visibility.Visible;
                 StatusText.Text = _language == "de"
-                    ? "Vorhandene Installation erkannt. Jarvis wird auf Version 1.1.2 aktualisiert; Einstellungen, Chats, Modelle und Logs bleiben erhalten."
-                    : "Existing installation found. Jarvis will update to version 1.1.2; settings, chats, models and logs will be preserved.";
+                    ? "Vorhandene Installation erkannt. Jarvis wird auf Version 1.1.3 aktualisiert; Einstellungen, Chats, Modelle und Logs bleiben erhalten."
+                    : "Existing installation found. Jarvis will update to version 1.1.3; settings, chats, models and logs will be preserved.";
             }
             SetWizardStep(_isUpdate ? 2 : 0);
             StartupSpinnerRotation.BeginAnimation(System.Windows.Media.RotateTransform.AngleProperty, null);
@@ -114,18 +114,18 @@ public partial class MainWindow : Window
             ? (_language == "de" ? "Jarvis aktualisieren" : "Update Jarvis")
             : (_language == "de" ? "Jarvis installieren" : "Install Jarvis");
         WizardStepText.Text = _isUpdate
-            ? (_language == "de" ? "Updater · Version 1.1.2" : "Updater · Version 1.1.2")
+            ? (_language == "de" ? "Updater · Version 1.1.3" : "Updater · Version 1.1.3")
             : _language == "de"
                 ? $"Schritt {_wizardStep + 1} von 3 · {new[] { "KI-Backend", "Modell auswählen", "Installationsordner" }[_wizardStep]}"
                 : $"Step {_wizardStep + 1} of 3 · {new[] { "AI backend", "Choose a model", "Installation folder" }[_wizardStep]}";
         WizardTitle.Text = _isUpdate
-            ? (_language == "de" ? "Jarvis auf Version 1.1.2 aktualisieren" : "Update Jarvis to version 1.1.2")
+            ? (_language == "de" ? "Jarvis auf Version 1.1.3 aktualisieren" : "Update Jarvis to version 1.1.3")
             : (_language == "de" ? "Jarvis auf diesem PC einrichten" : "Set up Jarvis on this PC");
         if (_isUpdate)
         {
             UpdateVersionText.Text = _language == "de"
-                ? $"Installierte Version {_installedVersion}  →  Neue Version 1.1.2"
-                : $"Installed version {_installedVersion}  →  New version 1.1.2";
+                ? $"Installierte Version {_installedVersion}  →  Neue Version 1.1.3"
+                : $"Installed version {_installedVersion}  →  New version 1.1.3";
             UpdateVersionText.Visibility = Visibility.Visible;
         }
     }
@@ -510,7 +510,7 @@ public partial class MainWindow : Window
     private void Browse_Click(object sender, RoutedEventArgs e)
     {
         using var dialog = new Forms.FolderBrowserDialog { Description = "Jarvis-Installationsordner auswählen", UseDescriptionForTitle = true, ShowNewFolderButton = true, SelectedPath = InstallPathBox.Text };
-        if (dialog.ShowDialog() == Forms.DialogResult.OK) InstallPathBox.Text = dialog.SelectedPath;
+        if (dialog.ShowDialog() == Forms.DialogResult.OK) InstallPathBox.Text = Jarvis.Services.JarvisStoragePaths.NormalizeSelectedInstallPath(dialog.SelectedPath);
     }
 
     private async void InstallOllama_Click(object sender, RoutedEventArgs e)
@@ -589,7 +589,7 @@ public partial class MainWindow : Window
     {
         if (_installCancellation is not null) { _installCancellation.Cancel(); return; }
         string target;
-        try { target = Path.GetFullPath(InstallPathBox.Text.Trim()); }
+        try { target = _isUpdate ? Path.GetFullPath(InstallPathBox.Text.Trim()) : Jarvis.Services.JarvisStoragePaths.NormalizeSelectedInstallPath(InstallPathBox.Text); InstallPathBox.Text = target; }
         catch (Exception ex) { MessageBox.Show(this, "Der Installationspfad ist ungültig: " + ex.Message, "Installationsordner", MessageBoxButton.OK, MessageBoxImage.Warning); return; }
         var backend = _isUpdate ? null : BackendBox.SelectedItem as BackendChoice;
         if (backend is { IsBionic: true } or { IsCustom: true })
@@ -621,16 +621,17 @@ public partial class MainWindow : Window
                 await PullOllamaModelAsync(backend, model.Id, token);
             DownloadProgress.Visibility = Visibility.Visible;
             await ExtractPayloadAsync(target, token);
-            CopyExistingResourceCaches(Path.Combine(target, "JarvisData"));
+            CreateStorageLayout(target);
+            CopyExistingResourceCaches(Path.Combine(target, "Data", "Models"));
             await ConfigureJarvisAsync(target, _isUpdate ? null : backend, _isUpdate ? null : model, token, BionicApiKeyBox.Password);
             CreateUninstaller(target);
             await CreateShortcutsAsync(target, token);
             StatusText.Text = _isUpdate
-                ? (_language == "de" ? "Jarvis wurde auf Version 1.1.2 aktualisiert. Einstellungen, Chats, Modelle und Logs wurden beibehalten." : "Jarvis was updated to version 1.1.2. Settings, chats, models and logs were preserved.")
+                ? (_language == "de" ? "Jarvis wurde auf Version 1.1.3 aktualisiert. Einstellungen, Chats, Modelle und Logs wurden beibehalten." : "Jarvis was updated to version 1.1.3. Settings, chats, models and logs were preserved.")
                 : (_language == "de"
                     ? $"Jarvis wurde installiert. Modelle und Zwischendateien liegen unter „{Path.Combine(target, "JarvisData")}“. Einstellungen, Chats und Logs liegen unter „{Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Jarvis")}“."
                     : $"Jarvis was installed. Models and cache files are stored in “{Path.Combine(target, "JarvisData")}”. Settings, chats and logs are stored in “{Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Jarvis")}”.");
-            ProgressLabel.Text = _language == "de" ? "Version 1.1.2 · abgeschlossen" : "Version 1.1.2 · complete";
+            ProgressLabel.Text = _language == "de" ? "Version 1.1.3 · abgeschlossen" : "Version 1.1.3 · complete";
             if (MessageBox.Show(this, _isUpdate ? "Update abgeschlossen. Jarvis jetzt starten?" : "Installation abgeschlossen. Jarvis jetzt starten?", "Jarvis ist bereit", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
                 Process.Start(new ProcessStartInfo(Path.Combine(target, "Jarvis.exe")) { UseShellExecute = true, WorkingDirectory = target });
             Close();
@@ -793,9 +794,11 @@ public partial class MainWindow : Window
     private List<string> _manifestFiles = [];
     private async Task ConfigureJarvisAsync(string installPath, BackendChoice? backend, ModelChoice? model, CancellationToken token, string bionicApiKey)
     {
-        var data = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Jarvis");
-        Directory.CreateDirectory(data);
-        var settings = Path.Combine(data, "settings.json");
+        var configDirectory = Path.Combine(installPath, "Config");
+        Directory.CreateDirectory(configDirectory);
+        var settings = Path.Combine(configDirectory, "settings.json");
+        var legacySettings = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Jarvis", "settings.json");
+        if (!File.Exists(settings) && File.Exists(legacySettings)) File.Copy(legacySettings, settings, false);
         JsonObject config;
         if (File.Exists(settings))
         {
@@ -805,7 +808,7 @@ public partial class MainWindow : Window
             File.Copy(settings, backup, overwrite: false);
         }
         else config = new JsonObject();
-        config["ResourceDirectory"] = Path.Combine(installPath, "JarvisData");
+        config["ResourceDirectory"] = Path.Combine(installPath, "Data");
         if (backend is { IsCompatible: true })
         {
             config["Endpoint"] = backend.Endpoint;
@@ -825,7 +828,14 @@ public partial class MainWindow : Window
     {
         var source = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Jarvis", "Models");
         if (!Directory.Exists(source)) return;
-        CopyMissingFiles(source, Path.Combine(destination, "Models"));
+        CopyMissingFiles(source, destination);
+    }
+
+    private static void CreateStorageLayout(string target)
+    {
+        foreach (var path in new[] { "Data", @"Data\SVG", @"Data\Chats", @"Data\Logs", @"Data\Cache", @"Data\Backups", @"Data\Voice", @"Data\Models", "Config" })
+            Directory.CreateDirectory(Path.Combine(target, path));
+        File.WriteAllText(Path.Combine(target, Jarvis.Services.JarvisStoragePaths.RootMarkerFileName), target, new UTF8Encoding(false));
     }
 
     private static void CopyMissingFiles(string source, string destination)
@@ -858,7 +868,7 @@ public partial class MainWindow : Window
         }
         var uninstallKey = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Uninstall\Jarvis");
         uninstallKey.SetValue("DisplayName", "Jarvis");
-        uninstallKey.SetValue("DisplayVersion", "1.1.2");
+        uninstallKey.SetValue("DisplayVersion", "1.1.3");
         uninstallKey.SetValue("Publisher", "Jarvis");
         uninstallKey.SetValue("InstallLocation", target);
         uninstallKey.SetValue("DisplayIcon", app);
@@ -898,9 +908,9 @@ if (-not (Test-Path -LiteralPath $manifestPath)) { [Windows.Forms.MessageBox]::S
 Add-Type -AssemblyName System.Windows.Forms
 $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
 if ($manifest.Product -ne 'Jarvis') { [Windows.Forms.MessageBox]::Show('Der Ordner gehört nicht zu Jarvis.','Jarvis deinstallieren') | Out-Null; exit 2 }
-$dataRoot = [IO.Path]::GetFullPath((Join-Path $env:LOCALAPPDATA 'Jarvis'))
-$settingsPath = Join-Path $dataRoot 'settings.json'
-$resourceRoot = Join-Path $root 'JarvisData'
+$dataRoot = [IO.Path]::GetFullPath((Join-Path $root 'Data'))
+$settingsPath = Join-Path (Join-Path $root 'Config') 'settings.json'
+$resourceRoot = $dataRoot
 if (Test-Path -LiteralPath $settingsPath -PathType Leaf) {
     try {
         $config = Get-Content -LiteralPath $settingsPath -Raw | ConvertFrom-Json
@@ -913,13 +923,13 @@ $removeData = $choice -eq [Windows.Forms.DialogResult]::No
 if ($removeData) {
     $confirm = [Windows.Forms.MessageBox]::Show("__CONFIRM__`n$dataRoot`n`n$resourceRoot`n`n__CONTINUE__",'__DELETE_TITLE__',[Windows.Forms.MessageBoxButtons]::YesNo,[Windows.Forms.MessageBoxIcon]::Warning)
     if ($confirm -ne [Windows.Forms.DialogResult]::Yes) { exit 0 }
-    $localAppData = [IO.Path]::GetFullPath($env:LOCALAPPDATA).TrimEnd('\')
-    if ($dataRoot -ne (Join-Path $localAppData 'Jarvis') -or $dataRoot -eq [IO.Path]::GetPathRoot($dataRoot)) { throw 'The user-data path failed its safety check.' }
+    $installPath = $root.TrimEnd('\')
+    $dataNormalized = $dataRoot.TrimEnd('\')
+    if (-not $dataNormalized.StartsWith($installPath + '\',[StringComparison]::OrdinalIgnoreCase) -or $dataNormalized -eq $installPath) { throw 'The user-data path failed its safety check.' }
     $resourceRoot = [IO.Path]::GetFullPath($resourceRoot)
     $resourceNormalized = $resourceRoot.TrimEnd('\')
     $resourceDriveRoot = [IO.Path]::GetPathRoot($resourceRoot)
-    $installPath = $root.TrimEnd('\')
-    if ($resourceNormalized -eq $resourceDriveRoot.TrimEnd('\') -or $resourceNormalized -eq $installPath -or $installPath.StartsWith($resourceNormalized + '\',[StringComparison]::OrdinalIgnoreCase)) { throw 'The model-data path failed its safety check. No user data was deleted.' }
+    if ($resourceNormalized -eq $resourceDriveRoot.TrimEnd('\') -or $resourceNormalized -eq $installPath -or -not $resourceNormalized.StartsWith($installPath + '\',[StringComparison]::OrdinalIgnoreCase)) { throw 'The model-data path failed its safety check. No user data was deleted.' }
 }
 Set-Location -LiteralPath $env:TEMP
 foreach ($shortcut in $manifest.Shortcuts) { if ($shortcut -and (Test-Path -LiteralPath $shortcut)) { Remove-Item -LiteralPath $shortcut -Force -ErrorAction SilentlyContinue } }

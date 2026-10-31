@@ -43,6 +43,12 @@ public static class UiLocalization
         return value;
     }
 
+    public static string Get(string key, string language, string fallback)
+    {
+        if (string.IsNullOrWhiteSpace(key)) return fallback;
+        return Resources.GetString(key, CultureFor(language)) ?? fallback;
+    }
+
     public static void Apply(DependencyObject root, string language, DependencyObject? excludeSubtree = null)
     {
         // Translating TextBlock.Text can replace its inline tree. Snapshot before mutation.

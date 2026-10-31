@@ -12,7 +12,7 @@ public sealed class ChatSession
     public List<ChatRecord> Messages { get; set; } = [];
 }
 
-public sealed record ChatRecord(string Role, string Text, List<ChatAttachment>? Attachments = null, List<ChatSource>? Sources = null);
+public sealed record ChatRecord(string Role, string Text, List<ChatAttachment>? Attachments = null, List<ChatSource>? Sources = null, bool StaleAfterEdit = false);
 
 public sealed record ChatAttachment(string Name, string Path, string MimeType, long SizeBytes = 0, string PreviewStatus = "metadata-only", double? DurationSeconds = null);
 

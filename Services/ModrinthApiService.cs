@@ -20,7 +20,7 @@ public sealed class ModrinthApiService(HttpClient? client = null) : IDisposable
         if (!Regex.IsMatch(gameVersion, "^[0-9A-Za-z._+-]{1,32}$")) throw new ArgumentException("Invalid Minecraft version.");
         loader = (loader ?? "").Trim().ToLowerInvariant(); if (loader is not ("fabric" or "forge" or "neoforge" or "quilt")) throw new ArgumentException("Unsupported loader.");
         var url = $"https://api.modrinth.com/v2/project/{Uri.EscapeDataString(project)}/version?game_versions={Uri.EscapeDataString(JsonSerializer.Serialize(new[] { gameVersion }))}&loaders={Uri.EscapeDataString(JsonSerializer.Serialize(new[] { loader }))}&featured=true";
-        using var request = new HttpRequestMessage(HttpMethod.Get, url); request.Headers.UserAgent.ParseAdd("Jarvis/1.1.2 (local Windows assistant)");
+        using var request = new HttpRequestMessage(HttpMethod.Get, url); request.Headers.UserAgent.ParseAdd("Jarvis/1.1.3 (local Windows assistant)");
         using var response = await _http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
         if (!response.IsSuccessStatusCode) throw new HttpRequestException($"Modrinth returned HTTP {(int)response.StatusCode}.", null, response.StatusCode);
         await using var stream = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false); using var document = await JsonDocument.ParseAsync(stream, cancellationToken: token).ConfigureAwait(false);
@@ -61,7 +61,7 @@ public sealed class ModrinthApiService(HttpClient? client = null) : IDisposable
         var tempPath = finalPath + ".jarvis-download-" + Guid.NewGuid().ToString("N") + ".tmp";
         try
         {
-            using var request = new HttpRequestMessage(HttpMethod.Get, uri); request.Headers.UserAgent.ParseAdd("Jarvis/1.1.2 (local Windows assistant)");
+            using var request = new HttpRequestMessage(HttpMethod.Get, uri); request.Headers.UserAgent.ParseAdd("Jarvis/1.1.3 (local Windows assistant)");
             using var response = await _http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
             if (!response.IsSuccessStatusCode) throw new HttpRequestException($"Modrinth CDN returned HTTP {(int)response.StatusCode}.", null, response.StatusCode);
             if (version.Size > 0 && response.Content.Headers.ContentLength is long length && length != version.Size)

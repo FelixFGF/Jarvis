@@ -38,9 +38,9 @@ internal static class Program
         var secondSelection = selectionConverter.Convert(new ComboBoxItem { Content = "Automatic security review" }, typeof(object), null, System.Globalization.CultureInfo.InvariantCulture);
         Check((string?)firstSelection == "Always ask" && (string?)secondSelection == "Automatic security review", "Closed selectors display only the current item content after selection changes");
         Check(UiLocalization.DetectInitialLanguage(System.Globalization.CultureInfo.GetCultureInfo("de-DE")) == "en", "Fresh installations default to English regardless of Windows locale");
-        var config = new AppConfig { UiLanguage = "en", PersonalInstructions = "Be concise.", SystemPrompt = "Legacy custom prompt", Model = "keep-model" };
+        var config = new AppConfig { UiLanguage = "en", PersonalInstructions = "Be concise.", SystemPrompt = "Legacy custom prompt", Model = "keep-model", ThinkingMode = "deep" };
         var restored = JsonSerializer.Deserialize<AppConfig>(JsonSerializer.Serialize(config))!;
-        Check(restored.UiLanguage == "en" && restored.PersonalInstructions == "Be concise." && restored.Model == "keep-model" && restored.SystemPrompt == "Legacy custom prompt", "Settings persistence and legacy preservation");
+        Check(restored.UiLanguage == "en" && restored.PersonalInstructions == "Be concise." && restored.Model == "keep-model" && restored.SystemPrompt == "Legacy custom prompt" && restored.ThinkingMode == "deep", "Settings persistence, Thinking mode and legacy preservation");
         var speechPreferences = JsonSerializer.Deserialize<AppConfig>(JsonSerializer.Serialize(new AppConfig { TtsAutoPlay = false, DiscordRichPresenceEnabled = false }))!;
         Check(!speechPreferences.TtsAutoPlay && !speechPreferences.DiscordRichPresenceEnabled, "Auto-read and Discord presence preferences persist independently without a per-user Discord application ID");
         var workspaceConfig = new AppConfig { WorkspaceRoot = @"C:\Work", WorkspaceOpenFiles = [@"C:\Work\a.cs", @"C:\Work\b.py"], WorkspaceActiveFile = @"C:\Work\b.py", WorkspaceExpandedDirectories = [@"C:\Work\src"], WorkspaceBrowserUrls = ["https://example.test/docs"], WorkspaceActiveView = "Browser", WorkspaceVisible = true, WorkspaceLayoutMode = "Browser", ChatTerminalVisible = true };
@@ -98,5 +98,7 @@ internal static class Program
         AdvancedControlChecks.Run();
         TerminalChecks.RunAsync().GetAwaiter().GetResult();
         AudioActivityChecks.Run();
+        ReliabilityChecks.RunAsync().GetAwaiter().GetResult();
+        ThinkingAndDeferredChatChecks.RunAsync().GetAwaiter().GetResult();
     }
 }

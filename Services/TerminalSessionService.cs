@@ -169,7 +169,12 @@ public sealed class TerminalSessionService : IDisposable
     private static void Kill(TerminalSession session)
     {
         try { session.Process.StandardInput.Close(); } catch { }
-        try { if (!session.Process.HasExited) session.Process.Kill(true); } catch { }
+        try
+        {
+            if (!session.Process.HasExited) session.Process.Kill(true);
+            session.Process.WaitForExit(3000);
+        }
+        catch { }
         try { session.Process.Dispose(); } catch { }
     }
     public void Dispose()
